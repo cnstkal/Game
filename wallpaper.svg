@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 1365" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#dfa0ad"/><stop offset=".55" stop-color="#f5c5cb"/><stop offset="1" stop-color="#f9d9dc"/></linearGradient>
+ <radialGradient id="top"><stop stop-color="#f7d4d8"/><stop offset=".62" stop-color="#dda2ae"/><stop offset="1" stop-color="#a97883"/></radialGradient>
+ <radialGradient id="mid" cx=".42" cy=".38"><stop stop-color="#ff777a"/><stop offset=".35" stop-color="#e65e63"/><stop offset=".72" stop-color="#9c5962"/><stop offset="1" stop-color="#704852"/></radialGradient>
+ <linearGradient id="low" x2=".8" y2="1"><stop stop-color="#e8c0c2"/><stop offset=".55" stop-color="#c89a9e"/><stop offset="1" stop-color="#80606a"/></linearGradient>
+ <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="8"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .16 0"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+ <filter id="soft"><feGaussianBlur stdDeviation="7"/></filter>
+</defs>
+<rect width="768" height="1365" fill="url(#bg)"/>
+<ellipse cx="410" cy="250" rx="360" ry="510" fill="url(#top)" transform="rotate(-2 410 250)" filter="url(#grain)"/>
+<ellipse cx="365" cy="735" rx="335" ry="420" fill="url(#mid)" transform="rotate(2 365 735)" filter="url(#grain)"/>
+<ellipse cx="360" cy="1215" rx="315" ry="370" fill="url(#low)" transform="rotate(-8 360 1215)" filter="url(#grain)"/>
+<ellipse cx="650" cy="1050" rx="110" ry="260" fill="#c8949d" opacity=".48" filter="url(#soft)"/>
+<rect width="768" height="1365" fill="transparent" filter="url(#grain)" opacity=".55"/>
+</svg>
