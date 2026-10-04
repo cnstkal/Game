@@ -80,6 +80,10 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 /* iOS message bubble colors */
 .talkapp .detail-chat .bub{background:#e5e5ea!important;color:#1d1d1f!important}
 .talkapp .detail-chat .bub.me{background:#34c759!important;color:#fff!important}
+/* clue emphasis: distinct from black/white and readable on message bubbles */
+.talkapp .detail-chat .bub .hot,
+.talkapp .detail-chat .bub .hot.found{color:#FF9500!important;font-weight:700!important;border-bottom:2px solid rgba(255,149,0,.9)!important;text-decoration:none!important;text-shadow:0 1px 1px rgba(0,0,0,.16)!important}
+
 .talkapp .detail-chat .bub .hot,
 .talkapp .detail-chat .bub .hot.found{color:#f4c95d!important;border-bottom-color:rgba(244,201,93,.72)!important}
 
@@ -123,7 +127,7 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 /* Move conversation back button significantly inward */
 .talkapp .detail-head .back{left:92px!important}
 
-.talkapp .detail-chat .bub.me{background:#007AFF!important;color:#fff!important}
+.talkapp .detail-chat .bub.me{background:#147EFB!important;color:#fff!important}
 /* Home button in message detail */
 .talkapp .detail-head{padding-right:70px!important}
 .talkapp .detail-head .home-btn{position:absolute!important;right:24px!important;top:50%!important;transform:translateY(-50%)!important;width:52px!important;height:52px!important;border:0!important;border-radius:26px!important;background:#f2f2f7!important;color:#1d1d1f!important;display:grid!important;place-items:center!important;font-size:0!important;z-index:30!important;touch-action:manipulation!important}
