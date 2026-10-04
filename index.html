@@ -1,221 +1,832 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>마지막 접속 — 수사 기록 시스템</title>
-<style>
-:root{--bg:#0f1115;--panel:#181b21;--panel2:#20242c;--text:#e8e6e3;--muted:#8d939c;--gold:#f2b84b;--red:#e5484d;--blue:#5b7c99;--line:#303640;--green:#76b892}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}button,input{font:inherit}button{min-height:40px;border:1px solid var(--line);background:#20242a;color:var(--text);border-radius:8px;padding:9px 14px;cursor:pointer;transition:.12s}button:hover{border-color:#59616d;background:#292e36}button:active{transform:translateY(1px)}button.primary{background:var(--gold);color:#17130b;border-color:var(--gold);font-weight:800}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.hidden{display:none!important}
-#app{width:100%;height:100%;position:relative}.screen{position:absolute;inset:0}.center{display:grid;place-items:center}
-#title{background:radial-gradient(circle at 50% 40%,#202631 0,#11141a 45%,#090b0e 100%)}.titlebox{width:min(620px,90vw);text-align:center}.eyebrow{letter-spacing:.28em;color:var(--gold);font-size:12px}.titlebox h1{font-size:clamp(42px,8vw,82px);letter-spacing:-.07em;margin:16px 0 4px}.titlebox p{color:#9da3aa;margin:0 0 34px}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.sound{margin-top:22px;color:var(--muted);font-size:13px}
-#boot{background:#050607;color:#b8c0c9;padding:9vw;font-family:ui-monospace,monospace}.bootline{margin:8px 0}.cursor{display:inline-block;width:8px;height:15px;background:var(--gold);animation:blink 1s infinite}@keyframes blink{50%{opacity:0}}
-#login{background:#0d1014}.loginbox{width:min(430px,88vw);background:#15191f;border:1px solid #2c323b;border-radius:12px;padding:28px;box-shadow:0 25px 80px #0008}.loginbox h2{margin:0 0 6px}.loginbox small{color:var(--muted)}.logininput{width:100%;margin:22px 0 12px;padding:13px;border:1px solid var(--line);background:#0c0f13;color:var(--text);border-radius:8px;outline:none}.logininput:focus{border-color:var(--gold)}
-#desktop{background:linear-gradient(135deg,#10131a,#0d1014 55%,#14171d);overflow:hidden}.wall{position:absolute;inset:0;background-image:linear-gradient(#ffffff03 1px,transparent 1px),linear-gradient(90deg,#ffffff03 1px,transparent 1px);background-size:48px 48px}.icons{position:absolute;top:28px;left:28px;display:grid;grid-template-columns:repeat(4,88px);gap:18px 12px}.deskicon{width:84px;height:84px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:6px;color:#d9dce0}.ico{width:48px;height:48px;border-radius:12px;background:#222832;border:1px solid #38414d;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 20px #0004}.deskicon.locked{opacity:.3;filter:grayscale(1)}.deskicon span:last-child{font-size:11px;white-space:nowrap}.taskbar{position:absolute;left:0;right:0;bottom:0;height:52px;background:#15181eeb;border-top:1px solid #30343b;display:flex;align-items:center;padding:0 12px;gap:8px;z-index:1000}.start{width:42px}.openapps{display:flex;gap:5px;flex:1;overflow:auto}.task{font-size:12px;min-height:36px;padding:7px 10px}.status{font-size:12px;color:#aeb4bd;display:flex;gap:13px;align-items:center;white-space:nowrap}
-.window{position:absolute;left:12%;top:9%;width:70%;height:78%;background:var(--panel);border:1px solid #3a414b;border-radius:10px;box-shadow:0 28px 90px #0009;overflow:hidden;display:flex;flex-direction:column;animation:open .18s ease-out;z-index:20}.window.minimized{display:none}@keyframes open{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}.window.shake{animation:shake .25s}@keyframes shake{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}.titlebar{height:44px;flex:0 0 44px;background:#20242b;border-bottom:1px solid #333a43;display:flex;align-items:center;justify-content:space-between;padding:0 10px;cursor:grab}.titlebar b{font-size:13px}.winbtns{display:flex;gap:4px}.winbtns button{min-width:36px;height:32px;padding:4px}.winbody{overflow:auto;flex:1;padding:18px}.apphead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}.apphead h2{margin:0;font-size:20px}.muted{color:var(--muted)}.card{background:#20242b;border:1px solid #323944;border-radius:9px;padding:14px;margin-bottom:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tag{display:inline-flex;padding:4px 7px;border-radius:5px;background:#29303a;color:#b9c0c9;font-size:11px;margin:2px}.tag.gold{color:#17130b;background:var(--gold)}.tag.red{color:#fff;background:var(--red)}.evidence{border-left:3px solid var(--gold);padding-left:11px}.clickable{cursor:pointer}.clickable:hover{background:#272c34}.discovered{color:var(--gold);text-shadow:0 0 12px #f2b84b66}.bubble{max-width:75%;padding:9px 11px;border-radius:10px;margin:7px 0;background:#252a32}.bubble.me{margin-left:auto;background:#334455}.bubble .meta{display:block;font-size:10px;color:#89919a;margin-bottom:3px}.post{border:1px solid #323944;border-radius:8px;padding:13px;margin-bottom:9px}.fakephoto{height:110px;border-radius:7px;background:linear-gradient(120deg,#1d2731,#45515c 45%,#222831);position:relative;overflow:hidden;margin-bottom:8px}.fakephoto:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#fff0 0 3px,#fff1 4px 5px);mix-blend-mode:screen}.search{width:100%;background:#0e1115;color:var(--text);border:1px solid var(--line);border-radius:7px;padding:10px;margin-bottom:10px}.timeline{border-left:1px solid #4b525c;margin:12px 0 12px 7px;padding-left:18px}.timeline div{position:relative;margin:0 0 14px}.timeline div:before{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);left:-22px;top:5px}.toast{position:fixed;right:20px;bottom:72px;background:#232831;border:1px solid var(--gold);box-shadow:0 12px 35px #0008;padding:12px 15px;border-radius:8px;z-index:3000;animation:toast .2s}@keyframes toast{from{transform:translateY(10px);opacity:0}}
-#deduction,#final,#ending{background:#0b0e12;overflow:auto}.stage{width:min(1100px,94vw);margin:0 auto;padding:40px 0 80px}.stage h1{margin-top:0}.clues{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.cluecard{min-height:115px;background:#1a1e24;border:1px solid #303640;border-radius:8px;padding:12px}.cluecard.false{border-color:#553135}.cluecard.selected{outline:2px solid var(--gold)}.connect{display:flex;align-items:center;justify-content:center;gap:10px;margin:20px 0}.suspects{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.suspect{background:#1a1e24;border:1px solid #303640;padding:14px;border-radius:8px}.meter{height:6px;background:#30343b;border-radius:10px;overflow:hidden;margin-top:8px}.meter i{display:block;height:100%;background:var(--red)}.finalchoices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.endingbox{max-width:700px;margin:10vh auto;text-align:center;background:#171b21;border:1px solid #303640;border-radius:12px;padding:34px}.endingbox h1{color:var(--gold)}.small{font-size:12px}.hintbox{background:#20252d;border:1px solid #3b444f;padding:12px;border-radius:8px;margin:12px 0}
-@media(max-width:700px){body{font-size:14px}.icons{grid-template-columns:repeat(4,72px);gap:10px 5px;left:10px;top:15px}.deskicon{width:70px}.window{inset:0!important;width:100%!important;height:calc(100% - 0px)!important;border-radius:0;border:0}.titlebar{cursor:default}.winbody{padding:13px 12px 70px}.grid2,.grid3,.clues,.suspects,.finalchoices{grid-template-columns:1fr}.stage{padding:25px 12px 80px}.taskbar{height:50px}.status{gap:7px}.status .hideMob{display:none}.titlebox h1{font-size:48px}.loginbox{padding:22px}.bootline{font-size:12px}}
-</style>
-</head>
-<body>
-<div id="app"></div>
-<script>
-"use strict";
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>
+:root{
+ --bg:#101214;--surface:#17191c;--surface2:#1d2024;--surface3:#23272c;
+ --line:#30343a;--line2:#40454d;--text:#e9e7e1;--muted:#969b9f;
+ --accent:#d6a84d;--accent2:#ead18d;--danger:#c85b58;--ok:#789b82;
+ --me:#26313a;--shadow:0 14px 40px rgba(0,0,0,.28);
+ --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+ --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+ color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#0b0c0e;color:var(--text);font:14px/1.65 var(--sans);letter-spacing:-.012em;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
+#app{position:relative;width:100%;height:100%;max-width:500px;margin:0 auto;overflow:hidden;background:var(--bg)}
+@media(min-width:620px){body{display:flex;align-items:center;justify-content:center}#app{height:min(100%,900px);border:1px solid #25282c;box-shadow:0 24px 80px rgba(0,0,0,.55)}}
+#app:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:40;border:1px solid rgba(255,255,255,.025)}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column}
+.scr.enter{animation:fade .18s ease}
+@keyframes fade{from{opacity:.35}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.status{height:31px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #25282c;background:#0d0f11;color:var(--muted);font:11px var(--mono);letter-spacing:.02em;flex:none}
+.status b{color:#c9c9c5;font-weight:500}
+.hdr{height:54px;display:flex;align-items:center;gap:2px;padding:0 10px;border-bottom:1px solid var(--line);background:#151719;flex:none}
+.hdr h2{margin:0 8px;flex:1;font-size:16px;font-weight:650;letter-spacing:-.025em}
+.hdr .cc{font:11px var(--mono);color:var(--accent)}
+.back{width:38px;height:38px;border:0;background:transparent;font-size:20px;color:#c5c7c6}
+.body{flex:1;overflow-y:auto;padding:18px 18px 30px;min-height:0;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#3b3f44 transparent}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;align-items:center}.row.wrap{flex-wrap:wrap}
+.mute{color:var(--muted)}.mono{font-family:var(--mono)}.small{font-size:12px}
+h3{margin:5px 0 0;color:#8f9498;font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+p{margin:0}
+.btn{min-height:44px;padding:0 15px;border:1px solid var(--line2);border-radius:6px;background:#1a1d20;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;transition:background .12s,border-color .12s,transform .08s}
+.btn:hover{background:#22262a;border-color:#525860}.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#17130b;font-weight:700}.btn.pri:hover{background:#e0b65b}
+.btn.dng{color:#e18480;border-color:#75413f}.btn.block{width:100%}.btn[disabled]{opacity:.32;pointer-events:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:14px}
+.card.tap{width:100%;text-align:left;min-height:48px}
+.stamp{display:inline-block;color:var(--accent2);border:1px solid #766039;padding:2px 7px;font:600 9px var(--mono);letter-spacing:.09em;text-transform:uppercase}
+.stamp.red{color:#db8580;border-color:#75413f}
+.tabs{display:flex;border-bottom:1px solid var(--line);gap:0}.tab{flex:1;height:42px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);font-size:13px}.tab.on{color:var(--text);border-bottom-color:var(--accent)}
+.meter{height:3px;background:#2b2f33;overflow:hidden}.meter i{display:block;height:100%;background:var(--accent);transition:width .35s}.meter.g i{background:var(--ok)}
+.hot{border-bottom:1px dotted #7e6842;cursor:pointer;color:#ddd0a8}.hot.found{color:var(--accent2);border-bottom-color:var(--accent)}
+.hot.pulse{animation:mark .7s ease 2}@keyframes mark{50%{background:rgba(214,168,77,.13)}}
+.shake{animation:shake .28s}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+#toast{position:absolute;left:16px;right:16px;top:43px;z-index:50;pointer-events:none;display:flex;justify-content:center}
+#toast div{max-width:92%;background:#e9e5da;color:#161717;border:1px solid #b8ad95;padding:9px 12px;border-radius:4px;font-size:12px;box-shadow:var(--shadow);animation:rise .18s ease}
+#toast div.bad{background:#321d1d;color:#f1d8d5;border-color:#70403e}
+#modal{position:absolute;inset:0;z-index:45;background:rgba(5,6,7,.72);display:flex;align-items:flex-end}
+#modal .sheet{width:100%;max-height:84%;overflow-y:auto;background:#181a1d;border-top:1px solid #4a4e53;padding:20px 18px 28px;animation:rise .2s ease}
+.title{justify-content:center;padding:34px 28px;gap:18px;background:#101214}
+.title .rec{font:10px var(--mono);color:#a3a6a5;letter-spacing:.13em;border-left:2px solid var(--danger);padding-left:8px}
+.title h1{margin:0;font:500 clamp(52px,15vw,72px)/.92 Georgia,"Noto Serif KR",serif;letter-spacing:-.06em;color:#eeeae0}
+.title .sub{margin-top:14px;color:#8d9295;font-size:12px;letter-spacing:.08em}
+.title .menu{display:flex;flex-direction:column;gap:7px;width:min(100%,300px);margin-top:30px}
+.title .menu .btn{height:47px}
+.title>p{font-size:11px}
+.scan{position:absolute;inset:0;pointer-events:none;opacity:.16;background:linear-gradient(90deg,transparent 0 49.8%,rgba(255,255,255,.04) 50%,transparent 50.2%)}
+.prol{justify-content:center;padding:30px 26px;gap:13px;background:#101214}.prol .ln{opacity:0;transform:translateY(5px);transition:opacity .5s,transform .5s;font-size:15px;line-height:1.8}.prol .ln.on{opacity:1;transform:none}.prol .ln.mono{font:11px var(--mono);color:#777d82}.prol .ln.big{font-size:21px;color:var(--accent2);font-weight:650}
+.home{background:#111315}.homehead{padding:18px 18px 13px;border-bottom:1px solid var(--line)}.homehead .case{font:10px var(--mono);color:#777d82;letter-spacing:.08em}.homehead h2{margin:5px 0 12px;font-size:20px;font-weight:650}.prog{display:flex;align-items:center;gap:10px}.prog .meter{flex:1}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:6px 8px 14px}.appbtn{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:17px 5px 15px;background:transparent;border:0;border-bottom:1px solid #25282c}.appbtn:nth-child(3n+2),.appbtn:nth-child(3n+3){border-left:1px solid #25282c}.ico{width:48px;height:48px;display:grid;place-items:center;background:#1a1d20;border:1px solid #35393e;border-radius:9px}.ico svg{width:22px;height:22px;stroke:#c9cbc9;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.appbtn .nm{font-size:11.5px;color:#c8cac8}.appbtn.lock{opacity:.34}.appbtn.new .ico{border-color:#80652e;box-shadow:0 0 0 1px rgba(214,168,77,.12)}.appbtn .need{font:9px var(--mono);color:#777d82}.dock{display:flex;gap:6px;padding:9px 10px 13px;border-top:1px solid var(--line);background:#0e1012}.dock .btn{flex:1;min-height:45px;font-size:12px}.dock svg{width:16px;height:16px}
+.chat{display:flex;flex-direction:column;gap:8px}.bub{max-width:82%;padding:9px 11px;border:1px solid #30343a;border-radius:3px;background:#1b1e21}.bub.me{align-self:flex-end;background:var(--me);border-color:#394651}.bub .tm{display:block;margin-top:4px;font:9px var(--mono);color:#737a7e}.bub.del{border:1px dashed #5d6266;background:transparent;color:#92979a;cursor:pointer;text-align:left}.daysep{align-self:center;color:#777d82;font:10px var(--mono);margin:7px 0}.sysline{align-self:center;color:#777d82;font-size:11px}.avatar{width:38px;height:38px;border:1px solid #3a3e43;border-radius:50%;background:#202327;display:grid;place-items:center;font-size:12px;color:#c4c7c5;flex:none}.listrow{display:flex;gap:11px;align-items:center;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:11px 2px;min-height:59px}.listrow .t{flex:1;min-width:0}.listrow .t b{display:block;font-size:13px}.listrow .t span{display:block;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden}.post .ph{display:block;width:100%;height:auto}.post .pc{padding:11px 13px 14px}.post .ph2{height:145px;display:grid;place-items:center;color:#666d72;background:#14171a;font:10px var(--mono)}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}.tbl th{font:9px var(--mono);letter-spacing:.08em;color:#777d82;text-align:left;padding:6px;border-bottom:1px solid var(--line)}.tbl td{padding:9px 6px;border-bottom:1px solid #282c30;vertical-align:top}.tbl td.num{font-family:var(--mono);white-space:nowrap}.tblwrap{overflow-x:auto}
+.cam{position:relative;border:1px solid #3a3e43;border-radius:3px;overflow:hidden;background:#07090a}.cam svg{display:block;width:100%;height:auto}.cam .ts{position:absolute;left:9px;top:7px;font:9px var(--mono);color:#d0e2d1;text-shadow:0 1px 3px #000}.cam .rc{position:absolute;right:9px;top:7px;font:9px var(--mono);color:#d87b76}.cam:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px)}input[type=range]{width:100%;accent-color:var(--accent);min-height:38px}
+.pwdots{display:flex;gap:10px;justify-content:center;margin:8px 0 17px}.pwdots i{width:10px;height:10px;border:1px solid #777d82;border-radius:50%}.pwdots i.on{background:var(--accent);border-color:var(--accent)}.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.keys .btn{min-height:52px;font:18px var(--mono)}
+.ivlog{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}.ivlog .you{align-self:flex-end;background:var(--me);border:1px solid #394651;padding:9px 11px;border-radius:3px;max-width:84%}.ivlog .npc{align-self:flex-start;background:#1b1e21;border:1px solid #30343a;padding:9px 11px;border-radius:3px;max-width:86%}.ivlog .sys{align-self:center;color:var(--accent);font:9px var(--mono);letter-spacing:.06em;text-align:center;padding:5px}.opts{display:flex;flex-direction:column;gap:6px}.opts .btn{justify-content:flex-start;text-align:left;font-size:12.5px;padding:9px 12px;line-height:1.5}.opts .btn.done{opacity:.38}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{min-height:38px;padding:0 11px;border:1px solid #42474d;border-radius:4px;background:#202327;font-size:11.5px}.hearts{font:11px var(--mono);color:#d07b77;letter-spacing:.08em}
+.slot{flex:1;min-height:60px;border:1px dashed #60666b;display:grid;place-items:center;padding:8px;text-align:center;font-size:12px;color:#858b8f}.slot.fill{border-style:solid;border-color:#80652e;color:#ddd4b8}.cl{width:100%;text-align:left;display:flex;flex-direction:column;gap:3px;min-height:48px}.cl.sel{border-color:#80652e;background:#252116}.tl{display:flex;flex-direction:column;gap:0;border-left:1px solid #41464b;margin-left:6px}.tl div{padding:0 0 15px 14px;position:relative}.tl div:before{content:"";position:absolute;left:-4px;top:6px;width:7px;height:7px;border-radius:50%;background:#666c70}.tl div:not(.un):before{background:var(--accent)}.tl div.un{color:#676d71}
+.end{padding:0;background:#111315}.end .body{padding:28px 22px 32px}.end h1{margin:10px 0 15px;font:500 35px/1.2 Georgia,"Noto Serif KR",serif;letter-spacing:-.04em}.end .txt{display:flex;flex-direction:column;gap:14px;font-size:14px;line-height:1.85}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#35393e;border:1px solid #35393e}.stats .card{text-align:center;padding:11px 5px;border:0;border-radius:0}.stats b{display:block;font:600 17px var(--mono);color:var(--accent)}.stats span{font-size:10px;color:var(--muted)}
+@media(max-width:619px){#app{max-width:none}}
+@media(max-width:370px){.grid{grid-template-columns:repeat(3,1fr)}.ico{width:44px;height:44px}.appbtn{padding-top:13px}.body{padding-left:14px;padding-right:14px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<title>마지막 접속</title>
 
-/* ==================== DATA ==================== */
-const DATA={
-game:{title:"마지막 접속",investigator:"실종수사팀 경위 김도윤",missing:"정윤호",missingAge:29,disappeared:"3일 전"},
-apps:[
-{id:"case",name:"사건 파일",icon:"▣",unlock:0},
-{id:"chat",name:"톡톡 메신저",icon:"◌",unlock:0},
-{id:"sns",name:"모아 SNS",icon:"◎",unlock:0},
-{id:"community",name:"이웃광장",icon:"▤",unlock:1},
-{id:"calls",name:"통화·결제",icon:"⌁",unlock:1},
-{id:"map",name:"지도",icon:"⌖",unlock:2},
-{id:"mail",name:"메일·문서",icon:"✉",unlock:3},
-{id:"cctv",name:"CCTV 뷰어",icon:"◉",unlock:4},
-{id:"investigate",name:"조사 기록",icon:"⚑",unlock:2}
-],
-clues:[
-{id:"C01",title:"성화와의 심야 통화",desc:"실종 당일 02:13, 윤호와 박성화 사이에 17분 통화가 있었다.",app:"chat",truth:false,connect:["C06"]},
-{id:"C02",title:"삭제된 메시지 흔적",desc:"성화가 보낸 메시지 일부가 삭제된 것으로 표시된다.",app:"chat",truth:false,connect:["C05"]},
-{id:"C03",title:"회색 건물의 반사광",desc:"SNS 사진 배경 유리면에 ‘하림산업 2관’ 표지가 흐릿하게 비친다.",app:"sns",truth:true,connect:["C08"]},
-{id:"C04",title:"새벽3시의 첫 제보",desc:"전 직장 장부가 조작됐으며 원본 일부가 외부 서버에 있다는 글.",app:"community",truth:true,connect:["C05","C09"]},
-{id:"C05",title:"협박성 메일 제목",desc:"윤호에게 ‘더 캐면 네 옆 사람이 다친다’는 메일이 도착했다.",app:"mail",truth:true,connect:["C04","C10"]},
-{id:"C06",title:"애매한 CCTV 알리바이",desc:"02:20경 성화로 보이는 사람이 편의점 골목을 지나간다.",app:"cctv",truth:false,connect:["C01"]},
-{id:"C07",title:"오세린의 USB 메모",desc:"세린은 윤호가 ‘문제 생기면 2관 쪽은 절대 가지 말라’고 했다고 진술한다.",app:"investigate",truth:true,connect:["C03","C08"]},
-{id:"C08",title:"마지막 지도 검색",desc:"실종 6시간 전 윤호가 ‘하림산업 2관 후문’을 검색했다.",app:"map",truth:true,connect:["C03","C07","C11"]},
-{id:"C09",title:"한도현의 진술 공백",desc:"전 상사 한도현은 장부 이야기를 부인하지만 제보 글 게시 직후 기록을 검색했다.",app:"investigate",truth:true,connect:["C04","C10"]},
-{id:"C10",title:"숨겨진 저장 위치",desc:"문서 메타데이터에 외부 저장소 경로 ‘/Dawn/0317/’가 남아 있다.",app:"mail",truth:true,connect:["C05","C09","C12"]},
-{id:"C11",title:"마지막 결제 위치",desc:"윤호 카드의 마지막 결제는 하림산업 2관에서 1.4km 떨어진 자동판매기다.",app:"calls",truth:true,connect:["C08","C12"]},
-{id:"C12",title:"성화가 숨긴 이유",desc:"성화는 윤호가 ‘자료가 정리될 때까지 나를 모르는 사람처럼 해 달라’고 했다고 털어놓는다.",app:"investigate",truth:true,connect:["C10","C11"]}
-],
-chat:{
-"성화":[
-["성화","어디야? 연락이 안 돼서 계속 기다리고 있어.","윤호"],
-["윤호","오늘은 늦어. 작업 때문에 그래.","성화"],
-["성화","또 그 일? 그 사람들한테서 연락 온 거야?","윤호"],
-["윤호","걱정하지 마. 네 이름은 절대 안 나가.","성화"],
-["성화","무슨 뜻이야? 윤호야.","윤호"],
-["시스템","[삭제된 메시지 1건]",""],
-["윤호","새벽 지나면 잠깐 연락할게.","성화"]
-],
-"오세린":[
-["세린","나한테 USB 맡겨놓고 왜 연락이 안 돼?","윤호"],
-["윤호","혹시 내가 연락 끊기면 2관 쪽은 가지 마.","세린"],
-["세린","또 시작이네. 이번엔 무슨 사고인데?","윤호"],
-["윤호","그냥 내 말만 들어줘.","세린"]
-],
-"가족":[
-["가족","밥은 먹었니?","윤호"],
-["윤호","응. 이번 주만 지나면 좀 쉬려고.","가족"]
-]},
-community:[
-["10/01 03:02","새벽3시","[제보] 편집 프로덕션 회계자료를 확인할 수 있는 사람에게.","원본 장부와 지급결의서 숫자가 맞지 않습니다. 내부자가 아니면 알기 힘든 수준입니다."],
-["10/02 03:04","새벽3시","[삭제된 글]","윤호님, 2관 자료는 아직 보관 중입니다. 혼자 움직이지 마세요."],
-["10/03 03:01","새벽3시","새벽3시","누군가 게시판을 계속 보고 있습니다. 오늘 밤 이후 글을 올리지 않겠습니다."]
-],
-mail:[
-["경고","더 캐면 네 옆 사람이 다친다.","발신자: unknown@dawn.local"],
-["자동저장 문서","PROJECT_LEDGER_0317.txt","수정자: YH / 경로: /Dawn/0317/"],
-["윤호의 메모","비밀번호 힌트: 처음 만난 날 + 우리가 정한 숫자","※ 성화가 아는 기념일"],
-],
-calls:[
-["02:13","통화","박성화","17분 08초"],
-["18:42","통화","오세린","2분 11초"],
-["21:16","결제","자동판매기 / 하림산업 2관 북쪽 1.4km","₩1,500"],
-["23:48","검색","하림산업 2관 후문","지도 앱 최근 검색"]
-],
-investigations:{
-"성화":[
-{q:"윤호와 마지막으로 만난 게 언제죠?",a:"실종 전날 저녁이에요. 평소처럼 헤어졌어요.",hint:"성화는 윤호가 자신을 보호하려 했다는 걸 알고 있다."},
-{q:"02시 13분에 통화했죠?",a:"네. 윤호가 먼저 전화했어요. 하지만 자세한 건 말하지 않았어요.",hint:"심야 통화는 범행이 아니라 잠적을 알리는 통화였다."},
-{q:"삭제된 메시지는 왜 지웠습니까?",a:"윤호가 지워 달라고 했어요. 제가 알고 있다는 흔적을 남기지 말라고.",hint:"C05 또는 C10을 제시하면 반응이 달라진다."},
-{q:"윤호가 어디로 갔는지 알고 있습니까?",a:"정확한 곳은 몰라요. 다만 2관 이야기를 한 적은 있어요.",hint:"C08과 C11을 함께 확보하면 진술이 열린다."}
-],
-"오세린":[
-{q:"USB는 어디서 받은 겁니까?",a:"실종 이틀 전, 윤호 작업실에서요." ,hint:"윤호가 2관을 피하라고 했다."},
-{q:"윤호가 누구를 무서워했습니까?",a:"전 직장 쪽 사람이요. 이름은 한도현이라고 했어요.",hint:"C04와 C09를 연결해 보자."},
-{q:"성화도 이 사실을 알고 있었나요?",a:"조금은 알았을 거예요. 윤호가 숨기려고 애썼으니까요.",hint:"성화가 공범이라는 증거는 아니다."}
-],
-"한도현":[
-{q:"윤호의 장부 문제를 알고 있었습니까?",a:"그런 문제는 없었습니다. 퇴사자가 괜한 소문을 낸 거죠.",hint:"제보 글 게시 직후 검색 기록을 확인하자."},
-{q:"10월 1일 새벽 게시판을 확인했죠?",a:"업무 때문에 검색한 것뿐입니다.",hint:"C09가 압박 단서다."},
-{q:"2관과 외부 저장소를 아십니까?",a:"모릅니다. 윤호가 개인적으로 만든 것 아닙니까?",hint:"C10을 제시하면 말투가 흔들린다."}
-]}
-},
-hints:[
-"심야 통화 하나만으로 성화를 범인이라고 단정하지 마세요.",
-"지도와 SNS에서 같은 장소를 가리키는지 확인하세요.",
-"성화에게는 압박보다 공감이 진실에 가까워집니다."
-]
+<style>
+/* Layout concept: 경찰 수사 단말 (폰) 안에서 앱을 열어 단서를 모으는 한 화면 게임. 어두운 단일 테마. */
+:root{
+  --bg:#0d1016; --panel:#161a22; --panel2:#1d222c; --line:#2a303c;
+  --text:#e7e4dd; --mute:#8d93a0; --amber:#f2b84b; --red:#e5484d;
+  --steel:#5b7c99; --green:#5fb08a; --me:#243b52;
+  --font-d:'Black Han Sans','Noto Sans KR',system-ui,sans-serif;
+  --font-b:'Noto Sans KR',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --font-m:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 var(--font-b);-webkit-tap-highlight-color:transparent;overflow:hidden;-webkit-text-size-adjust:100%}
+@media(min-width:620px){body{display:flex;align-items:center;justify-content:center}}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer}
+#app{position:relative;width:100%;height:100%;max-width:460px;margin:0 auto;overflow:hidden;background:var(--bg)}
+@media(min-width:620px){#app{height:min(100%,860px);border:1px solid var(--line);border-radius:28px}}
+#app::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:40;box-shadow:inset 0 0 80px 18px rgba(0,0,0,.55)}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column}
+.scr.enter{animation:fade .28s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes up{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
+.scr.app.enter{animation:up .26s ease}
+.status{display:flex;justify-content:space-between;align-items:center;padding:10px 20px 4px;font:500 12px var(--font-m);color:var(--mute);letter-spacing:.04em}
+.status b{font-weight:500;color:var(--text)}
+.hdr{display:flex;align-items:center;gap:6px;padding:2px 10px 8px;border-bottom:1px solid var(--line)}
+.hdr h2{margin:0;font-size:17px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .cc{font:600 12px var(--font-m);color:var(--amber)}
+.back{min-width:48px;min-height:48px;border:0;background:none;font-size:22px;color:var(--text)}
+.body{flex:1;overflow-y:auto;padding:14px 16px 28px;min-height:0;-webkit-overflow-scrolling:touch}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;align-items:center}
+.row.wrap{flex-wrap:wrap}
+.mute{color:var(--mute)}
+.mono{font-family:var(--font-m)}
+.small{font-size:12.5px}
+h3{margin:0;font-size:13px;letter-spacing:.14em;color:var(--mute);font-weight:600;text-transform:uppercase}
+p{margin:0}
+
+.btn{min-height:48px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);transition:transform .08s,background .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center}
+.btn:active{transform:scale(.96)}
+.btn:focus-visible,.appbtn:focus-visible,.hot:focus-visible,.tab:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.btn.pri{background:var(--amber);border-color:var(--amber);color:#1a1405;font-weight:700}
+.btn.dng{border-color:var(--red);color:var(--red)}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.38;pointer-events:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.card.tap{width:100%;text-align:left;min-height:48px}
+.stamp{display:inline-block;font:600 10.5px var(--font-m);letter-spacing:.14em;color:var(--amber);border:1px solid var(--amber);padding:2px 6px;border-radius:3px;transform:rotate(-2deg)}
+.stamp.red{color:var(--red);border-color:var(--red)}
+.tabs{display:flex;gap:6px}
+.tab{flex:1;min-height:44px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--mute)}
+.tab.on{border-color:var(--amber);color:var(--amber);background:rgba(242,184,76,.08)}
+.meter{height:6px;border-radius:3px;background:var(--panel2);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--red);transition:width .5s}
+.meter.g i{background:var(--green)}
+
+/* 단서 표시 */
+.hot{border-bottom:1px dotted var(--mute);cursor:pointer;padding-bottom:1px}
+.hot.found{background:rgba(242,184,76,.16);border-bottom:1px solid var(--amber);color:var(--amber)}
+.hot.pulse{animation:glow .9s ease 2}
+@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(242,184,76,0)}50%{box-shadow:0 0 14px rgba(242,184,76,.9)}}
+g.hot{border:0}
+g.hot.found *{stroke:var(--amber)!important;stroke-width:2}
+.shake{animation:shake .32s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+#toast{position:absolute;left:14px;right:14px;top:46px;z-index:50;pointer-events:none;display:flex;justify-content:center}
+#toast div{background:#0b0d12;border:1px solid var(--amber);color:var(--text);padding:10px 14px;border-radius:12px;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,.6);animation:drop .3s ease}
+#toast div.bad{border-color:var(--red)}
+@keyframes drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+#modal{position:absolute;inset:0;z-index:45;background:rgba(5,6,9,.78);display:flex;align-items:flex-end;animation:fade .2s}
+#modal .sheet{width:100%;max-height:82%;overflow-y:auto;background:var(--panel);border-top:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px 16px 26px;animation:up .25s}
+
+/* 타이틀 */
+.title{justify-content:center;padding:24px;gap:18px;background:radial-gradient(120% 70% at 50% 0%,#18202c 0%,var(--bg) 70%)}
+.title .rec{font:500 12px var(--font-m);color:var(--red);letter-spacing:.12em}
+.title h1{margin:0;font:400 58px/1.05 var(--font-d);letter-spacing:.04em;animation:glitch 4.5s infinite}
+@keyframes glitch{0%,92%,100%{text-shadow:none;transform:none}93%{text-shadow:3px 0 var(--red),-3px 0 var(--steel);transform:translateX(2px)}95%{text-shadow:-3px 0 var(--red),3px 0 var(--steel);transform:translateX(-2px)}97%{text-shadow:none}}
+.title .sub{color:var(--mute);letter-spacing:.2em;font-size:13px}
+.title .menu{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px);z-index:1}
+
+/* 프롤로그 */
+.prol{justify-content:center;padding:28px 24px;gap:14px}
+.prol .ln{opacity:0;transform:translateY(6px);transition:opacity .9s,transform .9s;font-size:17px;line-height:1.7}
+.prol .ln.on{opacity:1;transform:none}
+.prol .ln.mono{font-family:var(--font-m);font-size:13px;color:var(--mute)}
+.prol .ln.big{font-size:22px;color:var(--amber);font-weight:700}
+
+/* 홈 */
+.home{background:radial-gradient(100% 50% at 50% 0%,#151b25,var(--bg) 75%)}
+.homehead{padding:6px 20px 14px}
+.homehead .case{font:600 11px var(--font-m);letter-spacing:.16em;color:var(--mute)}
+.homehead h2{margin:4px 0 0;font-size:21px}
+.prog{display:flex;align-items:center;gap:10px;margin-top:10px}
+.prog .meter{flex:1}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 8px;padding:10px 16px}
+.appbtn{display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;min-height:48px;padding:4px}
+.ico{width:62px;height:62px;border-radius:17px;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;position:relative;transition:transform .1s}
+.appbtn:active .ico{transform:scale(.92)}
+.ico svg{width:28px;height:28px;stroke:var(--text);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.appbtn .nm{font-size:12.5px}
+.appbtn.lock .ico{opacity:.32}
+.appbtn.lock .nm{color:var(--mute)}
+.appbtn .need{font:500 10.5px var(--font-m);color:var(--mute)}
+.appbtn.new .ico{border-color:var(--amber);box-shadow:0 0 16px rgba(242,184,76,.35)}
+.dock{margin-top:auto;display:flex;gap:8px;padding:12px 14px 18px;border-top:1px solid var(--line);background:rgba(10,12,17,.8)}
+.dock .btn{flex:1;flex-direction:column;gap:2px;font-size:13px;padding:0 6px;min-height:54px}
+
+/* 채팅 */
+.chat{display:flex;flex-direction:column;gap:9px}
+.bub{max-width:82%;padding:9px 12px;border-radius:14px;background:var(--panel2);border-top-left-radius:4px}
+.bub.me{align-self:flex-end;background:var(--me);border-top-left-radius:14px;border-top-right-radius:4px}
+.bub .tm{display:block;margin-top:3px;font:500 10.5px var(--font-m);color:var(--mute)}
+.bub.del{border:1px dashed var(--mute);background:none;color:var(--mute);cursor:pointer;min-height:48px;text-align:left}
+.daysep{align-self:center;font:500 11px var(--font-m);color:var(--mute);margin:6px 0}
+.sysline{align-self:center;font-size:12.5px;color:var(--mute);text-align:center;padding:2px 8px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;flex:none}
+.listrow{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 2px;min-height:60px}
+.listrow .t{flex:1;min-width:0}
+.listrow .t b{display:block}
+.listrow .t span{display:block;color:var(--mute);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* SNS */
+.post{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.post .ph{display:block;width:100%;height:auto;background:#101722}
+.post .pc{padding:10px 14px 14px}
+.post .ph2{height:150px;display:grid;place-items:center;color:var(--mute);font:500 12px var(--font-m)}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{font:600 11px var(--font-m);letter-spacing:.1em;color:var(--mute);text-align:left;padding:6px 6px;border-bottom:1px solid var(--line)}
+.tbl td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td.num{font-family:var(--font-m);white-space:nowrap}
+.tblwrap{overflow-x:auto}
+
+/* CCTV */
+.cam{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#06080b}
+.cam svg{display:block;width:100%;height:auto}
+.cam .ts{position:absolute;left:10px;top:8px;font:600 11px var(--font-m);color:#d6ffd6;letter-spacing:.06em;text-shadow:0 0 4px #000}
+.cam .rc{position:absolute;right:10px;top:8px;font:600 11px var(--font-m);color:var(--red)}
+.cam::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px);animation:noise .5s steps(2) infinite}
+@keyframes noise{50%{transform:translateY(1px)}}
+input[type=range]{width:100%;accent-color:var(--amber);min-height:44px}
+
+/* 키패드 */
+.pwdots{display:flex;gap:12px;justify-content:center;margin:10px 0 18px}
+.pwdots i{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--mute)}
+.pwdots i.on{background:var(--amber);border-color:var(--amber)}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.keys .btn{min-height:56px;font-size:20px;font-family:var(--font-m)}
+
+/* 조사 */
+.ivlog{display:flex;flex-direction:column;gap:9px;margin-bottom:10px}
+.ivlog .you{align-self:flex-end;background:var(--me);padding:9px 12px;border-radius:14px 4px 14px 14px;max-width:84%}
+.ivlog .npc{align-self:flex-start;background:var(--panel2);padding:9px 12px;border-radius:4px 14px 14px 14px;max-width:86%}
+.ivlog .sys{align-self:center;font:600 11.5px var(--font-m);color:var(--amber);letter-spacing:.06em;text-align:center;padding:4px 0}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts .btn{justify-content:flex-start;text-align:left;font-size:14px;padding:8px 14px;line-height:1.4}
+.opts .btn.done{opacity:.4}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 12px;border-radius:22px;border:1px solid var(--line);background:var(--panel2);font-size:13.5px}
+.hearts{font:600 13px var(--font-m);color:var(--red);letter-spacing:.1em}
+
+/* 추리 보드 */
+.slot{flex:1;min-height:64px;border:1px dashed var(--mute);border-radius:12px;display:grid;place-items:center;padding:8px;text-align:center;font-size:13px;color:var(--mute)}
+.slot.fill{border-style:solid;border-color:var(--amber);color:var(--text)}
+.cl{width:100%;text-align:left;display:flex;flex-direction:column;gap:4px;min-height:48px}
+.cl.sel{border-color:var(--amber);background:rgba(242,184,76,.08)}
+.tl{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.tl div{padding:0 0 14px 14px;position:relative}
+.tl div::before{content:'';position:absolute;left:-6px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--amber)}
+.tl div.un::before{background:var(--line)}
+.tl div.un{color:var(--mute)}
+
+/* 엔딩 */
+.end{padding:0}
+.end .body{padding:26px 22px 30px}
+.end h1{margin:10px 0 14px;font:400 38px/1.15 var(--font-d);letter-spacing:.03em}
+.end .txt{display:flex;flex-direction:column;gap:14px;font-size:16px;line-height:1.8}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stats .card{text-align:center;padding:10px 6px}
+.stats b{display:block;font:600 20px var(--font-m);color:var(--amber)}
+.stats span{font-size:12px;color:var(--mute)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+</style>
+<div id="app"><div id="stage"></div><div id="toast" aria-live="polite"></div><div id="modal" hidden></div></div>
+<script>
+/* ===== DATA : 스토리 데이터는 전부 여기 ===== */
+const H=(id,t)=>`<span class="hot" data-clue="${id}" tabindex="0" role="button">${t}</span>`;
+
+const CLUES={
+ C01:{t:'신고서 속 현장 상황',d:'현관은 잠겨 있었고 외투·보조배터리·노트북 가방만 사라졌다. 끌려간 흔적은 없다.',src:'사건 파일',real:true},
+ C02:{t:'윤호의 마지막 메시지',d:'“미안, 며칠만 기다려줘. 아무한테도 말하지 마.” 스스로 연락을 끊으려는 뜻이 보인다.',src:'톡톡',real:true},
+ C03:{t:'성화가 지운 메시지',d:'“네가 사라지면 나도 가만 안 있을 거야.” 협박처럼 읽히지만 앞뒤 맥락이 없다.',src:'톡톡',real:false},
+ C04:{t:'한도현의 협박 메시지',d:'“가져간 파일 돌려놔. 안 그러면 성화 씨 직장에도 알려질 거다.”',src:'톡톡',real:true},
+ C05:{t:'마지막 게시물 속 풍경',d:'파란 지붕, 등대, 간판 끝 글자 “포수산”. 바닷가 마을 월포로 보인다.',src:'모아',real:true},
+ C06:{t:'“새벽3시”의 제보 글',d:'한울프로덕션 장부 조작을 제보했고, 9월 27일 “편집하는곰”에게 자료를 넘겼다고 적었다. 윤호의 닉네임이다.',src:'이웃광장',real:true},
+ C07:{t:'심야 부재중 전화 3통',d:'성화가 10/1 23:52, 00:07, 00:31에 연달아 전화했다. 집착처럼 보이지만 윤호는 받지 않았다.',src:'통화·결제',real:false},
+ C08:{t:'월포행 버스 결제',d:'10/2 03:12 동서울터미널 → 월포 시외버스 18,800원. 윤호의 카드다.',src:'통화·결제',real:true},
+ C09:{t:'“월포 파도여관” 검색',d:'10/2 03:02 지도에서 파도여관을 검색하고 길 안내를 저장했다.',src:'지도',real:true},
+ C10:{t:'잠긴 장부 사본',d:'한울프로덕션 결산 장부 사본. 같은 금액이 가공 거래처로 두 번 빠져나갔고 결재자는 한도현이다.',src:'메일',real:true},
+ C11:{t:'집 앞을 서성인 성화',d:'10/2 00:41 CCTV에 성화가 윤호 집 앞에서 17분간 서성였다. 알리바이가 흔들린다.',src:'CCTV',real:false},
+ C12:{t:'오세린의 증언',d:'“윤호가 성화가 알면 위험해진다며 일부러 연락을 끊겠다고 했어요.”',src:'조사',real:true}
+};
+const CLUE_IDS=Object.keys(CLUES);
+
+const LINKS=[
+ {id:'L1',a:'C01',b:'C02',t:'윤호는 끌려간 게 아니다. 스스로 짐을 챙겨 떠났다.'},
+ {id:'L2',a:'C06',b:'C04',t:'윤호는 한울프로덕션 횡령을 파헤치다 한도현에게 협박받았다.'},
+ {id:'L3',a:'C05',b:'C08',t:'사진 속 풍경과 버스 목적지가 같다. 윤호는 월포로 갔다.'},
+ {id:'L4',a:'C08',b:'C09',t:'윤호의 은신처는 월포 파도여관이다.'},
+ {id:'L5',a:'C10',b:'C12',t:'윤호는 성화를 지키려고 증거를 안고 연락을 끊었다.'}
+];
+
+const APPS=[
+ {id:'case',n:'사건 파일',need:0},{id:'talk',n:'톡톡',need:0},{id:'moa',n:'모아',need:0},
+ {id:'quest',n:'조사',need:0},{id:'board',n:'이웃광장',need:3},{id:'pay',n:'통화·결제',need:3},
+ {id:'map',n:'지도',need:6},{id:'mail',n:'메일',need:6},{id:'cctv',n:'CCTV',need:6}
+];
+const ICO={
+ case:'<path d="M3 7h6l2 2h10v10H3z"/>',
+ talk:'<path d="M4 5h16v11H9l-5 4z"/>',
+ moa:'<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>',
+ quest:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+ board:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>',
+ pay:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/>',
+ map:'<path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+ cctv:'<path d="M3 8l12-3 2 6-12 3z"/><path d="M12 14l2 7M8 21h8"/>',
+ note:'<path d="M6 3h12v18H6z"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+ final:'<path d="M5 21V4m0 0h12l-2 4 2 4H5"/>',
+ hint:'<circle cx="12" cy="12" r="9"/><path d="M12 17v.5M9.5 9.5a2.5 2.5 0 115 0c0 1.5-2.5 2-2.5 4"/>',
+ lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>'
 };
 
-/* ==================== STATE ==================== */
-const DEFAULT={screen:"TITLE",progress:0,clues:[],windows:[],unlocked:0,selected:[],connections:[],suspectTrust:50,investRound:0,wrongPresent:0,hints:3,muted:false,startTime:0,endTime:0,ending:null};
-let state={...DEFAULT};
-let memStore={};
-const store={get(k){try{return localStorage.getItem(k)}catch(e){return memStore[k]}},set(k,v){try{localStorage.setItem(k,v)}catch(e){memStore[k]=v}},remove(k){try{localStorage.removeItem(k)}catch(e){delete memStore[k]}}};
-function save(){store.set("lastLoginSave",JSON.stringify(state))}
-function load(){try{const x=JSON.parse(store.get("lastLoginSave")||"null");if(x)state={...DEFAULT,...x}}catch(e){}}
+const TIMELINE=[
+ {tm:'10/1 22:40',tx:'성화와 14분 통화',c:null},
+ {tm:'10/1 22:58',tx:'윤호, “며칠만 기다려줘” 전송',c:'C02'},
+ {tm:'10/1 23:52',tx:'성화의 부재중 전화 시작',c:'C07'},
+ {tm:'10/2 00:41',tx:'성화, 윤호 집 앞에서 서성임',c:'C11'},
+ {tm:'10/2 01:10',tx:'윤호, 마지막 게시물 업로드',c:'C05'},
+ {tm:'10/2 02:41',tx:'윤호, 가방을 메고 혼자 집을 나섬',c:'n:leave'},
+ {tm:'10/2 03:02',tx:'지도에서 파도여관 검색',c:'C09'},
+ {tm:'10/2 03:12',tx:'월포행 시외버스 결제',c:'C08'},
+ {tm:'10/2 03:20',tx:'휴대폰 전원 꺼짐',c:'C01'}
+];
 
-/* ==================== AUDIO ==================== */
-let audioCtx=null;
-function beep(kind="click"){if(state.muted)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=kind==="clue"?740:kind==="wrong"?170:420;o.type="sine";g.gain.value=.035;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.11);o.stop(audioCtx.currentTime+.12)}catch(e){}}
+const CHATS=[
+ {id:'sung',n:'박성화',pre:'미안해, 나 때문에…',msgs:[
+  {d:'9/28(월)'},
+  {w:'t',x:'우리 3월 14일에 처음 만난 거 기억나? 그날 입은 코트 아직도 있다 ㅋㅋ',tm:'21:02'},
+  {w:'m',x:'당연하지. 나 인생에서 제일 잘한 날이 그날이야.',tm:'21:05'},
+  {d:'9/30(수)'},
+  {w:'t',x:'요즘 왜 이렇게 예민해. 밤마다 어디다 전화하는 거야?',tm:'23:14'},
+  {w:'m',x:'일이야. 곧 정리될 거야. 머플러 잘 하고 다녀, 감기 걸려.',tm:'23:20'},
+  {w:'t',x:'네가 사준 빨간 거? 하고 있지 ㅎㅎ',tm:'23:21'},
+  {d:'10/1(목)'},
+  {w:'t',x:'통화로 한 얘기, 진심이야? 나 지금 너무 무서워.',tm:'22:55'},
+  {w:'m',x:H('C02','미안, 며칠만 기다려줘. 아무한테도 말하지 마.'),tm:'22:58',rd:true},
+  {w:'t',del:true,tm:'23:20'},
+  {w:'t',x:'전화 좀 받아.',tm:'23:52'},
+  {d:'10/2(금)'},
+  {w:'t',x:'제발 답 좀 해. 나 지금 갈게.',tm:'00:12'},
+  {w:'t',x:'…집 앞인데 불 꺼져 있네. 갈게.',tm:'00:58'}
+ ]},
+ {id:'sera',n:'오세린',pre:'성화 잘 챙겨줘. 부탁이다.',msgs:[
+  {d:'9/24(목)'},
+  {w:'t',x:'야 정윤호, 요즘 연락이 없다? 살아있냐',tm:'20:11'},
+  {w:'m',x:'바쁘다. 일 하나만 끝나면 밥 살게.',tm:'20:30'},
+  {w:'m',x:'세린아, 부탁 하나만. 일 끝날 때까지 성화 좀 챙겨줘.',tm:'20:31'},
+  {w:'t',x:'무슨 일인데? 위험한 거 아니지?',tm:'20:33'},
+  {w:'m',x:'나중에 다 말할게.',tm:'20:40'}
+ ]},
+ {id:'han',n:'한도현 팀장',pre:'월요일까지다.',msgs:[
+  {d:'9/29(화)'},
+  {w:'t',x:'윤호 씨, 퇴사했다고 끝난 게 아니에요.',tm:'18:02'},
+  {w:'t',x:H('C04','가져간 파일 돌려놔. 안 그러면 성화 씨 직장에도 알려질 거다.'),tm:'18:05'},
+  {w:'t',x:'월요일까지다.',tm:'18:06'},
+  {sys:'윤호는 답장하지 않았다.'}
+ ]},
+ {id:'mom',n:'엄마',pre:'밥은 먹고 다니니?',msgs:[
+  {d:'9/30(수)'},
+  {w:'t',x:'밥은 먹고 다니니? 주말에 집에 와라.',tm:'19:40'},
+  {w:'m',x:'응, 바빠서 일 끝나면 갈게요.',tm:'19:52'}
+ ]}
+];
 
-/* ==================== NAVIGATION ==================== */
-const root=document.getElementById("app");
-function navigate(screen){state.screen=screen;save();render()}
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-function discovered(id){return state.clues.includes(id)}
-function addClue(id){if(discovered(id))return;const c=DATA.clues.find(x=>x.id===id);if(!c)return;state.clues.push(id);if(state.clues.length>=2)state.unlocked=Math.min(4,state.clues.length>=10?4:state.clues.length>=6?3:state.clues.length>=3?2:1);save();beep("clue");toast("단서 획득 #"+id.slice(1));render()}
-function toast(msg){const d=document.createElement("div");d.className="toast";d.textContent=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
-function clueText(id){const c=DATA.clues.find(x=>x.id===id);return c?c.title:"";}
+const DELETED_TEXT=H('C03','네가 사라지면 나도 가만 안 있을 거야.');
 
-/* ==================== TITLE / BOOT ==================== */
-function title(){root.innerHTML=`
-<section id="title" class="screen center"><div class="titlebox">
-<div class="eyebrow">INVESTIGATION TERMINAL / 2026</div><h1>마지막 접속</h1><p>정윤호 실종 사건 · 확보 데이터 열람용 수사 단말</p>
-<div class="actions"><button class="primary" onclick="startGame(false)">새로 시작</button><button id="continueBtn" onclick="startGame(true)">이어하기</button></div>
-<div class="sound">효과음 <button onclick="toggleMute()">${state.muted?"음소거 해제":"음소거"}</button></div>
-</div></section>`}
-function startGame(cont){beep();if(cont){load();if(state.screen==="ENDING"){navigate("ENDING");return}}else{state={...DEFAULT,startTime:Date.now(),muted:state.muted};save()}navigate("BOOT");setTimeout(()=>bootNext(0),100)}
-const bootLines=["수사 단말 초기화...","암호화된 사건 데이터 연결...","압수·확보 기록 무결성 확인...","사건 번호: YH-0317","실종자: 정윤호 / 29세","접수 시각: 2026.10.04 22:41","접근 권한: 실종수사팀"];
-function bootNext(i){const box=document.getElementById("bootlines");if(!box)return;if(i>=bootLines.length){navigate("LOGIN");return}box.insertAdjacentHTML("beforeend",'<div class="bootline">> '+esc(bootLines[i])+'</div>');setTimeout(()=>bootNext(i+1),220)}
-function boot(){root.innerHTML=`<section id="boot" class="screen" onclick="bootNext(99)"><div id="bootlines"><div class="bootline">> TERMINAL START</div></div><span class="cursor"></span></section>`}
-function login(){root.innerHTML=`<section id="login" class="screen center"><div class="loginbox"><h2>수사관 인증</h2><small>${DATA.game.investigator} · 현장 접근용 계정</small><input id="loginName" class="logininput" value="김도윤" placeholder="수사관 이름"><button class="primary" style="width:100%" onclick="doLogin()">접속하기</button></div></section>`}
-function doLogin(){beep();state.progress=1;state.startTime ||= Date.now();save();navigate("DESKTOP")}
+const FEED=[
+ {tm:'9/20 · 야근 중',cap:'편집 마감 D-1. 커피로 버티는 중. @성화 오늘도 고마워.',ph:'스튜디오 모니터 불빛'},
+ {tm:'9/25 · 노을',cap:'언젠가 같이 가고 싶은 곳 리스트 1번. 바다.',ph:'노을 지는 한강'},
+ {tm:'10/2 01:10 · 마지막 게시물',cap:'잠깐 바람 쐬는 중. 다들 잘 있어.',sign:true}
+];
+const SNS_PHOTO=`<svg class="ph" viewBox="0 0 320 200" role="img" aria-label="바닷가 마을 사진">
+ <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16213a"/><stop offset="1" stop-color="#3b3f63"/></linearGradient></defs>
+ <rect width="320" height="200" fill="url(#sk)"/>
+ <rect y="126" width="320" height="74" fill="#14304a"/>
+ <path d="M0 140q40-8 80 0t80 0 80 0 80 0" stroke="#2a5276" stroke-width="2" fill="none"/>
+ <polygon points="250,40 262,40 266,124 246,124" fill="#d9d6cf"/><rect x="247" y="70" width="18" height="10" fill="#c24b4b"/><rect x="249" y="30" width="14" height="10" fill="#f2b84b"/>
+ <polygon points="14,98 62,70 110,98" fill="#2f6fb0"/><rect x="24" y="98" width="76" height="40" fill="#2a2f38"/>
+ <g class="hot" data-clue="C05" tabindex="0" role="button">
+  <rect x="116" y="88" width="104" height="34" rx="3" fill="#232830" stroke="#566070" stroke-width="1.2"/>
+  <text x="128" y="112" fill="#e7e4dd" font-size="19" font-family="sans-serif" font-weight="700">▒포수산</text>
+  <rect x="124" y="88" width="9" height="34" fill="#0f1218"/>
+ </g>
+ <circle cx="40" cy="30" r="1.4" fill="#fff"/><circle cx="90" cy="46" r="1" fill="#fff"/><circle cx="170" cy="22" r="1.2" fill="#fff"/>
+</svg>`;
 
-/* ==================== DESKTOP / WINDOW SYSTEM ==================== */
-function desktop(){root.innerHTML=`<section id="desktop" class="screen"><div class="wall"></div><div class="icons" id="icons"></div><div class="taskbar"><button class="start" onclick="showSystem()">▦</button><div class="openapps" id="openapps"></div><div class="status"><span class="hideMob">◉ 온라인</span><span>⌁ 86%</span><span id="clock"></span></div></div></section>`;renderIcons();clock();setInterval(clock,1000);state.windows=[]}
-function renderIcons(){const el=document.getElementById("icons");if(!el)return;el.innerHTML=DATA.apps.map(a=>{const locked=a.unlock>state.unlocked;return `<button class="deskicon ${locked?"locked":""}" onclick="${locked?"lockedApp()":"openWindow('"+a.id+"')"}"><span class="ico">${a.icon}</span><span>${a.name}</span></button>`}).join("")}
-function lockedApp(){beep("wrong");toast("아직 접근 권한이 없습니다. 다른 기록을 먼저 확인하세요.")}
-function clock(){const e=document.getElementById("clock");if(e)e.textContent=new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"})}
-function openWindow(id){if(state.windows.includes(id)){document.getElementById("win-"+id)?.classList.remove("minimized");return}state.windows.push(id);renderWindow(id);renderTasks();beep()}
-function closeWindow(id){document.getElementById("win-"+id)?.remove();state.windows=state.windows.filter(x=>x!==id);renderTasks()}
-function minimizeWindow(id){document.getElementById("win-"+id)?.classList.toggle("minimized")}
-function renderTasks(){const e=document.getElementById("openapps");if(e)e.innerHTML=state.windows.map(id=>{const a=DATA.apps.find(x=>x.id===id);return `<button class="task" onclick="minimizeWindow('${id}')">${a?.icon||"▣"} ${a?.name||id}</button>`}).join("")}
-function renderWindow(id){const a=DATA.apps.find(x=>x.id===id);const w=document.createElement("div");w.className="window";w.id="win-"+id;w.style.zIndex=String(100+state.windows.length);w.innerHTML=`<div class="titlebar" onmousedown="dragStart(event,this.parentElement)"><b>${a.name}</b><div class="winbtns"><button onclick="minimizeWindow('${id}')">—</button><button onclick="closeWindow('${id}')">×</button></div></div><div class="winbody">${appHTML(id)}</div>`;document.getElementById("desktop").appendChild(w);renderTasks()}
-let drag=null;function dragStart(e,w){if(innerWidth<701)return;drag={w,x:e.clientX,y:e.clientY,l:w.offsetLeft,t:w.offsetTop};document.onmousemove=dragMove;document.onmouseup=()=>{drag=null;document.onmousemove=null}}
-function dragMove(e){if(!drag)return;drag.w.style.left=Math.max(0,drag.l+e.clientX-drag.x)+"px";drag.w.style.top=Math.max(0,drag.t+e.clientY-drag.y)+"px"}
-function showSystem(){toast("수사 단말 · 현재 확보 단서 "+state.clues.length+"/12")}
-function appHTML(id){
-if(id==="case")return caseApp();
-if(id==="chat")return chatApp();
-if(id==="sns")return snsApp();
-if(id==="community")return communityApp();
-if(id==="calls")return callsApp();
-if(id==="map")return mapApp();
-if(id==="mail")return mailApp();
-if(id==="cctv")return cctvApp();
-if(id==="investigate")return investigateApp();
-return "";
-}
+const BOARD=[
+ {nick:'새벽3시',ttl:'한울프로덕션 경리팀 퇴사자입니다',tm:'9/12',body:'장부가 맞지 않는 걸 보신 분 계신가요? 같은 금액이 한 달 간격으로 나가는 거래처가 있습니다. 증거를 정리 중입니다.'},
+ {nick:'새벽3시',ttl:'제보 받으신 분께 자료 넘겼습니다',tm:'9/27',body:`${H('C06','“편집하는곰”님께 장부 사본을 전달했습니다. 위험할 수 있으니 조심하세요. 저는 당분간 글을 올리지 못합니다.')}`},
+ {nick:'망원동주민',ttl:'분실물 찾아요 (검은 우산)',tm:'10/1',body:'어제 저녁 8시쯤 버스 정류장에서 잃어버렸습니다.'},
+ {nick:'맛집헌터',ttl:'합정 국밥집 후기',tm:'9/30',body:'수육이 괜찮았어요. 웨이팅은 20분 정도.'}
+];
 
-/* ==================== APPS ==================== */
-function caseApp(){return `<div class="apphead"><h2>사건 파일</h2><span class="tag gold">CASE YH-0317</span></div>
-<div class="grid2"><div class="card"><b>실종자</b><h3>정윤호 · 29세</h3><p class="muted">프리랜서 영상 편집자. 3일 전부터 연락 두절.</p><span class="tag">마지막 확인 10/01 23:48</span></div><div class="card"><b>핵심 인물</b><h3>박성화 · 연인</h3><p class="muted">최근 기록 대부분에 등장. 참고인 겸 용의선상.</p><span class="tag red">의심도 초기 62%</span></div></div>
-<div class="card"><b>관계도</b><div class="grid3"><div>정윤호<br><span class="muted">실종자</span></div><div>↔ 박성화<br><span class="muted">연인</span></div><div>한도현<br><span class="muted">전 직장 상사</span></div><div>↔ 오세린<br><span class="muted">친구</span></div><div>새벽3시<br><span class="muted">익명 제보자</span></div></div></div>
-<div class="card"><b>수사 타임라인</b><div class="timeline"><div><b>10/01 03:02</b> 새벽3시 첫 제보</div><div><b>10/02</b> 윤호가 USB 자료를 세린에게 맡김</div><div><b>10/03 21:16</b> 마지막 결제</div><div><b>10/03 23:48</b> 2관 후문 검색</div><div><b>10/04</b> 가족이 실종 신고</div></div></div>`}
-function chatApp(){return `<div class="apphead"><h2>톡톡 메신저</h2><span class="muted">기기 백업 98%</span></div><div class="grid2"><div>${Object.keys(DATA.chat).map(n=>`<button style="width:100%;margin-bottom:6px;text-align:left" onclick="showChat('${n}')">● ${n}<span class="muted"> · 최근 대화</span></button>`).join("")}</div><div id="chatview" class="card"><span class="muted">대화 상대를 선택하세요.</span></div></div>`}
-function showChat(name){const v=document.getElementById("chatview");if(!v)return;v.innerHTML='<b>'+esc(name)+'</b>'+DATA.chat[name].map((m,i)=>`<div class="bubble ${m[0]==="윤호"?"me":""}"><span class="meta">${esc(m[0])} · 읽음</span>${esc(m[1])}</div>`).join("")+ (name==="성화"?'<button class="primary" onclick="addClue(\'C01\');addClue(\'C02\')">대화의 수상한 부분 조사</button>':"");}
-function snsApp(){return `<div class="apphead"><h2>모아 SNS</h2><span class="muted">@yoonho_edit</span></div><div class="post"><b>윤호 · 10/03 18:22</b><div class="fakephoto"></div><p>요즘은 오래된 건물도 묘하게 예쁘다. 빛이 좋았던 날.</p><span class="tag">#퇴근길</span><span class="tag">#야간촬영</span><button class="primary" style="margin-top:8px" onclick="addClue('C03')">사진 배경 확대</button></div><div class="post"><b>세린 외 12명</b><p class="muted">좋아요 13 · 댓글 4 · 장소 태그 없음</p></div>`}
-function communityApp(){return `<div class="apphead"><h2>이웃광장</h2><span class="tag">익명 제보 게시판</span></div>${DATA.community.map((p,i)=>`<div class="post"><b>${esc(p[1])}</b><span class="muted"> · ${p[0]}</span><h3>${esc(p[2])}</h3><p>${esc(p[3])}</p>${i<2?'<button onclick="addClue(\'C04\')">제보 기록 확보</button>':""}</div>`).join("")}`}
-function callsApp(){return `<div class="apphead"><h2>통화·결제 내역</h2><span class="muted">최근 72시간</span></div>${DATA.calls.map((x,i)=>`<div class="card"><b class="mono">${x[0]}</b> <span class="tag ${x[1]==="결제"?"gold":""}">${x[1]}</span><p>${x[2]}</p><small class="muted">${x[3]}</small></div>`).join("")}<button class="primary" onclick="addClue('C01');addClue('C11')">수상 기록 표시</button>`}
-function mapApp(){return `<div class="apphead"><h2>지도</h2><span class="muted">최근 검색 기록</span></div><div class="card" style="height:260px;background:radial-gradient(circle at 70% 40%,#43505d,#202831 30%,#15191f 70%);position:relative"><div style="position:absolute;left:12%;top:28%">● 작업실</div><div style="position:absolute;left:66%;top:56%;color:#f2b84b">◆ 하림산업 2관 후문</div><div style="position:absolute;left:51%;top:65%">┄┄┄┄┄</div></div><input class="search" value="하림산업 2관 후문" readonly><button class="primary" onclick="addClue('C08')">최근 검색 상세 확인</button>`}
-function mailApp(){return `<div class="apphead"><h2>메일·문서</h2><span class="muted">암호화 파일 2개</span></div>${DATA.mail.map((x,i)=>`<div class="card"><b>${esc(x[0])}</b><h3>${esc(x[1])}</h3><p>${esc(x[2])}</p>${i===0?'<button onclick="addClue(\'C05\')">메일 원문 확보</button>':i===1?'<button onclick="addClue(\'C10\')">메타데이터 확인</button>': '<button onclick="unlockDoc()">잠금 문서 열기</button>'}</div>`).join("")}<div id="doclock"></div>`}
-function unlockDoc(){const el=document.getElementById("doclock");if(!el)return;el.innerHTML='<div class="card"><b>암호 필요</b><p class="muted">힌트: 처음 만난 날 + 우리가 정한 숫자</p><input id="pw" class="search" placeholder="YYYYMMDD + 숫자"><button class="primary" onclick="checkPw()">확인</button></div>'}
-function checkPw(){const v=document.getElementById("pw").value.replace(/\D/g,"");if(v.endsWith("0317")){addClue("C10");toast("잠금 문서 해제");}else{beep("wrong");const w=document.getElementById("win-mail");w?.classList.add("shake");toast("비밀번호가 맞지 않습니다.")}}
-function cctvApp(){return `<div class="apphead"><h2>CCTV 뷰어</h2><span class="muted mono">CAM-04 / 02:00—02:40</span></div><div class="fakephoto" style="height:330px;background:repeating-linear-gradient(90deg,#172028 0 8%,#293039 8% 10%,#12171c 10% 17%)"><div style="position:absolute;left:44%;top:46%;font-size:44px;opacity:.7">♟</div><div style="position:absolute;right:10px;top:8px;color:#fff8;font:12px monospace">02:20:14</div></div><input type="range" min="0" max="40" value="20" style="width:100%" oninput="this.nextElementSibling.textContent='02:'+(String(0+Number(this.value)).padStart(2,'0'))"><p class="muted mono">02:20</p><button class="primary" onclick="addClue('C06')">인물 실루엣 분석</button>`}
-function investigateApp(){return `<div class="apphead"><h2>조사 기록</h2><span class="tag gold">대화형 조사</span></div><div class="grid3">${Object.keys(DATA.investigations).map(n=>`<button onclick="beginInvest('${n}')">${n}<br><small class="muted">진술 기록 열기</small></button>`).join("")}</div><div id="investView" class="card" style="margin-top:12px"><span class="muted">인물을 선택하면 조사 기록이 시작됩니다.</span></div>`}
-let currentInvest=null;
-function beginInvest(name){currentInvest=name;state.investRound=name==="성화"?Math.min(3,state.investRound||1):1;const v=document.getElementById("investView");v.innerHTML=`<b>${name} 조사</b><p class="muted">질문을 선택하고 필요한 경우 단서를 제시하세요.</p>${DATA.investigations[name].map((q,i)=>`<button style="display:block;width:100%;text-align:left;margin:5px 0" onclick="askInvest(${i})">${i+1}. ${esc(q.q)}</button>`).join("")}<div id="answer"></div>`}
-function askInvest(i){const q=DATA.investigations[currentInvest][i],a=document.getElementById("answer");a.innerHTML=`<div class="hintbox"><b>진술</b><p>${esc(q.a)}</p><small class="muted">기록 분석: ${esc(q.hint)}</small></div><div><button onclick="presentClue('C05')">C05 제시</button><button onclick="presentClue('C08')">C08 제시</button><button onclick="presentClue('C11')">C11 제시</button><button onclick="presentClue('C12')">C12 제시</button></div>`;if(currentInvest==="성화"&&i===0)addClue("C12")}
-function presentClue(id){const c=DATA.clues.find(x=>x.id===id);if(!c)return;if(!c.truth){state.wrongPresent++;state.suspectTrust=Math.max(0,state.suspectTrust-12);beep("wrong");document.getElementById("win-investigate")?.classList.add("shake");toast("부적절한 단서 제시 · 신뢰도 하락");save();return}addClue(id);state.suspectTrust=Math.min(100,state.suspectTrust+5);if(currentInvest==="성화"&&id==="C12"){state.investRound=3;toast("성화가 숨기고 있던 이유를 털어놓았습니다.")}save()}
+const CALLS=[
+ {tm:'10/1 22:40',who:'성화',kind:'수신',dur:'14분 02초'},
+ {tm:'10/1 23:52',who:'성화',kind:'부재중',dur:'-',c:'C07'},
+ {tm:'10/2 00:07',who:'성화',kind:'부재중',dur:'-',c:'C07'},
+ {tm:'10/2 00:31',who:'성화',kind:'부재중',dur:'-',c:'C07'},
+ {tm:'9/29 18:07',who:'한도현',kind:'수신 거부',dur:'-'},
+ {tm:'9/30 20:15',who:'엄마',kind:'수신',dur:'3분 11초'}
+];
+const PAYS=[
+ {tm:'10/1 19:22',st:'합정 국밥집',amt:'11,000'},
+ {tm:'10/2 02:48',st:'24시 편의점 (보조배터리)',amt:'19,900'},
+ {tm:'10/2 03:12',st:'동서울터미널 시외버스 → 월포',amt:'18,800',c:'C08'},
+ {tm:'9/30 14:05',st:'스튜디오 월세 자동이체',amt:'420,000'}
+];
 
-/* ==================== DEDUCTION ==================== */
-function openDeduction(){navigate("DEDUCTION")}
-function deduction(){root.innerHTML=`<section id="deduction" class="screen"><div class="stage"><div class="apphead"><div><div class="eyebrow">EVIDENCE BOARD</div><h1>추리 보드</h1></div><button onclick="navigate('DESKTOP')">바탕화면</button></div><p class="muted">서로 연결되는 단서 2개를 선택하면 사실관계를 확정합니다. 현재 ${state.clues.length}/12.</p><div class="clues">${state.clues.map(id=>{const c=DATA.clues.find(x=>x.id===id);return `<div class="cluecard clickable ${state.selected.includes(id)?"selected":""}" onclick="selectClue('${id}')"><b class="mono">${id}</b><h3>${esc(c.title)}</h3><p class="small muted">${esc(c.desc)}</p></div>`}).join("")}</div><div class="connect"><span id="sel1">단서 1</span><b>↔</b><span id="sel2">단서 2</span><button class="primary" onclick="connectSelected()">연결 확정</button></div><div class="card"><b>인물별 의심도</b><div class="suspects"><div class="suspect">박성화 <strong style="float:right">${Math.max(0,62-state.suspectTrust/3)}%</strong><div class="meter"><i style="width:${Math.max(0,62-state.suspectTrust/3)}%"></i></div></div><div class="suspect">한도현 <strong style="float:right">71%</strong><div class="meter"><i style="width:71%"></i></div></div><div class="suspect">오세린 <strong style="float:right">18%</strong><div class="meter"><i style="width:18%"></i></div></div></div></div><button class="primary" onclick="goFinal()">최종 판단으로</button></div></section>`}
-function selectClue(id){if(state.selected.includes(id))state.selected=state.selected.filter(x=>x!==id);else if(state.selected.length<2)state.selected.push(id);render()}
-function connectSelected(){if(state.selected.length!==2){toast("단서 2개를 선택하세요.");beep("wrong");return}const[a,b]=state.selected;const ca=DATA.clues.find(x=>x.id===a),cb=DATA.clues.find(x=>x.id===b);if(ca.connect.includes(b)||cb.connect.includes(a)){if(!state.connections.some(x=>x.sort().join()===[a,b].sort().join()))state.connections.push([a,b]);toast("사실관계 연결 완료");beep("clue");}else{beep("wrong");toast("두 기록 사이의 직접적인 연결은 확인되지 않습니다.");}state.selected=[];save();render()}
-function goFinal(){if(state.connections.length<2){toast("최소 2개의 사실관계 연결이 필요합니다.");return}navigate("FINAL")}
+const MAILS=[
+ {id:'m1',from:'모아',ttl:'새 팔로워 12명',tm:'10/1',body:'성화 님 외 11명이 회원님을 팔로우했습니다.'},
+ {id:'m2',from:'한결카드',ttl:'[승인] 10/2 02:48 19,900원',tm:'10/2',body:'24시 편의점에서 승인되었습니다.'},
+ {id:'m3',from:'나에게',ttl:'[백업] 장부 사본',tm:'9/30',body:'혹시 몰라 올려둔다. 비밀번호는 내 인생에서 제일 잘한 날짜(MMDD).',lock:true}
+];
+const LEDGER=`<div class="tblwrap"><table class="tbl"><tr><th>일자</th><th>거래처</th><th>금액</th><th>결재</th></tr>
+ <tr><td class="num">8/05</td><td>(주)새빛기획</td><td class="num">48,000,000</td><td>한도현</td></tr>
+ <tr><td class="num">9/05</td><td>${H('C10','(주)새빛기획')}</td><td class="num">${H('C10','48,000,000')}</td><td>${H('C10','한도현')}</td></tr>
+ <tr><td class="num">9/12</td><td>방송장비 임대</td><td class="num">3,300,000</td><td>경리팀</td></tr></table></div>
+ <p class="small mute" style="margin-top:8px">메모: 새빛기획은 사업자 등록만 있고 실체가 없음. 성화한테는 끝나고 말할 것.</p>`;
 
-/* ==================== FINAL / ENDING ==================== */
-function finalScreen(){root.innerHTML=`<section id="final" class="screen"><div class="stage"><div class="eyebrow">FINAL JUDGMENT</div><h1>최종 판단</h1><p>성화에 대한 조치와 수색 지점을 선택하세요.</p><div class="card"><h3>박성화에 대한 처리</h3><div class="finalchoices"><button onclick="finalPick('arrest')"><b>체포</b><br><small>공범 가능성을 우선한다</small></button><button onclick="finalPick('protect')"><b>보호·조사</b><br><small>진술을 신뢰하고 안전 확보</small></button><button onclick="finalPick('close')"><b>조사 종결</b><br><small>혐의가 없다고 판단</small></button></div></div><div class="card"><h3>수색 지점</h3><div class="finalchoices"><button onclick="finalPlace('2관후문')">하림산업 2관 후문</button><button onclick="finalPlace('윤호작업실')">윤호 작업실</button><button onclick="finalPlace('성화집')">성화 주거지</button></div></div><div id="finalState" class="hintbox">선택 대기 중</div></div></section>`}
-let finalChoice=null,finalPlaceChoice=null;
-function finalPick(x){finalChoice=x;updateFinalState()}
-function finalPlace(x){finalPlaceChoice=x;updateFinalState()}
-function updateFinalState(){const e=document.getElementById("finalState");if(!e)return;e.innerHTML=`처리: <b>${finalChoice||"미선택"}</b> · 수색: <b>${finalPlaceChoice||"미선택"}</b>${finalChoice&&finalPlaceChoice?'<br><button class="primary" style="margin-top:10px" onclick="finishGame()">수색 지시 실행</button>':""}`}
-function finishGame(){state.endTime=Date.now();let ending;if(finalChoice==="protect"&&finalPlaceChoice==="2관후문"&&state.clues.length>=10&&state.connections.length>=3&&state.suspectTrust>=55)ending="A";else if(finalChoice==="arrest"||finalPlaceChoice==="성화집"||state.wrongPresent>2)ending="C";else ending="B";state.ending=ending;save();navigate("ENDING")}
-function ending(){const e=state.ending||"B";const info={A:["진실 — 마지막 접속 이후","윤호는 2관 후문 인근의 폐창고에 숨어 있었다. 자료를 외부에 넘기기 전까지 누구도 믿을 수 없었던 것이다. 성화는 공범이 아니었다. 보호 조치가 내려진 뒤 두 사람은 다시 만났다.","윤호의 위치를 정확히 짚었다."],B:["불완전 — 남겨진 기록","윤호의 흔적은 찾았지만 결정적인 몇 시간이 비어 있다. 사건의 큰 줄기는 밝혀졌으나 누가 마지막으로 윤호를 움직였는지는 아직 남았다.","일부 핵심 기록이 부족했다."],C:["오해 — 잘못된 접속","성화는 체포됐지만 윤호는 나타나지 않았다. 며칠 뒤 확보된 기록에서 성화가 윤호를 숨기려 했다는 사실이 드러난다. 수사는 가장 가까운 사람을 가장 먼저 의심하면서 방향을 잃었다.","레드헤링을 진실로 판단했다."]}[e];const sec=Math.max(0,Math.round(((state.endTime||Date.now())-(state.startTime||Date.now()))/1000));root.innerHTML=`<section id="ending" class="screen"><div class="endingbox"><div class="eyebrow">CASE CLOSED</div><h1>${info[0]}</h1><p>${info[1]}</p><div class="card"><b>수사 결과</b><p>단서 ${state.clues.length}/12 · 연결 ${state.connections.length}건 · 소요 시간 ${Math.floor(sec/60)}분 ${sec%60}초</p><p class="muted">${info[2]}</p></div><div class="actions"><button class="primary" onclick="newGame()">다시 하기</button><button onclick="showHint()">힌트 보기</button><button onclick="navigate('TITLE')">메인으로</button></div><div id="endingHint"></div></div></section>`}
-function showHint(){document.getElementById("endingHint").innerHTML='<div class="hintbox">힌트: '+DATA.hints.join(" · ")+'</div>'}
-function newGame(){state={...DEFAULT,muted:state.muted,startTime:Date.now()};save();navigate("BOOT");setTimeout(()=>bootNext(0),100)}
-function toggleMute(){state.muted=!state.muted;save();render()}
+const MAP_SEARCH=[
+ {tm:'10/2 03:20',q:'동서울터미널 첫차'},
+ {tm:'10/2 03:02',q:H('C09','월포 파도여관'),sub:'길 안내 저장됨'},
+ {tm:'10/1 21:30',q:'24시 편의점'}
+];
+const MAP_FAV=[{n:'우리 집',s:'망원동'},{n:'작업실',s:'합정'},{n:'성화 집',s:'상수동'}];
 
-/* ==================== RENDER ==================== */
-function render(){if(state.screen==="TITLE")title();else if(state.screen==="BOOT")boot();else if(state.screen==="LOGIN")login();else if(state.screen==="DESKTOP")desktop();else if(state.screen==="DEDUCTION")deduction();else if(state.screen==="FINAL")finalScreen();else if(state.screen==="ENDING")ending();else title()}
-load();if(state.screen==="ENDING")state.screen="TITLE";render();
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.screen==="DESKTOP"){state.windows.forEach(closeWindow)}if(e.key==="d"&&e.ctrlKey){e.preventDefault();openDeduction()}});
+/* CCTV: 10/2 00:00 ~ 04:00 (분 단위) */
+const CCTV={sung:[41,58],leave:[40+120,46+120]};
+
+/* 조사(심문) 데이터 */
+const IV={
+ sung:{n:'박성화',role:'연인 · 마지막 접촉자',need:0,
+  intro:'…윤호 일로 오셨죠. 저도 계속 찾고 있어요.',
+  rounds:[
+   {title:'1차 · 일반 조사',
+    qs:[
+     {id:'a',t:'마지막으로 윤호 씨와 연락한 게 언제입니까?',r:'10월 1일 밤 통화가 마지막이에요. 평소처럼 끊었는데… 그 뒤로 연락이 안 돼요.'},
+     {id:'b',t:'최근 윤호 씨 상태는 어땠나요?',r:'일 때문에 예민했어요. 뭘 하는지는 저도 몰라요. 정말이에요.'},
+     {id:'c',t:'사건 당일 밤, 윤호 씨 집에 가셨습니까?',r:'아니요. 집에서 기다렸어요. 전화만 계속 했어요.'}
+    ],
+    pres:{C07:'걱정돼서 건 거예요. 받지 않으니까… 그게 이상한가요?'},
+    adv:iv=>Object.keys(iv.asked).length>=2},
+   {title:'2차 · 모순 추궁',
+    intro:'더 드릴 말씀 없어요. 아까 다 말씀드렸잖아요.',
+    qs:[{id:'d',t:'정말 그날 밤 집에 계셨습니까?',r:'…네. 집에 있었어요.'}],
+    pres:{
+     C11:{r:'…맞아요. 갔어요. 문 앞에서 한참 서 있다가 그냥 돌아왔어요. 그게 무서워서 거짓말했어요. 윤호를 해치지 않았어요.',adv:true},
+     C03:{r:'그건 협박이 아니에요. 무서워서 쓴 말이에요. 쓰고 나서 바로 지웠어요.',adv:true},
+     C07:'그건 말씀드렸잖아요. 걱정돼서 건 거예요.'},
+    adv:iv=>!!iv.flag},
+   {title:'3차 · 감정적 대화',
+    intro:'……',approach:true,
+    emp:'…저, 윤호가 뭘 하는지 다 알진 못해요. 근데 한도현이라는 이름은 들었어요. 윤호가 그랬어요. “넌 모르는 게 안전해.” 윤호 물건 중에 잠긴 파일이 있다면… 비밀번호는 우리가 처음 만난 날일 거예요. 3월 14일.',
+    prs:'…아무 말도 하지 않겠어요. 변호사를 부르겠습니다.'}
+  ]},
+ sera:{n:'오세린',role:'윤호의 친구',need:3,
+  intro:'윤호 찾으신다고요? 저도 연락이 안 돼서 미치겠어요.',
+  rounds:[{title:'일반 조사',
+   qs:[
+    {id:'a',t:'윤호 씨와 마지막으로 연락한 건 언제입니까?',r:'열흘쯤 전이요. 성화 좀 챙겨달라고 부탁했어요. 이상하다 싶었죠.'},
+    {id:'b',t:'윤호 씨가 요즘 무슨 일을 했는지 아십니까?',r:'전 직장 얘기만 나오면 말을 돌렸어요. 한도현이라는 이름은 한 번 들었고요.'},
+    {id:'c',t:'윤호 씨가 갈 만한 곳이 있습니까?',r:'바다를 좋아해요. 외가가 월포라고 했어요. 어릴 때 방학마다 갔대요.',note:'wolpo'}
+   ],
+   pres:{
+    C04:{r:'그 사람이었군요… 윤호가 그랬어요. “성화가 알면 위험해져. 그래서 일부러 연락을 끊을 거야.” 그때는 무슨 말인지 몰랐어요.',give:'C12'},
+    C06:'새벽3시요? 윤호가 말한 제보자일지도 모르겠네요. 더 아는 건 없어요.',
+    C02:'그 문자… 저한테도 비슷한 걸 보냈어요. 걱정돼요.'},
+   adv:iv=>!!iv.flag}]},
+ han:{n:'한도현',role:'전 직장 팀장',need:6,
+  intro:'경찰이 저를 왜 찾으십니까. 윤호 씨와는 연락 안 한 지 오래입니다.',
+  rounds:[{title:'일반 조사',
+   qs:[
+    {id:'a',t:'윤호 씨와 최근에 연락한 적 있습니까?',r:'없습니다. 퇴사 이후로는 한 번도.'},
+    {id:'b',t:'윤호 씨가 가져간 자료가 있습니까?',r:'무슨 자료요? 모르겠습니다.'}
+   ],
+   pres:{
+    C04:{r:'…그건 업무 문제였습니다. 개인적인 감정은 없었어요. 그 이상은 변호사와 얘기하겠습니다.',f:'a'},
+    C10:{r:'그 장부를 어디서… (잠시 말이 없다) 더 말하지 않겠습니다.',f:'b'},
+    C06:'익명 게시판 글을 믿으시나요?',
+    C08:{r:'월포요? 그게 무슨…',leak:true},
+    C09:{r:'월포… 파도여관? 그게 뭡니까.',leak:true},
+    C05:{r:'이 사진이 저와 무슨 상관입니까. 월포 어디?',leak:true}},
+   adv:iv=>!!(iv.fl&&iv.fl.a&&iv.fl.b)}]}
+};
+
+const ENDINGS={
+ A:{code:'ENDING A',name:'파도여관 3호실',txt:[
+  '새벽 네 시, 월포. 파도여관 3호실 문을 열자 윤호는 노트북을 안고 벽에 기대 앉아 있었다. 눈 밑이 꺼졌지만 다친 곳은 없었다.',
+  '장부 사본과 한도현의 협박 메시지는 그대로 검찰에 넘어갔다. 한도현은 일주일 뒤 체포됐다.',
+  '유치장 면회실이 아니라 병원 로비에서 윤호는 성화를 만났다. “미안해, 며칠만 기다려 달랬잖아.” 성화는 대답 대신 오래 울었다.']},
+ B:{code:'ENDING B',name:'늦은 도착',txt:[
+  '단서는 모였지만 결론은 한발 늦었다. 월포에 닿았을 때 윤호는 이미 다른 곳으로 몸을 옮긴 뒤였다.',
+  '이후 윤호는 사흘 만에 직접 연락해 왔다. 증거는 무사했지만 한도현은 이미 해외로 출국한 상태였다.',
+  '성화는 아직도 윤호가 남긴 마지막 메시지를 읽음 표시로 남겨두고 있다. 사건은 열린 채로 남았다.']},
+ C:{code:'ENDING C',name:'잘못된 용의자',txt:[
+  '성화는 조사실에서 하루를 보냈다. 그가 쥐고 있던 건 윤호가 남긴 한 줄짜리 메시지뿐이었다.',
+  '수색은 엉뚱한 곳에서 시간을 보냈다. 이틀 뒤 윤호가 월포의 한 여관에서 발견됐을 때 한도현은 이미 사라져 있었다.',
+  '성화는 풀려났지만 경찰서 복도에서 한참 고개를 들지 못했다. 이 사건에서 가장 먼저 지켜줬어야 할 사람이었다.']}
+};
+const END_HINT={
+ A:'성화를 보호 대상으로 두고, 월포 파도여관으로 가려면 윤호의 이동 경로와 은신처 단서를 연결해야 한다.',
+ B:'조사를 종결하거나, 단서를 충분히 잇지 못하거나, 한도현에게 월포 단서를 보여주면 늦은 도착이 된다.',
+ C:'성화를 체포하거나, 수색 지점을 잘못 고르면 윤호를 놓친다. 의심 단서에 속지 말 것.'
+};
+const PROLOGUE=[
+ {c:'mono',x:'수사 단말 인증 중… 완료.'},
+ {c:'mono',x:'사건번호 2026-1004 · 실종 · 정윤호(29)'},
+ {x:'10월 4일 일요일, 오전 9시 12분.'},
+ {x:'가족의 신고로 실종수사팀에 사건이 배당됐다. 마지막으로 연락한 사람은 연인 박성화.'},
+ {x:'윤호의 휴대폰 기록이 이 단말에 복사돼 있다. 메신저, SNS, 통화, 결제, 지도…'},
+ {c:'big',x:'기록 속 어디에나 성화가 있다.'}
+];
+
+/* ===== 상태 / 저장 / 효과음 / 공통 ===== */
+const SAVE_KEY='lastAccess_save_v1',MUTE_KEY='lastAccess_mute_v1';
+let S=null,muted=false,toastT=null,prolT=[],AC=null;
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const pad=n=>String(n).padStart(2,'0');
+
+function fresh(){return{screen:'TITLE',app:null,sub:null,ptab:'call',tab:'clues',clues:{},notes:{},links:{},bad:0,hints:3,
+ pw:false,pwFails:0,pwHint:false,pwBuf:'',leaked:false,emp:false,prs:false,iv:{},base:0,t0:0,sel:[],fin:{},rec:false,
+ newApps:[],pulse:null,cmin:0,shk:false}}
+function elapsed(){return(S.base||0)+(S.t0?Date.now()-S.t0:0)}
+function save(){try{if(!S||S.screen==='TITLE'||S.screen==='ENDING'||S.screen==='PROLOGUE')return;
+ localStorage.setItem(SAVE_KEY,JSON.stringify(Object.assign({},S,{base:elapsed(),t0:Date.now(),pulse:null})))}catch(e){}}
+function loadSave(){try{const r=localStorage.getItem(SAVE_KEY);return r?JSON.parse(r):null}catch(e){return null}}
+function clearSave(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
+try{muted=localStorage.getItem(MUTE_KEY)==='1'}catch(e){}
+
+function beep(f,d,type,v,w){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();
+ const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+(w||0);o.type=type||'sine';o.frequency.value=f;
+ o.connect(g);g.connect(AC.destination);g.gain.setValueAtTime(v||.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d+.02)}catch(e){}}
+const sfx={tap:()=>beep(520,.05,'square',.02),open:()=>beep(420,.06,'triangle',.04),
+ clue:()=>{beep(740,.09,'sine',.06);beep(988,.15,'sine',.06,.1)},bad:()=>beep(170,.24,'sawtooth',.05),
+ lock:()=>{beep(880,.08,'sine',.05);beep(1320,.16,'sine',.05,.09)}};
+function buzz(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+function toast(m,bad){const t=$('#toast');t.innerHTML=`<div class="${bad?'bad':''}">${m}</div>`;clearTimeout(toastT);toastT=setTimeout(()=>{t.innerHTML=''},2800)}
+function modal(h){$('#modal').hidden=false;$('#modal').innerHTML=`<div class="sheet">${h}</div>`}
+function closeModal(){$('#modal').hidden=true;$('#modal').innerHTML=''}
+
+const count=()=>Object.keys(S.clues).length;
+const openIds=()=>APPS.filter(a=>count()>=a.need).map(a=>a.id);
+const lives=()=>Math.max(0,3-S.bad);
+const hearts=()=>'♥'.repeat(lives())+'♡'.repeat(3-lives());
+const num=id=>pad(CLUE_IDS.indexOf(id)+1);
+
+function gain(id){if(S.clues[id])return false;const b=openIds();S.clues[id]=true;S.pulse=id;sfx.clue();buzz(40);
+ toast(`<b class="mono" style="color:var(--amber)">증거 #${num(id)}</b> 획득 · ${CLUES[id].t}`);
+ const nw=openIds().filter(x=>!b.includes(x));
+ if(nw.length){S.newApps=S.newApps.concat(nw);setTimeout(()=>toast('새 앱 열림 · '+nw.map(i=>APPS.find(a=>a.id===i).n).join(', ')),1900)}
+ save();return true}
+function mistake(msg){S.bad++;sfx.bad();buzz([60,40,60]);toast(msg+` · 신뢰도 ${hearts()}`,true);S.shake=true}
+
+/* ===== 공통 조각 ===== */
+function clock(){const m=12+Math.floor(elapsed()/60000);return pad(9+Math.floor(m/60))+':'+pad(m%60)}
+const status=()=>`<div class="status"><b>${clock()}</b><span>수사 단말 · LTE 82%</span></div>`;
+const svg=(k)=>`<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
+function appWrap(title,inner){return`<div class="scr app">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>${title}</h2><span class="cc">${count()}/12</span></div><div class="body">${inner}</div></div>`}
+function markFound(root){$$('[data-clue]',root).forEach(el=>{const c=el.dataset.clue;if(S.clues[c]){el.classList.add('found');if(S.pulse===c)el.classList.add('pulse')}});
+ $$('[data-note]',root).forEach(el=>{if(S.notes[el.dataset.note])el.classList.add('found')})}
+
+/* ===== 화면 ===== */
+function titleHTML(){const sv=loadSave();return`<div class="scr title"><div class="scan"></div>
+ <div class="rec">● REC 2026.10.04 09:12</div>
+ <div><h1>마지막<br>접속</h1><div class="sub">실종수사 · 정윤호 사건</div></div>
+ <div class="menu">
+  <button class="btn pri block" data-act="new">${sv?'새로 시작':'수사 시작'}</button>
+  ${sv?'<button class="btn block" data-act="cont">이어하기</button>':''}
+  <button class="btn block" data-act="mute">효과음 ${muted?'꺼짐':'켜짐'}</button>
+ </div><p class="small mute">소리가 납니다. 한 판 20~30분 · 엔딩 3종</p></div>`}
+
+function prologueHTML(){return`<div class="scr prol" data-act="pskip">${PROLOGUE.map(l=>`<div class="ln ${l.c||''}">${l.x}</div>`).join('')}
+ <div id="pgo" class="ln"><button class="btn pri block" data-act="begin">단말 열기</button></div><p class="mono small mute">화면을 탭하면 건너뜁니다</p></div>`}
+function runPrologue(){prolT.forEach(clearTimeout);prolT=[];const L=$$('.prol .ln');L.forEach((el,i)=>prolT.push(setTimeout(()=>{el.classList.add('on');if(i<L.length-1)sfx.tap()},700+i*1300)))}
+function skipPrologue(){prolT.forEach(clearTimeout);prolT=[];$$('.prol .ln').forEach(el=>el.classList.add('on'))}
+
+function appBtn(a){const open=count()>=a.need,nw=S.newApps.includes(a.id);
+ return`<button class="appbtn ${open?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${svg(a.id)}</div><span class="nm">${a.n}</span>${open?'':`<span class="need">단서 ${a.need}개</span>`}</button>`}
+function homeHTML(){const c=count();return`<div class="scr home">${status()}
+ <div class="homehead"><div class="case">CASE 2026-1004 · 정윤호 실종</div><h2>수사 단말</h2>
+ <div class="prog"><div class="meter g"><i style="width:${c/12*100}%"></i></div><span class="mono small" style="color:var(--amber)">단서 ${c}/12</span></div></div>
+ <div class="grid">${APPS.map(appBtn).join('')}</div>
+ <div class="dock">
+  <button class="btn" data-act="notebook">${svg('note')}수첩</button>
+  <button class="btn" data-act="hint">${svg('hint')}힌트 ${S.hints}</button>
+  <button class="btn ${c>=5?'pri':''}" data-act="final" ${c>=5?'':'disabled'}>${svg('final')}${c>=5?'최종 판단':'단서 5개'}</button>
+ </div></div>`}
+
+/* ===== 앱 ===== */
+function tlHTML(){return`<div class="tl">${TIMELINE.map(e=>{const ok=e.c===null||(e.c.startsWith('n:')?S.notes[e.c.slice(2)]:S.clues[e.c]);
+ return ok?`<div><span class="mono small mute">${e.tm}</span><br>${e.tx}</div>`:`<div class="un"><span class="mono small">??/?? ??:??</span><br>아직 확인되지 않음</div>`}).join('')}</div>`}
+function caseApp(){return appWrap('사건 파일',`<div class="stack">
+ <div class="card"><span class="stamp">실종자</span><h2 style="margin:8px 0 2px;font-size:20px">정윤호 <span class="mute" style="font-size:14px">(29)</span></h2>
+  <p class="small mute">프리랜서 영상 편집자 · 망원동 거주<br>마지막 연락 10/1(목) 22:40 · 신고 10/4(일) 08:50</p></div>
+ <h3>신고서</h3>
+ <div class="card"><p>신고인: 어머니. “사흘째 전화를 받지 않아요.” 현장 확인 기록: ${H('C01','현관은 잠겨 있었고 외투와 보조배터리, 노트북 가방만 사라져 있었다. 끌려간 흔적은 없었다.')} 휴대폰은 10/2 새벽 3시 20분 이후 꺼져 있다.</p></div>
+ <h3>인물</h3>
+ <div class="card stack" style="gap:10px">
+  <div class="row"><div class="avatar">성</div><div><b>박성화</b><br><span class="small mute">연인 · 마지막 통화자</span></div></div>
+  <div class="row"><div class="avatar">세</div><div><b>오세린</b><br><span class="small mute">윤호의 친구</span></div></div>
+  <div class="row"><div class="avatar">도</div><div><b>한도현</b><br><span class="small mute">전 직장 팀장 (한울프로덕션)</span></div></div>
+  <div class="row"><div class="avatar">?</div><div><b>새벽3시</b><br><span class="small mute">익명 커뮤니티 이용자</span></div></div></div>
+ <h3>수사 타임라인</h3>${tlHTML()}</div>`)}
+
+function talkApp(){
+ if(!S.sub)return appWrap('톡톡',CHATS.map(c=>`<button class="listrow" data-act="chat" data-id="${c.id}"><div class="avatar">${c.n[0]}</div><div class="t"><b>${c.n}</b><span>${c.pre}</span></div></button>`).join(''));
+ const c=CHATS.find(x=>x.id===S.sub);
+ const m=c.msgs.map(g=>{
+  if(g.d)return`<div class="daysep">${g.d}</div>`;
+  if(g.sys)return`<div class="sysline">${g.sys}</div>`;
+  if(g.del)return S.rec?`<div class="bub">${DELETED_TEXT}<span class="tm">${g.tm} · 복구됨</span></div>`:
+   `<button class="bub del" data-act="recover">삭제된 메시지입니다<span class="tm">${g.tm} · 탭하여 복구 시도</span></button>`;
+  return`<div class="bub ${g.w==='m'?'me':''}">${g.x}<span class="tm">${g.tm}${g.rd?' · 읽음':''}</span></div>`}).join('');
+ return appWrap(c.n,`<div class="chat">${m}</div>`)}
+
+function moaApp(){return appWrap('모아 · yunho_edit',`<div class="stack">${FEED.map(p=>`<div class="post">${p.sign?SNS_PHOTO:`<div class="ph ph2">[사진] ${p.ph}</div>`}
+ <div class="pc"><span class="mono small mute">${p.tm}</span><p style="margin-top:4px">${p.cap}</p><p class="small mute" style="margin-top:6px">♥ 성화 외 3명</p></div></div>`).join('')}</div>`)}
+
+function boardApp(){return appWrap('이웃광장',`<div class="stack">${BOARD.map(b=>`<div class="card"><div class="row" style="justify-content:space-between"><b>${b.nick}</b><span class="mono small mute">${b.tm}</span></div>
+ <p style="margin:6px 0 4px;font-weight:600">${b.ttl}</p><p class="small" style="color:var(--mute)">${b.body}</p></div>`).join('')}</div>`)}
+
+function payApp(){const t=S.ptab;
+ const calls=`<div class="tblwrap"><table class="tbl"><tr><th>시각</th><th>상대</th><th>구분</th></tr>${CALLS.map(r=>`<tr><td class="num">${r.tm}</td><td>${r.who}</td><td>${r.c?H(r.c,r.kind):r.kind}<br><span class="small mute">${r.dur}</span></td></tr>`).join('')}</table></div>`;
+ const pays=`<div class="tblwrap"><table class="tbl"><tr><th>시각</th><th>가맹점</th><th>금액</th></tr>${PAYS.map(r=>`<tr><td class="num">${r.tm}</td><td>${r.c?H(r.c,r.st):r.st}</td><td class="num">${r.amt}</td></tr>`).join('')}</table></div>`;
+ return appWrap('통화·결제',`<div class="stack"><div class="tabs"><button class="tab ${t==='call'?'on':''}" data-act="ptab" data-t="call">통화 내역</button><button class="tab ${t==='pay'?'on':''}" data-act="ptab" data-t="pay">결제 내역</button></div>${t==='call'?calls:pays}</div>`)}
+
+function mapApp(){const r=S.clues.C09;return appWrap('지도',`<div class="stack">
+ <div class="card" style="padding:0;overflow:hidden"><svg viewBox="0 0 320 150" style="display:block;width:100%;height:auto" role="img" aria-label="서울과 월포 위치">
+  <rect width="320" height="150" fill="#10161f"/><path d="M0 40h320M0 90h320M60 0v150M140 0v150M230 0v150" stroke="#1c2430" stroke-width="1"/>
+  <path d="M0 120q80-30 140-10t180-40" stroke="#17324a" stroke-width="12" fill="none"/>
+  <circle cx="64" cy="48" r="5" fill="#8d93a0"/><text x="74" y="46" fill="#8d93a0" font-size="11">서울</text>
+  <circle cx="262" cy="104" r="5" fill="${r?'#f2b84b':'#444b57'}"/><text x="214" y="124" fill="${r?'#f2b84b':'#444b57'}" font-size="11">${r?'월포':'?'}</text>
+  ${r?'<path d="M64 48Q150 40 262 104" stroke="#f2b84b" stroke-width="2" stroke-dasharray="5 5" fill="none"/>':''}</svg></div>
+ <h3>최근 검색</h3>${MAP_SEARCH.map(m=>`<div class="listrow" style="min-height:52px"><div class="t"><b>${m.q}</b><span>${m.tm}${m.sub?' · '+m.sub:''}</span></div></div>`).join('')}
+ <h3>즐겨찾기</h3>${MAP_FAV.map(m=>`<div class="listrow" style="min-height:52px"><div class="t"><b>${m.n}</b><span>${m.s}</span></div></div>`).join('')}</div>`)}
+
+function mailApp(){
+ if(S.sub==='pw'){const d=[0,1,2,3].map(i=>`<i class="${i<S.pwBuf.length?'on':''}"></i>`).join('');
+  const hint=S.pwHint?'힌트: 두 사람이 처음 만난 날은 3월 14일 → 0314':'힌트: 내 인생에서 제일 잘한 날짜(MMDD). 두 사람 사이에서 찾아보자.';
+  return appWrap('잠금 해제',`<div class="stack"><p class="center" style="text-align:center">장부_사본.zip<br><span class="small mute">4자리 비밀번호 · 실패 ${S.pwFails}/3</span></p>
+  <div class="pwdots ${S.shk?'shake':''}">${d}</div>
+  <p class="small" style="text-align:center;color:${S.pwHint?'var(--amber)':'var(--mute)'}">${hint}</p>
+  <div class="keys">${[1,2,3,4,5,6,7,8,9].map(k=>`<button class="btn" data-act="key" data-k="${k}">${k}</button>`).join('')}<button class="btn" data-act="key" data-k="x">⌫</button><button class="btn" data-act="key" data-k="0">0</button><button class="btn" data-act="key" data-k="o">확인</button></div></div>`)}
+ if(!S.sub)return appWrap('메일',MAILS.map(m=>`<button class="listrow" data-act="mail" data-id="${m.id}"><div class="avatar">${m.from[0]}</div><div class="t"><b>${m.ttl}</b><span>${m.from} · ${m.tm}${m.lock?' · 첨부':''}</span></div></button>`).join(''));
+ const m=MAILS.find(x=>x.id===S.sub);
+ const att=m.lock?(S.pw?`<h3 style="margin:14px 0 8px">장부_사본.zip</h3>${LEDGER}`:`<button class="btn block" style="margin-top:14px" data-act="pwopen">${svg('lock').replace('<svg','<svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7"')} 잠긴 첨부파일 열기</button>`):'';
+ return appWrap(m.ttl,`<p class="small mute">보낸 사람 ${m.from} · ${m.tm}</p><p style="margin-top:10px">${m.body}</p>${att}`)}
+
+function cctvInner(m){
+ const a=m>=CCTV.sung[0]&&m<=CCTV.sung[1],b=m>=CCTV.leave[0]&&m<=CCTV.leave[1];let f='';
+ if(a)f+=`<g class="hot" data-clue="C11" tabindex="0" role="button" aria-label="서성이는 사람"><circle cx="92" cy="104" r="10" fill="#9aa3ad" stroke="#9aa3ad"/><path d="M78 160v-38q14-10 28 0v38z" fill="#4a525c" stroke="#4a525c"/><rect x="82" y="113" width="20" height="6" fill="#c24b4b" stroke="#c24b4b"/><rect x="62" y="88" width="60" height="78" fill="transparent" stroke="none"/></g>`;
+ if(b)f+=`<g class="hot" data-note="leave" tabindex="0" role="button" aria-label="집을 나서는 사람"><circle cx="196" cy="104" r="10" fill="#9aa3ad" stroke="#9aa3ad"/><path d="M182 160v-38q14-10 28 0v38z" fill="#3b424b" stroke="#3b424b"/><rect x="205" y="118" width="14" height="26" rx="3" fill="#2d333b" stroke="#2d333b"/><rect x="170" y="88" width="60" height="78" fill="transparent" stroke="none"/></g>`;
+ return`<defs><radialGradient id="lg"><stop offset="0" stop-color="#d9e8ff" stop-opacity=".55"/><stop offset="1" stop-color="#d9e8ff" stop-opacity="0"/></radialGradient></defs>
+ <rect width="320" height="190" fill="#0a0d12"/><rect y="0" width="320" height="120" fill="#10151c"/><rect x="130" y="60" width="52" height="100" fill="#171d26" stroke="#2a313d"/><circle cx="170" cy="112" r="2" fill="#6b7686"/>
+ <circle cx="262" cy="52" r="46" fill="url(#lg)"/><rect x="258" y="52" width="8" height="108" fill="#202733"/><rect y="160" width="320" height="30" fill="#0d1117"/>${f}`}
+const camTime=m=>`10/02 ${pad(Math.floor(m/60))}:${pad(m%60)}:00`;
+function cctvApp(){return appWrap('CCTV 뷰어',`<div class="stack"><div class="cam"><svg id="camsvg" viewBox="0 0 320 190" role="img" aria-label="윤호 집 앞 골목 CCTV">${cctvInner(S.cmin)}</svg><span class="ts" id="camts">CAM-02 ${camTime(S.cmin)}</span><span class="rc">● REC</span></div>
+ <input id="cctv-range" type="range" min="0" max="240" step="1" value="${S.cmin}" aria-label="시간 이동">
+ <div class="row wrap" style="justify-content:center"><button class="btn" data-act="cstep" data-d="-10">−10분</button><button class="btn" data-act="cstep" data-d="-1">−1분</button><button class="btn" data-act="cstep" data-d="1">+1분</button><button class="btn" data-act="cstep" data-d="10">+10분</button></div>
+ <p class="small mute">윤호 집 앞 골목 · 10/2 00:00~04:00. 시간을 움직이며 사람이 보이는 구간을 찾아 탭하세요.</p></div>`)}
+
+function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return moaApp();case'board':return boardApp();
+ case'pay':return payApp();case'map':return mapApp();case'mail':return mailApp();case'cctv':return cctvApp();case'quest':return questApp();}return''}
+
+/* ===== 렌더 ===== */
+function render(){const old=$('.body'),st=old?old.scrollTop:0,key=S.screen+'|'+S.app+'|'+S.sub+'|'+S.tab+'|'+(S.fin.step||0),same=render._k===key;render._k=key;
+ const map={TITLE:titleHTML,PROLOGUE:prologueHTML,HOME:homeHTML,APP:appHTML,NOTEBOOK:notebookHTML,FINAL:finalHTML,ENDING:endingHTML};
+ $('#stage').innerHTML=(map[S.screen]||titleHTML)();
+ const sc=$('.scr');if(sc&&!same)sc.classList.add('enter');
+ markFound($('#stage'));S.pulse=null;S.shk=false;if(S.shake&&sc){sc.classList.add('shake');S.shake=false}
+ const nb=$('.body');if(nb&&same)nb.scrollTop=st;
+ if(S.screen==='PROLOGUE'&&!same)runPrologue()}
+
+/* ===== 조사(심문) ===== */
+function ivState(pid){if(!S.iv[pid]){const P=IV[pid];S.iv[pid]={r:0,asked:{},flag:false,fl:{},done:false,
+ log:[{k:'sys',x:'— '+P.rounds[0].title+' —'},{k:'npc',x:P.intro}]}}return S.iv[pid]}
+function questApp(){
+ if(!S.sub){return appWrap('조사',`<div class="stack"><div class="row" style="justify-content:space-between"><span class="small mute">신뢰도 · 잘못된 제시는 신뢰도를 깎는다</span><span class="hearts">${hearts()}</span></div>
+ ${Object.keys(IV).map(id=>{const P=IV[id],ok=count()>=P.need,st=S.iv[id];return`<button class="listrow" data-act="person" data-id="${id}"><div class="avatar" style="${ok?'':'opacity:.4'}">${P.n[0]}</div>
+ <div class="t"><b>${P.n}</b><span>${P.role}${ok?(st&&st.done?' · 조사 완료':st?` · ${st.r+1}차 진행`:''):` · 단서 ${P.need}개 필요`}</span></div></button>`}).join('')}</div>`)}
+ const P=IV[S.sub],iv=ivState(S.sub),rd=P.rounds[iv.r];
+ const log=iv.log.map(l=>`<div class="${l.k}">${l.x}</div>`).join('');
+ let ctl='';
+ if(iv.done)ctl=`<div class="sysline">${S.sub==='sung'&&S.prs?'성화는 입을 닫았다.':'이 인물의 조사는 마쳤다.'}</div><button class="btn block" data-act="present">증거 제시</button>`;
+ else if(rd.approach)ctl=`<h3>접근 방식</h3><div class="opts"><button class="btn" data-act="appr" data-m="prs">압박한다. “거짓말을 하고 계시죠.”</button><button class="btn" data-act="appr" data-m="emp">공감한다. “윤호 씨를 걱정하는 걸 압니다.”</button></div>`;
+ else ctl=`<h3>질문</h3><div class="opts">${rd.qs.map(q=>`<button class="btn ${iv.asked[q.id]?'done':''}" data-act="ask" data-q="${q.id}" ${iv.asked[q.id]?'disabled':''}>${q.t}</button>`).join('')}</div><button class="btn block" style="margin-top:6px" data-act="present">증거 제시</button>`;
+ return appWrap(P.n,`<div class="row" style="justify-content:space-between;margin-bottom:10px"><span class="small mute">${P.role}</span><span class="hearts">${hearts()}</span></div><div class="ivlog">${log}</div><div class="stack">${ctl}</div>`)}
+
+function ivAdvance(pid){const P=IV[pid],iv=ivState(pid),rd=P.rounds[iv.r];if(!rd.adv||!rd.adv(iv))return;
+ if(iv.r<P.rounds.length-1){iv.r++;iv.flag=false;iv.asked={};const n=P.rounds[iv.r];iv.log.push({k:'sys',x:'— '+n.title+' —'});if(n.intro)iv.log.push({k:'npc',x:n.intro})}
+ else{iv.done=true;if(pid==='han')iv.log.push({k:'sys',x:'한도현은 변호사를 부르겠다며 자리를 떠났다.'})}}
+function ivAsk(qid){const P=IV[S.sub],iv=ivState(S.sub),q=P.rounds[iv.r].qs.find(x=>x.id===qid);if(!q||iv.asked[qid])return;
+ iv.asked[qid]=1;iv.log.push({k:'you',x:q.t},{k:'npc',x:q.r});if(q.note)S.notes[q.note]=true;sfx.tap();ivAdvance(S.sub)}
+function ivPresent(cid){const pid=S.sub,P=IV[pid],iv=ivState(pid),rd=P.rounds[iv.r];
+ iv.log.push({k:'you',x:`「${CLUES[cid].t}」를 제시했다.`});
+ if(iv.done||!rd.pres){iv.log.push({k:'npc',x:'더 드릴 말씀 없어요.'});sfx.tap();return}
+ const pr=rd.pres[cid];
+ if(pr===undefined){const w={sung:'그게 이 일과 무슨 관련이죠?',sera:'그게 뭔데요? 잘 모르겠어요.',han:'이게 저와 무슨 상관입니까.'}[pid];
+  iv.log.push({k:'npc',x:w});mistake('관련 없는 증거를 제시했다');return}
+ const o=typeof pr==='string'?{r:pr}:pr;iv.log.push({k:'npc',x:o.r});sfx.tap();
+ if(o.adv)iv.flag=true;if(o.f){iv.fl[o.f]=1}
+ if(o.leak){S.leaked=true;iv.log.push({k:'sys',x:'한도현이 “월포”라는 말에 반응했다. 수사 정보를 흘린 것일지도 모른다.'});sfx.bad()}
+ if(o.give){if(gain(o.give))iv.flag=true}
+ ivAdvance(pid)}
+function ivApproach(m){const iv=ivState('sung');
+ if(m==='emp'){iv.log.push({k:'you',x:'윤호 씨를 걱정하는 걸 압니다. 말해주실 수 있나요.'},{k:'npc',x:IV.sung.rounds[2].emp});S.emp=true;S.pwHint=true;S.notes.pw=true;toast('성화가 입을 열었다. 메모가 추가됐다.');sfx.clue()}
+ else{iv.log.push({k:'you',x:'거짓말을 하고 계시죠. 솔직히 말하세요.'},{k:'npc',x:IV.sung.rounds[2].prs});S.prs=true;mistake('압박은 통하지 않았다')}
+ iv.done=true}
+
+/* ===== 수첩 / 추리 ===== */
+function susp(){const c=id=>S.clues[id]?1:0,l=id=>S.links[id]?1:0;const cl=(v)=>Math.max(4,Math.min(96,v));
+ return[{n:'박성화',v:cl(34+14*c('C03')+14*c('C07')+14*c('C11')-14*l('L1')-20*l('L5')-14*(S.emp?1:0))},
+  {n:'한도현',v:cl(10+22*c('C04')+18*c('C06')+22*c('C10')+16*l('L2'))},{n:'오세린',v:6}]}
+function notebookHTML(){const t=S.tab,found=CLUE_IDS.filter(i=>S.clues[i]);
+ const tabs=`<div class="tabs" style="margin-bottom:14px">${[['clues','단서'],['deduce','추리'],['people','인물']].map(([k,n])=>`<button class="tab ${t===k?'on':''}" data-act="ntab" data-t="${k}">${n}</button>`).join('')}</div>`;
+ let b='';
+ if(t==='clues'){b=found.length?`<div class="stack">${found.map(i=>`<div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">증거 #${num(i)}</span><span class="small mute">${CLUES[i].src}</span></div><p style="margin:8px 0 3px;font-weight:700">${CLUES[i].t}</p><p class="small" style="color:var(--mute)">${CLUES[i].d}</p></div>`).join('')}</div>`:
+  `<p class="mute">아직 확보한 단서가 없다. 앱 안의 점선 밑줄 문장이나 사진 속 디테일을 탭해 보자.</p>`}
+ if(t==='deduce'){const [a,c]=S.sel,n=Object.keys(S.links).length;
+  b=`<div class="stack"><p class="small mute">단서 두 개를 골라 연결하면 사실이 확정된다. 확정 ${n}/${LINKS.length}</p>
+  <div class="row"><div class="slot ${a?'fill':''}">${a?CLUES[a].t:'단서 A'}</div><span class="mute">+</span><div class="slot ${c?'fill':''}">${c?CLUES[c].t:'단서 B'}</div></div>
+  <button class="btn pri block" data-act="link" ${S.sel.length===2?'':'disabled'}>연결하기</button>
+  ${found.map(i=>`<button class="btn cl ${S.sel.includes(i)?'sel':''}" data-act="sel" data-c="${i}"><span class="mono small mute">#${num(i)} · ${CLUES[i].src}</span><span>${CLUES[i].t}</span></button>`).join('')}
+  ${n?`<h3 style="margin-top:6px">확정된 사실</h3>${LINKS.filter(x=>S.links[x.id]).map(x=>`<div class="card" style="border-color:var(--green)"><span class="small" style="color:var(--green)">확정</span><p>${x.t}</p></div>`).join('')}`:''}</div>`}
+ if(t==='people'){b=`<div class="stack"><h3>의심도</h3>${susp().map(s=>`<div><div class="row" style="justify-content:space-between"><span>${s.n}</span><span class="mono small mute">${s.v}%</span></div><div class="meter"><i style="width:${s.v}%"></i></div></div>`).join('')}
+  <h3 style="margin-top:6px">메모</h3>${S.notes.wolpo||S.notes.pw||S.notes.leave?`<div class="card stack" style="gap:6px">${S.notes.wolpo?'<p>오세린: 윤호의 외가는 월포다. 방학마다 갔다.</p>':''}${S.notes.pw?'<p>성화: 잠긴 파일 비밀번호는 처음 만난 날(3월 14일)일 것이다.</p>':''}${S.notes.leave?'<p>CCTV: 윤호는 02:41 혼자 집을 나섰다.</p>':''}</div>`:'<p class="mute small">아직 메모가 없다.</p>'}</div>`}
+ return`<div class="scr">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>수첩</h2><span class="cc">${count()}/12</span></div><div class="body">${tabs}${b}</div></div>`}
+function doLink(){const [a,b]=S.sel;S.sel=[];
+ if(!CLUES[a].real||!CLUES[b].real){mistake('이 조합은 사건을 설명하지 못한다. 의심 단서에 속았을지도 모른다');return}
+ const L=LINKS.find(x=>(x.a===a&&x.b===b)||(x.a===b&&x.b===a));
+ if(!L){toast('두 단서가 직접 이어지지 않는다');sfx.tap();return}
+ if(S.links[L.id]){toast('이미 확정한 사실이다');return}
+ S.links[L.id]=true;sfx.clue();buzz(40);toast('사실 확정 · '+L.t)}
+
+/* ===== 힌트 ===== */
+function nextHint(){const c=id=>S.clues[id],o=id=>openIds().includes(id);
+ if(!c('C02'))return'윤호 폰의 톡톡부터 열어봐. 성화와의 마지막 메시지에 단서가 있을 거야.';
+ if(!c('C01'))return'사건 파일의 신고서를 꼼꼼히 읽어. 현장 상황이 중요해.';
+ if(!c('C04'))return'톡톡에서 한도현 팀장과의 대화를 열어봐. 누가 윤호를 압박했는지 보일 거다.';
+ if(!c('C05'))return'모아 마지막 게시물 사진을 자세히 봐. 간판 글자를 확인해.';
+ if(!o('board'))return'단서를 더 모아야 새 앱이 열려. 톡톡의 다른 대화도 훑어봐.';
+ if(!c('C06'))return'이웃광장의 “새벽3시” 글과 윤호의 닉네임을 대조해봐.';
+ if(!c('C08')&&o('pay'))return'결제 내역에서 새벽 시간대를 봐. 어디로 갔는지 나온다.';
+ if(!c('C12'))return'오세린에게 한도현의 협박 메시지를 보여줘. 조사 앱의 증거 제시 기능을 써.';
+ if(!c('C09')&&o('map'))return'지도의 최근 검색 기록을 확인해.';
+ if(!c('C10')&&o('mail'))return'메일에 잠긴 백업 파일이 있어. 비밀번호는 두 사람의 기념일이다. 성화의 조사 3차가 열쇠야.';
+ if(Object.keys(S.links).length<4)return'수첩의 추리 탭에서 단서 두 개를 이어봐. 가짜 단서가 섞여 있으니 조심해. 성화를 의심하게 만드는 건 대부분 함정이다.';
+ return'충분히 모았다. 최종 판단으로 가자. 한도현에게 월포 얘기를 흘리면 안 돼.'}
+
+/* ===== 최종 판단 / 엔딩 ===== */
+const LOCS=[{id:'wolpo',n:'월포 파도여관'},{id:'hap',n:'합정 작업실 일대'},{id:'sang',n:'상수동 성화 집 근처'},{id:'han',n:'한울프로덕션 사옥'}];
+function finalHTML(){const f=S.fin,n=Object.keys(S.links).length;let b=`<div class="stack"><div class="card"><div class="row wrap" style="justify-content:space-between"><span>확보 단서 <b class="mono">${count()}/12</b></span><span>확정 사실 <b class="mono">${n}/5</b></span><span class="hearts">${hearts()}</span></div></div>`;
+ if(!f.step){b+=`<h3>박성화 처분</h3><div class="opts"><button class="btn dng" data-act="fact" data-v="arrest">용의자로 체포한다</button><button class="btn" data-act="fact" data-v="protect">보호 대상으로 두고 윤호를 수색한다</button><button class="btn" data-act="fact" data-v="close">단서가 부족하다. 조사를 종결한다</button></div>`}
+ else if(f.step===1){b+=`<h3>수색 지점</h3><p class="small mute">단서를 근거로 한 곳만 고른다.</p><div class="opts">${LOCS.map(l=>`<button class="btn" data-act="loc" data-v="${l.id}">${l.n}</button>`).join('')}</div>`}
+ return`<div class="scr">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>최종 판단</h2></div><div class="body">${b}</div></div>`}
+function calcEnding(){const f=S.fin,n=Object.keys(S.links).length;
+ if(f.act==='arrest')return{k:'C',w:'arrest'};if(f.act==='close')return{k:'B',w:'close'};
+ if(f.loc!=='wolpo')return{k:'C',w:'site'};
+ if(n>=4&&S.bad<=2&&!S.leaked)return{k:'A'};return{k:'B',w:S.leaked?'leak':'weak'}}
+const WHY={arrest:'체포 영장은 단서 하나가 아니라 오해 위에 서 있었다.',close:'조사를 종결한 밤, 윤호의 어머니는 경찰서 앞에 오래 서 있었다.',site:'수색 지점이 틀렸다. 월포라는 이름은 단서 안에 있었다.',leak:'한도현이 먼저 움직였다는 걸 나중에야 알았다. 월포라는 단서를 흘린 탓이다.',weak:'단서를 한 단계만 더 이었다면 하루 일찍 도착했을 것이다.'};
+function endingHTML(){const e=calcEnding(),E=ENDINGS[e.k],tot=Math.floor(elapsed()/1000);
+ const extra=e.k==='A'&&S.emp?'<p>조사실에서 입을 열어준 성화가 없었다면 이 새벽은 오지 않았을지도 모른다.</p>':(WHY[e.w]?`<p>${WHY[e.w]}</p>`:'');
+ return`<div class="scr end"><div class="body"><span class="stamp ${e.k==='A'?'':'red'}">${E.code}</span><h1>${E.name}</h1>
+ <div class="txt">${E.txt.map(t=>`<p>${t}</p>`).join('')}${extra}</div>
+ <div class="stats" style="margin:24px 0"><div class="card"><b>${count()}/12</b><span>확보 단서</span></div><div class="card"><b>${pad(Math.floor(tot/60))}:${pad(tot%60)}</b><span>소요 시간</span></div><div class="card"><b>${Object.keys(S.links).length}/5</b><span>확정 사실</span></div></div>
+ <div class="stack"><button class="btn pri block" data-act="restart">다시 하기</button><button class="btn block" data-act="endhint">다른 엔딩 힌트</button><button class="btn block" data-act="toTitle">메인으로</button></div></div></div>`}
+
+/* ===== 행동 처리 ===== */
+function startGame(){prolT.forEach(clearTimeout);const m=muted;S=fresh();S.screen='PROLOGUE';muted=m;clearSave();render()}
+function act(a,d){
+ if(a!=='mute'&&a!=='pskip')sfx.tap();
+ switch(a){
+ case'new':startGame();return;
+ case'cont':{const sv=loadSave();if(sv){S=Object.assign(fresh(),sv);S.t0=Date.now();S.app=S.app||null;render()}return}
+ case'mute':muted=!muted;try{localStorage.setItem(MUTE_KEY,muted?'1':'0')}catch(e){}render();return;
+ case'pskip':skipPrologue();return;
+ case'begin':S.screen='HOME';S.t0=Date.now();save();break;
+ case'open':{const ap=APPS.find(x=>x.id===d.id);if(count()<ap.need){toast(`단서 ${ap.need}개를 모으면 열립니다`);sfx.bad();return}
+  S.newApps=S.newApps.filter(x=>x!==d.id);S.screen='APP';S.app=d.id;S.sub=null;sfx.open();break}
+ case'back':if(S.screen==='APP'){if(S.sub){S.sub=null;S.pwBuf=''}else{S.app=null;S.screen='HOME'}}else if(S.screen==='FINAL'&&S.fin.step){S.fin={}}else S.screen='HOME';break;
+ case'notebook':S.screen='NOTEBOOK';S.sel=[];break;
+ case'ntab':S.tab=d.t;S.sel=[];break;
+ case'sel':{const c=d.c,i=S.sel.indexOf(c);if(i>=0)S.sel.splice(i,1);else{if(S.sel.length>=2)S.sel.shift();S.sel.push(c)}break}
+ case'link':doLink();break;
+ case'hint':{if(S.hints<=0){toast('힌트를 모두 사용했다',true);return}S.hints--;modal(`<span class="stamp">김 반장 · 메신저</span><p style="margin:12px 0 18px;font-size:16px">${nextHint()}</p><button class="btn block" data-act="close">알겠습니다 (남은 힌트 ${S.hints})</button>`);save();render();return}
+ case'close':closeModal();return;
+ case'chat':S.sub=d.id;break;
+ case'recover':S.rec=true;sfx.clue();break;
+ case'ptab':S.ptab=d.t;break;
+ case'mail':S.sub=d.id;break;
+ case'pwopen':S.sub='pw';S.pwBuf='';break;
+ case'key':{const k=d.k;if(k==='x')S.pwBuf=S.pwBuf.slice(0,-1);else if(k==='o'){if(S.pwBuf.length<4){toast('4자리를 입력하세요',true);return}pwCheck();break}else if(S.pwBuf.length<4)S.pwBuf+=k;if(S.pwBuf.length===4){pwCheck()}break}
+ case'cstep':S.cmin=Math.max(0,Math.min(240,S.cmin+(+d.d)));break;
+ case'person':{const P=IV[d.id];if(count()<P.need){toast(`단서 ${P.need}개를 모으면 조사할 수 있다`);sfx.bad();return}S.sub=d.id;break}
+ case'ask':ivAsk(d.q);break;
+ case'present':{const f=CLUE_IDS.filter(i=>S.clues[i]);if(!f.length){toast('제시할 단서가 없다');return}
+  modal(`<h3>제시할 증거</h3><div class="chips" style="margin:12px 0 16px">${f.map(i=>`<button class="chip" data-act="pick" data-c="${i}">#${num(i)} ${CLUES[i].t}</button>`).join('')}</div><button class="btn block" data-act="close">취소</button>`);return}
+ case'pick':closeModal();ivPresent(d.c);break;
+ case'appr':ivApproach(d.m);break;
+ case'final':S.screen='FINAL';S.fin={};break;
+ case'fact':S.fin={act:d.v,step:d.v==='protect'?1:2};if(d.v!=='protect'){endNow();return}break;
+ case'loc':S.fin.loc=d.v;S.fin.step=2;endNow();return;
+ case'restart':startGame();return;
+ case'toTitle':S=fresh();render();return;
+ case'endhint':{const e=calcEnding().k;modal(`<h3>엔딩 힌트</h3><div class="stack" style="margin:12px 0 18px">${['A','B','C'].filter(k=>k!==e).map(k=>`<div class="card"><span class="stamp ${k==='A'?'':'red'}">${ENDINGS[k].code}</span><p class="small" style="margin-top:8px">${END_HINT[k]}</p></div>`).join('')}</div><button class="btn block" data-act="close">닫기</button>`);return}
+ }
+ render();save()}
+function endNow(){S.screen='ENDING';clearSave();sfx.lock();render()}
+function pwCheck(){if(S.pwBuf==='0314'){S.pw=true;S.sub='m3';S.pwBuf='';sfx.lock();toast('잠금 해제 · 첨부파일이 열렸다');}
+ else{S.pwFails++;S.pwBuf='';S.shk=true;sfx.bad();buzz([50,30,50]);if(S.pwFails>=3){S.pwHint=true;toast('비밀번호가 틀렸다. 힌트가 열렸다',true)}else toast('비밀번호가 틀렸다',true)}
+ render();save()}
+
+/* ===== 입력 연결 / 시작 ===== */
+function onHot(el){if(el.dataset.note){const n=el.dataset.note;if(!S.notes[n]){S.notes[n]=true;sfx.clue();toast('메모 · 윤호는 02:41 혼자 집을 나섰다');render();save()}return}
+ const id=el.dataset.clue;if(S.clues[id]){toast('이미 확보한 단서다');return}gain(id);render()}
+function boot(){S=fresh();$('#modal').hidden=true;
+ $('#app').addEventListener('click',e=>{const h=e.target.closest('.hot');if(h&&$('#stage').contains(h)){onHot(h);return}
+  const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b.dataset)});
+ $('#app').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('hot')){e.preventDefault();onHot(e.target)}});
+ $('#app').addEventListener('input',e=>{if(e.target.id==='cctv-range'){S.cmin=+e.target.value;$('#camsvg').innerHTML=cctvInner(S.cmin);$('#camts').textContent='CAM-02 '+camTime(S.cmin);markFound($('#camsvg'))}});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
+ render()}
+boot();
+
 </script>
-</body>
-</html>
+
+</body></html>
