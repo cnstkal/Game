@@ -397,9 +397,7 @@ function appBtn(a){const open=count()>=a.need,nw=S.newApps.includes(a.id);
 function homeHTML(){const c=count();return`<div class="scr home">${status()}
  <div class="grid">${APPS.map(appBtn).join('')}</div>
  <div class="dock">
-  <button class="btn" data-act="notebook">${svg('note')}<span>수첩</span></button>
   <button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button>
-  <button class="btn ${c>=5?'pri':''}" data-act="final" ${c>=5?'':'disabled'}>${svg('final')}<span>${c>=5?'최종 판단':'단서 5개'}</span></button>
  </div></div>`}
 
 /* ===== 앱 ===== */
