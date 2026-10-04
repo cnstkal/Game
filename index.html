@@ -24,6 +24,8 @@
 .slot{flex:1;min-height:60px;border:1px dashed #60666b;display:grid;place-items:center;padding:8px;text-align:center;font-size:12px;color:#858b8f}.slot.fill{border-style:solid;border-color:#80652e;color:#ddd4b8}.cl{width:100%;text-align:left;display:flex;flex-direction:column;gap:3px;min-height:48px}.cl.sel{border-color:#80652e;background:#252116}.tl{display:flex;flex-direction:column;gap:0;border-left:1px solid #41464b;margin-left:6px}.tl div{padding:0 0 15px 14px;position:relative}.tl div:before{content:"";position:absolute;left:-4px;top:6px;width:7px;height:7px;border-radius:50%;background:#666c70}.tl div:not(.un):before{background:var(--accent)}.tl div.un{color:#676d71}
 .end{padding:0;background:#111315}.end .body{padding:28px 22px 32px}.end h1{margin:10px 0 15px;font:500 35px/1.2 Georgia,"Noto Serif KR",serif;letter-spacing:-.04em}.end .txt{display:flex;flex-direction:column;gap:14px;font-size:14px;line-height:1.85}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#35393e;border:1px solid #35393e}.stats .card{text-align:center;padding:11px 5px;border:0;border-radius:0}.stats b{display:block;font:600 17px var(--mono);color:var(--accent)}.stats span{font-size:10px;color:var(--muted)}
 @media(max-width:619px){#app{max-width:none}}@media(max-width:370px){.grid{grid-template-columns:repeat(3,1fr)}.ico{width:44px;height:44px}.appbtn{padding-top:13px}.body{padding-left:14px;padding-right:14px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;padding:13px 14px;border:1px solid var(--line2);border-radius:6px;background:#17191c;color:var(--text);font:13px/1.7 var(--sans);outline:none}textarea#notebook-memo:focus{border-color:#80652e;box-shadow:0 0 0 1px rgba(214,168,77,.12)}textarea#notebook-memo::placeholder{color:#666d72}
+
 /* ===== iPhone-style investigation home ===== */
 .home{position:absolute!important;inset:0;background:linear-gradient(160deg,#8da5c4 0%,#667b9d 24%,#394a68 55%,#1d2639 100%)!important;overflow:hidden!important;color:#fff}
 .home:before{content:"";position:absolute;inset:-15%;background:radial-gradient(circle at 18% 12%,rgba(255,255,255,.55),transparent 23%),radial-gradient(circle at 82% 38%,rgba(176,204,235,.35),transparent 28%),radial-gradient(circle at 45% 82%,rgba(25,36,61,.7),transparent 38%);filter:blur(18px);pointer-events:none}
@@ -332,7 +334,7 @@ const pad=n=>String(n).padStart(2,'0');
 
 function fresh(){return{screen:'TITLE',app:null,sub:null,ptab:'call',tab:'clues',clues:{},notes:{},links:{},bad:0,hints:3,
  pw:false,pwFails:0,pwHint:false,pwBuf:'',leaked:false,emp:false,prs:false,iv:{},base:0,t0:0,sel:[],fin:{},rec:false,
- newApps:[],pulse:null,cmin:0,shk:false}}
+ newApps:[],pulse:null,cmin:0,shk:false,memo:''}}
 function elapsed(){return(S.base||0)+(S.t0?Date.now()-S.t0:0)}
 function save(){try{if(!S||S.screen==='TITLE'||S.screen==='ENDING'||S.screen==='PROLOGUE')return;
  localStorage.setItem(SAVE_KEY,JSON.stringify(Object.assign({},S,{base:elapsed(),t0:Date.now(),pulse:null})))}catch(e){}}
@@ -516,20 +518,23 @@ function ivApproach(m){const iv=ivState('sung');
 function susp(){const c=id=>S.clues[id]?1:0,l=id=>S.links[id]?1:0;const cl=(v)=>Math.max(4,Math.min(96,v));
  return[{n:'박성화',v:cl(34+14*c('C03')+14*c('C07')+14*c('C11')-14*l('L1')-20*l('L5')-14*(S.emp?1:0))},
   {n:'한도현',v:cl(10+22*c('C04')+18*c('C06')+22*c('C10')+16*l('L2'))},{n:'오세린',v:6}]}
-function notebookHTML(){const t=S.tab,found=CLUE_IDS.filter(i=>S.clues[i]);
- const tabs=`<div class="tabs" style="margin-bottom:14px">${[['clues','단서'],['deduce','추리'],['people','인물']].map(([k,n])=>`<button class="tab ${t===k?'on':''}" data-act="ntab" data-t="${k}">${n}</button>`).join('')}</div>`;
- let b='';
- if(t==='clues'){b=found.length?`<div class="stack">${found.map(i=>`<div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">증거 #${num(i)}</span><span class="small mute">${CLUES[i].src}</span></div><p style="margin:8px 0 3px;font-weight:700">${CLUES[i].t}</p><p class="small" style="color:var(--mute)">${CLUES[i].d}</p></div>`).join('')}</div>`:
-  `<p class="mute">아직 확보한 단서가 없다. 앱 안의 점선 밑줄 문장이나 사진 속 디테일을 탭해 보자.</p>`}
- if(t==='deduce'){const [a,c]=S.sel,n=Object.keys(S.links).length;
-  b=`<div class="stack"><p class="small mute">단서 두 개를 골라 연결하면 사실이 확정된다. 확정 ${n}/${LINKS.length}</p>
-  <div class="row"><div class="slot ${a?'fill':''}">${a?CLUES[a].t:'단서 A'}</div><span class="mute">+</span><div class="slot ${c?'fill':''}">${c?CLUES[c].t:'단서 B'}</div></div>
-  <button class="btn pri block" data-act="link" ${S.sel.length===2?'':'disabled'}>연결하기</button>
-  ${found.map(i=>`<button class="btn cl ${S.sel.includes(i)?'sel':''}" data-act="sel" data-c="${i}"><span class="mono small mute">#${num(i)} · ${CLUES[i].src}</span><span>${CLUES[i].t}</span></button>`).join('')}
-  ${n?`<h3 style="margin-top:6px">확정된 사실</h3>${LINKS.filter(x=>S.links[x.id]).map(x=>`<div class="card" style="border-color:var(--green)"><span class="small" style="color:var(--green)">확정</span><p>${x.t}</p></div>`).join('')}`:''}</div>`}
- if(t==='people'){b=`<div class="stack"><h3>의심도</h3>${susp().map(s=>`<div><div class="row" style="justify-content:space-between"><span>${s.n}</span><span class="mono small mute">${s.v}%</span></div><div class="meter"><i style="width:${s.v}%"></i></div></div>`).join('')}
-  <h3 style="margin-top:6px">메모</h3>${S.notes.wolpo||S.notes.pw||S.notes.leave?`<div class="card stack" style="gap:6px">${S.notes.wolpo?'<p>오세린: 윤호의 외가는 월포다. 방학마다 갔다.</p>':''}${S.notes.pw?'<p>성화: 잠긴 파일 비밀번호는 처음 만난 날(3월 14일)일 것이다.</p>':''}${S.notes.leave?'<p>CCTV: 윤호는 02:41 혼자 집을 나섰다.</p>':''}</div>`:'<p class="mute small">아직 메모가 없다.</p>'}</div>`}
- return`<div class="scr">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>수첩</h2><span class="cc">${count()}/12</span></div><div class="body">${tabs}${b}</div></div>`}
+function notebookHTML(){
+ const found=CLUE_IDS.filter(i=>S.clues[i]);
+ const notes=[];
+ if(S.notes.wolpo)notes.push('윤호의 외가는 월포다. 방학마다 갔다.');
+ if(S.notes.pw)notes.push('잠긴 파일 비밀번호는 윤호와 성화가 처음 만난 날(3월 14일)이다.');
+ if(S.notes.leave)notes.push('CCTV: 윤호는 02:41 혼자 집을 나섰다.');
+ let h='<div class="scr">'+status()+'<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>수첩</h2><span class="cc">'+count()+'/12</span></div><div class="body"><div class="stack">';
+ h+='<div><h3>사건</h3><div class="card"><p><b>정윤호 · 29세</b></p><p class="small mute" style="margin-top:4px">프리랜서 영상 편집자 · 10월 2일 새벽부터 연락 두절</p><p class="small mute" style="margin-top:3px">마지막으로 확인된 이동 경로를 중심으로 수사 중</p></div></div>';
+ h+='<div><h3>인물</h3><div class="card stack" style="gap:7px"><p><b>박성화</b> <span class="small mute">· 윤호의 연인</span></p><p><b>오세린</b> <span class="small mute">· 윤호의 친구</span></p><p><b>한도현</b> <span class="small mute">· 전 직장 팀장</span></p><p><b>새벽3시</b> <span class="small mute">· 익명 제보자</span></p></div></div>';
+ h+='<div><h3>확보한 정보 · '+found.length+'/12</h3>';
+ if(found.length){h+='<div class="stack">'+found.map(function(i){return '<div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">#'+num(i)+'</span><span class="small mute">'+CLUES[i].src+'</span></div><p style="margin-top:7px;font-weight:650">'+CLUES[i].t+'</p><p class="small mute" style="margin-top:3px">'+CLUES[i].d+'</p></div>';}).join('')+'</div>';}else{h+='<div class="card"><p class="small mute">아직 확보한 정보가 없다.</p></div>';}
+ h+='</div>';
+ if(notes.length)h+='<div><h3>수사 메모</h3><div class="card stack" style="gap:7px">'+notes.map(function(x){return '<p class="small">'+x+'</p>';}).join('')+'</div></div>';
+ h+='<div><h3>내 메모</h3><textarea id="notebook-memo" placeholder="수사 중 알아낸 내용을 자유롭게 정리해두세요.">'+(S.memo||'')+'</textarea></div>';
+ h+='</div></div></div>';
+ return h;
+}
 function doLink(){const [a,b]=S.sel;S.sel=[];
  if(!CLUES[a].real||!CLUES[b].real){mistake('이 조합은 사건을 설명하지 못한다. 의심 단서에 속았을지도 모른다');return}
  const L=LINKS.find(x=>(x.a===a&&x.b===b)||(x.a===b&&x.b===a));
@@ -622,7 +627,7 @@ function boot(){S=fresh();$('#modal').hidden=true;
  $('#app').addEventListener('click',e=>{const h=e.target.closest('.hot');if(h&&$('#stage').contains(h)){onHot(h);return}
   const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b.dataset)});
  $('#app').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('hot')){e.preventDefault();onHot(e.target)}});
- $('#app').addEventListener('input',e=>{if(e.target.id==='cctv-range'){S.cmin=+e.target.value;$('#camsvg').innerHTML=cctvInner(S.cmin);$('#camts').textContent='CAM-02 '+camTime(S.cmin);markFound($('#camsvg'))}});
+ $('#app').addEventListener('input',e=>{if(e.target.id==='cctv-range'){S.cmin=+e.target.value;$('#camsvg').innerHTML=cctvInner(S.cmin);$('#camts').textContent='CAM-02 '+camTime(S.cmin);markFound($('#camsvg'))}if(e.target.id==='notebook-memo'){S.memo=e.target.value;save()}});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
  render()}
 boot();
