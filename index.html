@@ -11,7 +11,7 @@
 .tabs{display:flex;border-bottom:1px solid var(--line);gap:0}.tab{flex:1;height:42px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);font-size:13px}.tab.on{color:var(--text);border-bottom-color:var(--accent)}.meter{height:3px;background:#2b2f33;overflow:hidden}.meter i{display:block;height:100%;background:var(--accent);transition:width .35s}.meter.g i{background:var(--ok)}
 .hot{border-bottom:1px dotted #7e6842;cursor:pointer;color:#ddd0a8}.hot.found{color:var(--accent2);border-bottom-color:var(--accent)}.hot.pulse{animation:mark .7s ease 2}@keyframes mark{50%{background:rgba(214,168,77,.13)}}.shake{animation:shake .28s}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 #toast{position:absolute;left:16px;right:16px;top:43px;z-index:50;pointer-events:none;display:flex;justify-content:center}#toast div{max-width:92%;background:#e9e5da;color:#161717;border:1px solid #b8ad95;padding:9px 12px;border-radius:4px;font-size:12px;box-shadow:var(--shadow);animation:rise .18s ease}#toast div.bad{background:#321d1d;color:#f1d8d5;border-color:#70403e}
-#modal{position:absolute;inset:0;z-index:45;background:rgba(5,6,7,.72);display:flex;align-items:flex-end}#modal .sheet{width:100%;max-height:84%;overflow-y:auto;background:#181a1d;border-top:1px solid #4a4e53;padding:20px 18px 28px;animation:rise .2s ease}
+#modal{position:absolute;inset:0;z-index:45;background:rgba(5,6,7,.72);display:flex;align-items:flex-end}#modal[hidden]{display:none!important}#modal .sheet{width:100%;max-height:84%;overflow-y:auto;background:#181a1d;border-top:1px solid #4a4e53;padding:20px 18px 28px;animation:rise .2s ease}
 .title{justify-content:center;padding:34px 28px;gap:18px;background:#101214}.title .rec{font:10px var(--mono);color:#a3a6a5;letter-spacing:.13em;border-left:2px solid var(--danger);padding-left:8px}.title h1{margin:0;font:500 clamp(52px,15vw,72px)/.92 Georgia,"Noto Serif KR",serif;letter-spacing:-.06em;color:#eeeae0}.title .sub{margin-top:14px;color:#8d9295;font-size:12px;letter-spacing:.08em}.title .menu{display:flex;flex-direction:column;gap:7px;width:min(100%,300px);margin-top:30px}.title .menu .btn{height:47px}.title>p{font-size:11px}.scan{position:absolute;inset:0;pointer-events:none;opacity:.16;background:linear-gradient(90deg,transparent 0 49.8%,rgba(255,255,255,.04) 50%,transparent 50.2%)}
 .prol{justify-content:center;padding:30px 26px;gap:13px;background:#101214}.prol .ln{opacity:0;transform:translateY(5px);transition:opacity .5s,transform .5s;font-size:15px;line-height:1.8}.prol .ln.on{opacity:1;transform:none}.prol .ln.mono{font:11px var(--mono);color:#777d82}.prol .ln.big{font-size:21px;color:var(--accent2);font-weight:650}
 .home{background:#111315}.homehead{padding:18px 18px 13px;border-bottom:1px solid var(--line)}.homehead .case{font:10px var(--mono);color:#777d82;letter-spacing:.08em}.homehead h2{margin:5px 0 12px;font-size:20px;font-weight:650}.prog{display:flex;align-items:center;gap:10px}.prog .meter{flex:1}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:6px 8px 14px}.appbtn{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:17px 5px 15px;background:transparent;border:0;border-bottom:1px solid #25282c}.appbtn:nth-child(3n+2),.appbtn:nth-child(3n+3){border-left:1px solid #25282c}.ico{width:48px;height:48px;display:grid;place-items:center;background:#1a1d20;border:1px solid #35393e;border-radius:9px}.ico svg{width:22px;height:22px;stroke:#c9cbc9;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.appbtn .nm{font-size:11.5px;color:#c8cac8}.appbtn.lock{opacity:.34}.appbtn.new .ico{border-color:#80652e;box-shadow:0 0 0 1px rgba(214,168,77,.12)}.appbtn .need{font:9px var(--mono);color:#777d82}.dock{display:flex;gap:6px;padding:9px 10px 13px;border-top:1px solid var(--line);background:#0e1012}.dock .btn{flex:1;min-height:45px;font-size:12px}.dock svg{width:16px;height:16px}
@@ -306,8 +306,8 @@ const PROLOGUE=[
 ];
 
 /* ===== 상태 / 저장 / 효과음 / 공통 ===== */
-const SAVE_KEY='lastAccess_save_v1',MUTE_KEY='lastAccess_mute_v1';
-let S=null,muted=false,toastT=null,prolT=[],
+const SAVE_KEY='lastAccess_save_v1';
+let S=null,toastT=null,prolT=[];
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const pad=n=>String(n).padStart(2,'0');
@@ -320,15 +320,8 @@ function save(){try{if(!S||S.screen==='TITLE'||S.screen==='ENDING'||S.screen==='
  localStorage.setItem(SAVE_KEY,JSON.stringify(Object.assign({},S,{base:elapsed(),t0:Date.now(),pulse:null})))}catch(e){}}
 function loadSave(){try{const r=localStorage.getItem(SAVE_KEY);return r?JSON.parse(r):null}catch(e){return null}}
 function clearSave(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
-try{muted=localStorage.getItem(MUTE_KEY)==='1'}catch(e){}
-
-function beep(f,d,type,v,w){if(muted)return;try{
- const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+(w||0);o.type=type||'sine';o.frequency.value=f;
- o.connect(g);g.connect(AC.destination);g.gain.setValueAtTime(v||.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d+.02)}catch(e){}}
-const sfx={tap:()=>beep(520,.05,'square',.02),open:()=>beep(420,.06,'triangle',.04),
- clue:()=>{beep(740,.09,'sine',.06);beep(988,.15,'sine',.06,.1)},bad:()=>beep(170,.24,'sawtooth',.05),
- lock:()=>{beep(880,.08,'sine',.05);beep(1320,.16,'sine',.05,.09)}};
-function buzz(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+const sfx={tap:()=>{},open:()=>{},clue:()=>{},bad:()=>{},lock:()=>{}};
+function buzz(){/* sound/haptic disabled */}
 function toast(m,bad){const t=$('#toast');t.innerHTML=`<div class="${bad?'bad':''}">${m}</div>`;clearTimeout(toastT);toastT=setTimeout(()=>{t.innerHTML=''},2800)}
 function modal(h){$('#modal').hidden=false;$('#modal').innerHTML=`<div class="sheet">${h}</div>`}
 function closeModal(){$('#modal').hidden=true;$('#modal').innerHTML=''}
@@ -361,7 +354,7 @@ function titleHTML(){const sv=loadSave();return`<div class="scr title"><div clas
  <div class="menu">
   <button class="btn pri block" data-act="new">${sv?'새로 시작':'수사 시작'}</button>
   ${sv?'<button class="btn block" data-act="cont">이어하기</button>':''}
- </div><p class="small mute">소리가 납니다. 한 판 20~30분 · 엔딩 3종</p></div>`}
+ </div><p class="small mute">한 판 20~30분 · 엔딩 3종</p></div>`}
 
 function prologueHTML(){return`<div class="scr prol" data-act="pskip">${PROLOGUE.map(l=>`<div class="ln ${l.c||''}">${l.x}</div>`).join('')}
  <div id="pgo" class="ln"><button class="btn pri block" data-act="begin">단말 열기</button></div><p class="mono small mute">화면을 탭하면 건너뜁니다</p></div>`}
@@ -560,7 +553,7 @@ function endingHTML(){const e=calcEnding(),E=ENDINGS[e.k],tot=Math.floor(elapsed
  <div class="stack"><button class="btn pri block" data-act="restart">다시 하기</button><button class="btn block" data-act="endhint">다른 엔딩 힌트</button><button class="btn block" data-act="toTitle">메인으로</button></div></div></div>`}
 
 /* ===== 행동 처리 ===== */
-function startGame(){prolT.forEach(clearTimeout);const m=muted;S=fresh();S.screen='PROLOGUE';muted=m;clearSave();render()}
+function startGame(){prolT.forEach(clearTimeout);S=fresh();S.screen='PROLOGUE';clearSave();render()}
 function act(a,d){
  if(a!=='mute'&&a!=='pskip')sfx.tap();
  switch(a){
