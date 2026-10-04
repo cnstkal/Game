@@ -59,6 +59,11 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 .talkapp .detail-chat{align-items:flex-start!important}
 .talkapp .detail-chat .bub{align-self:flex-start!important;width:max-content!important;max-width:78%!important;min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!important}
 .talkapp .detail-chat .bub.me{align-self:flex-end!important;width:max-content!important;max-width:78%!important}
+
+/* Message detail navigation */
+.talkapp .detail-head{position:relative!important;padding:0 70px!important}
+.talkapp .detail-head .back{display:grid!important;place-items:center!important;position:absolute!important;left:16px!important;top:50%!important;transform:translateY(-50%)!important;width:44px!important;height:44px!important;border:0!important;background:transparent!important;color:#1d1d1f!important;font-size:0!important;padding:0!important;z-index:10!important}
+.talkapp .detail-head .back::before{content:"‹"!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",sans-serif!important;font-size:42px!important;font-weight:300!important;line-height:1!important;display:block!important}
 /* ===== Messages final white-mode override ===== */
 .talkapp,.talkapp *{box-sizing:border-box}
 .talkapp{position:absolute!important;inset:0!important;background:#fff!important;color:#1d1d1f!important}
