@@ -114,7 +114,7 @@ const LINKS=[
 ];
 
 const APPS=[
- {id:'case',n:'사건 파일',need:0},{id:'talk',n:'메시지',need:0},{id:'moa',n:'모아',need:0},{id:'findmy',n:'나의 찾기',need:0},{id:'time',n:'시계',need:0},
+ {id:'case',n:'사건 파일',need:0},{id:'talk',n:'메시지',need:0},{id:'moa',n:'모아',need:0},{id:'findmy',n:'나의 찾기',need:0},{id:'time',n:'시계',need:0},{id:'music',n:'음악',need:0},
  {id:'quest',n:'메모',need:0},{id:'voice',n:'음성 메모',need:0},{id:'safari',n:'Safari',need:0},{id:'board',n:'이웃광장',need:3},{id:'pay',n:'통화·결제',need:3},
  {id:'map',n:'지도',need:6},{id:'mail',n:'메일',need:6},{id:'cctv',n:'CCTV',need:6}
 ];
@@ -372,7 +372,7 @@ function mistake(msg){S.bad++;sfx.bad();buzz([60,40,60]);toast(msg+` · 신뢰�
 /* ===== 공통 조각 ===== */
 function clock(){const m=12+Math.floor(elapsed()/60000);return pad(9+Math.floor(m/60))+':'+pad(m%60)}
 const status=()=>`<div class="status"><b>${clock()}</b><span>수사 단말 · LTE 82%</span></div>`;
-const svg=(k)=>k==='findmy'?'<img class="app-icon-img" src="assets/find-my.svg" alt="" aria-hidden="true">':k==='talk'?'<img class="app-icon-img" src="assets/ios-message.svg" alt="" aria-hidden="true">':k==='notes'?'<img class="app-icon-img" src="assets/notes.svg" alt="" aria-hidden="true">':k==='safari'?'<img class="app-icon-img" src="assets/safari.svg" alt="" aria-hidden="true">':k==='voice'?'<img class="app-icon-img" src="assets/voice-memos.svg" alt="" aria-hidden="true">':k==='case'?'<img class="app-icon-img" src="assets/files.svg" alt="" aria-hidden="true">':k==='time'?'<img class="app-icon-img" src="assets/clock.svg" alt="" aria-hidden="true">':k==='cctv'?'<img class="app-icon-img" src="assets/camera.svg" alt="" aria-hidden="true">':`<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
+const svg=(k)=>k==='music'?'<img class="app-icon-img" src="assets/apple-music.png" alt="" aria-hidden="true">':k==='findmy'?'<img class="app-icon-img" src="assets/find-my.svg" alt="" aria-hidden="true">':k==='moa'?'<img class="app-icon-img" src="assets/camera.svg" alt="" aria-hidden="true">':k==='talk'?'<img class="app-icon-img" src="assets/ios-message.svg" alt="" aria-hidden="true">':k==='notes'?'<img class="app-icon-img" src="assets/notes.svg" alt="" aria-hidden="true">':k==='safari'?'<img class="app-icon-img" src="assets/safari.svg" alt="" aria-hidden="true">':k==='voice'?'<img class="app-icon-img" src="assets/voice-memos.svg" alt="" aria-hidden="true">':k==='case'?'<img class="app-icon-img" src="assets/files.svg" alt="" aria-hidden="true">':k==='time'?'<img class="app-icon-img" src="assets/clock.svg" alt="" aria-hidden="true">':k==='cctv'?'<img class="app-icon-img" src="assets/camera.svg" alt="" aria-hidden="true">':`<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
 function appWrap(title,inner){return`<div class="scr app">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>${title}</h2><span class="cc">${count()}/12</span></div><div class="body">${inner}</div></div>`}
 function markFound(root){$$('[data-clue]',root).forEach(el=>{const c=el.dataset.clue;if(S.clues[c]){el.classList.add('found');if(S.pulse===c)el.classList.add('pulse')}});
  $$('[data-note]',root).forEach(el=>{if(S.notes[el.dataset.note])el.classList.add('found')})}
@@ -480,7 +480,7 @@ function findMyApp(){const hasLoc=!!S.clues.C09,hasBus=!!S.clues.C08,hasLeave=!!
 
 function timeApp(){return appWrap('시계','<div style="text-align:center;padding:30px 10px"><img src="assets/clock.svg" alt="시계" style="width:min(280px,80vw);border-radius:50%"><div class="card" style="margin-top:18px"><h3>현재 시각</h3><p class="mono" style="font-size:30px;margin-top:8px">12:40</p></div></div>')}
 
-function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return moaApp();case'findmy':return findMyApp();case'time':return timeApp();case'board':return boardApp();
+function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return moaApp();case'music':return appWrap('음악','<div class="card"><h3>음악</h3><p class="small mute" style="margin-top:8px">최근 재생한 음악이 없습니다.</p></div>');case'findmy':return findMyApp();case'time':return timeApp();case'board':return boardApp();
  case'pay':return payApp();case'map':return mapApp();case'mail':return mailApp();case'cctv':return cctvApp();case'quest':return questApp();case'voice':return voiceApp();case'safari':return safariApp();}return''}
 
 /* ===== 렌더 ===== */
