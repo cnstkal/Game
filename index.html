@@ -494,17 +494,21 @@ function safariApp(){
 }
 
 function questApp(){
- if(!S.sub){return appWrap('조사',`<div class="stack"><div class="row" style="justify-content:space-between"><span class="small mute">신뢰도 · 잘못된 제시는 신뢰도를 깎는다</span><span class="hearts">${hearts()}</span></div>
- ${Object.keys(IV).map(id=>{const P=IV[id],ok=count()>=P.need,st=S.iv[id];return`<button class="listrow" data-act="person" data-id="${id}"><div class="avatar" style="${ok?'':'opacity:.4'}">${P.n[0]}</div>
- <div class="t"><b>${P.n}</b><span>${P.role}${ok?(st&&st.done?' · 조사 완료':st?` · ${st.r+1}차 진행`:''):` · 단서 ${P.need}개 필요`}</span></div></button>`}).join('')}</div>`)}
- const P=IV[S.sub],iv=ivState(S.sub),rd=P.rounds[iv.r];
- const log=iv.log.map(l=>`<div class="${l.k}">${l.x}</div>`).join('');
- let ctl='';
- if(iv.done)ctl=`<div class="sysline">${S.sub==='sung'&&S.prs?'성화는 입을 닫았다.':'이 인물의 조사는 마쳤다.'}</div><button class="btn block" data-act="present">증거 제시</button>`;
- else if(rd.approach)ctl=`<h3>접근 방식</h3><div class="opts"><button class="btn" data-act="appr" data-m="prs">압박한다. “거짓말을 하고 계시죠.”</button><button class="btn" data-act="appr" data-m="emp">공감한다. “윤호 씨를 걱정하는 걸 압니다.”</button></div>`;
- else ctl=`<h3>질문</h3><div class="opts">${rd.qs.map(q=>`<button class="btn ${iv.asked[q.id]?'done':''}" data-act="ask" data-q="${q.id}" ${iv.asked[q.id]?'disabled':''}>${q.t}</button>`).join('')}</div><button class="btn block" style="margin-top:6px" data-act="present">증거 제시</button>`;
- return appWrap(P.n,`<div class="row" style="justify-content:space-between;margin-bottom:10px"><span class="small mute">${P.role}</span><span class="hearts">${hearts()}</span></div><div class="ivlog">${log}</div><div class="stack">${ctl}</div>`)}
-
+ const found=CLUE_IDS.filter(function(i){return S.clues[i]});
+ const notes=[];
+ if(S.notes.wolpo)notes.push('윤호의 외가는 월포다. 방학마다 갔다.');
+ if(S.notes.pw)notes.push('잠긴 파일 비밀번호는 윤호와 성화가 처음 만난 날(3월 14일)이다.');
+ if(S.notes.leave)notes.push('CCTV: 윤호는 02:41 혼자 집을 나섰다.');
+ let h='<div class="stack">';
+ h+='<div><h3>사건</h3><div class="card"><p><b>정윤호 · 29세</b></p><p class="small mute" style="margin-top:4px">프리랜서 영상 편집자 · 10월 2일 새벽부터 연락 두절</p><p class="small mute" style="margin-top:3px">마지막으로 확인된 이동 경로를 중심으로 수사 중</p></div></div>';
+ h+='<div><h3>인물</h3><div class="card stack" style="gap:7px"><p><b>박성화</b> <span class="small mute">· 윤호의 연인</span></p><p><b>오세린</b> <span class="small mute">· 윤호의 친구</span></p><p><b>한도현</b> <span class="small mute">· 전 직장 팀장</span></p><p><b>새벽3시</b> <span class="small mute">· 익명 제보자</span></p></div></div>';
+ h+='<div><h3>확보한 정보 · '+found.length+'/12</h3>';
+ h+=found.length?'<div class="stack">'+found.map(function(i){return '<div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">#'+num(i)+'</span><span class="small mute">'+CLUES[i].src+'</span></div><p style="margin-top:7px;font-weight:650">'+CLUES[i].t+'</p><p class="small mute" style="margin-top:3px">'+CLUES[i].d+'</p></div>';}).join('')+'</div>':'<div class="card"><p class="small mute">아직 확보한 정보가 없다.</p></div>';
+ h+='</div>';
+ if(notes.length)h+='<div><h3>수사 메모</h3><div class="card stack" style="gap:7px">'+notes.map(function(x){return '<p class="small">'+x+'</p>';}).join('')+'</div></div>';
+ h+='<div><h3>내 메모</h3><textarea id="notebook-memo" placeholder="수사 중 알아낸 내용을 자유롭게 정리해두세요.">'+(S.memo||'')+'</textarea></div></div>';
+ return appWrap('메모',h);
+}
 function ivAdvance(pid){const P=IV[pid],iv=ivState(pid),rd=P.rounds[iv.r];if(!rd.adv||!rd.adv(iv))return;
  if(iv.r<P.rounds.length-1){iv.r++;iv.flag=false;iv.asked={};const n=P.rounds[iv.r];iv.log.push({k:'sys',x:'— '+n.title+' —'});if(n.intro)iv.log.push({k:'npc',x:n.intro})}
  else{iv.done=true;if(pid==='han')iv.log.push({k:'sys',x:'한도현은 변호사를 부르겠다며 자리를 떠났다.'})}}
