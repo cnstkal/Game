@@ -546,7 +546,7 @@ function talkApp(){
   if(g.sys)return`<div class="sysline">${g.sys}</div>`;
   if(g.del)return S.rec?`<div class="bub">${DELETED_TEXT}<span class="tm">${g.tm} · 복구됨</span></div>`:`<button class="bub del" data-act="recover">삭제된 메시지입니다<span class="tm">${g.tm} · 탭하여 복구 시도</span></button>`;
   return`<div class="bub ${g.w==='m'?'me':''}">${g.x}<span class="tm">${g.tm}${g.rd?' · 읽음':''}</span></div>`}).join('');
- return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">‹</button><div class="name">${c.n}</div><span class="contact">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div><div class="talk-compose"><button class="plus">＋</button><div class="inputbar">문자 메시지 · RCS <span class="wave">⌁</span></div></div></div>`;
+ return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">‹</button><div class="name">${c.n}</div><span class="contact">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
 }
 
 function moaApp(){return appWrap('모아 · yunho_edit',`<div class="stack">${FEED.map(p=>`<div class="post">${p.sign?SNS_PHOTO:`<div class="ph ph2">[사진] ${p.ph}</div>`}
