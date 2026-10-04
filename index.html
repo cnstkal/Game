@@ -558,6 +558,8 @@ function act(a,d){
  if(a!=='mute'&&a!=='pskip')sfx.tap();
  switch(a){
  case'new':startGame();return;
+ case'begin':S.screen='HOME';S.app=null;S.sub=null;save();break;
+ case'pskip':if(S.screen==='PROLOGUE'){skipPrologue();return;}break;
  case'cont':{const sv=loadSave();if(sv){S=Object.assign(fresh(),sv);S.t0=Date.now();S.app=S.app||null;render()}return}
  
  case'open':{const ap=APPS.find(x=>x.id===d.id);if(count()<ap.need){toast(`단서 ${ap.need}개를 모으면 열립니다`);sfx.bad();return}
