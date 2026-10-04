@@ -24,6 +24,24 @@
 .slot{flex:1;min-height:60px;border:1px dashed #60666b;display:grid;place-items:center;padding:8px;text-align:center;font-size:12px;color:#858b8f}.slot.fill{border-style:solid;border-color:#80652e;color:#ddd4b8}.cl{width:100%;text-align:left;display:flex;flex-direction:column;gap:3px;min-height:48px}.cl.sel{border-color:#80652e;background:#252116}.tl{display:flex;flex-direction:column;gap:0;border-left:1px solid #41464b;margin-left:6px}.tl div{padding:0 0 15px 14px;position:relative}.tl div:before{content:"";position:absolute;left:-4px;top:6px;width:7px;height:7px;border-radius:50%;background:#666c70}.tl div:not(.un):before{background:var(--accent)}.tl div.un{color:#676d71}
 .end{padding:0;background:#111315}.end .body{padding:28px 22px 32px}.end h1{margin:10px 0 15px;font:500 35px/1.2 Georgia,"Noto Serif KR",serif;letter-spacing:-.04em}.end .txt{display:flex;flex-direction:column;gap:14px;font-size:14px;line-height:1.85}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#35393e;border:1px solid #35393e}.stats .card{text-align:center;padding:11px 5px;border:0;border-radius:0}.stats b{display:block;font:600 17px var(--mono);color:var(--accent)}.stats span{font-size:10px;color:var(--muted)}
 @media(max-width:619px){#app{max-width:none}}@media(max-width:370px){.grid{grid-template-columns:repeat(3,1fr)}.ico{width:44px;height:44px}.appbtn{padding-top:13px}.body{padding-left:14px;padding-right:14px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ===== iPhone-style investigation home ===== */
+.home{position:absolute!important;inset:0;background:linear-gradient(160deg,#8da5c4 0%,#667b9d 24%,#394a68 55%,#1d2639 100%)!important;overflow:hidden!important;color:#fff}
+.home:before{content:"";position:absolute;inset:-15%;background:radial-gradient(circle at 18% 12%,rgba(255,255,255,.55),transparent 23%),radial-gradient(circle at 82% 38%,rgba(176,204,235,.35),transparent 28%),radial-gradient(circle at 45% 82%,rgba(25,36,61,.7),transparent 38%);filter:blur(18px);pointer-events:none}
+.home:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,13,24,.05),rgba(8,13,24,.24));pointer-events:none}
+.home .status{position:relative;z-index:5;height:54px;padding:0 21px;border:0;background:transparent;color:#fff;font-family:var(--sans);font-size:15px;font-weight:650;letter-spacing:0}
+.home .status b{color:#fff;font-weight:650}.home .status span{color:rgba(255,255,255,.9);font:11px var(--sans);letter-spacing:0}
+.home .homehead{position:relative;z-index:2;margin:6px 16px 18px;padding:15px 16px 14px;border:1px solid rgba(255,255,255,.22);border-radius:20px;background:rgba(255,255,255,.18);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 8px 28px rgba(15,25,45,.16)}
+.home .homehead .case{font:10px var(--mono);color:rgba(255,255,255,.7);letter-spacing:.08em}.home .homehead h2{margin:3px 0 1px;font-size:20px;color:#fff;letter-spacing:-.04em}.home .prog{display:flex;justify-content:space-between;align-items:center;margin-top:5px}.home .prog:before{content:"실종수사 · 정윤호";font-size:11px;color:rgba(255,255,255,.78)}.home .prog .meter{display:none}.home .prog>span{font:600 11px var(--mono)!important;color:#fff!important}
+.home .grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px;padding:0 13px 22px}
+.home .appbtn{border:0!important;padding:0 2px!important;min-width:0;background:transparent!important;gap:6px;color:#fff;overflow:visible}
+.home .appbtn .ico{width:56px;height:56px;border-radius:14px;border:0;background:rgba(255,255,255,.18);box-shadow:0 5px 12px rgba(10,18,32,.2),inset 0 1px 1px rgba(255,255,255,.28);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);position:relative;overflow:hidden}
+.home .appbtn .ico:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.3),transparent 48%);pointer-events:none}.home .appbtn .ico svg{width:28px;height:28px;stroke:#fff;stroke-width:1.65;position:relative;z-index:1}.home .appbtn .nm{font-size:11px;font-weight:500;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.45);white-space:nowrap}.home .appbtn .need{font-size:8px;color:rgba(255,255,255,.68);text-shadow:0 1px 3px #000}
+.home .appbtn:nth-child(1) .ico{background:linear-gradient(145deg,#527bb3,#355b91)}.home .appbtn:nth-child(2) .ico{background:linear-gradient(145deg,#4f8fd0,#2f65a5)}.home .appbtn:nth-child(3) .ico{background:linear-gradient(145deg,#d86b78,#a83f55)}.home .appbtn:nth-child(4) .ico{background:linear-gradient(145deg,#5cae86,#32775d)}.home .appbtn:nth-child(5) .ico{background:linear-gradient(145deg,#9679cf,#62499d)}.home .appbtn:nth-child(6) .ico{background:linear-gradient(145deg,#4e9a9a,#286b70)}.home .appbtn:nth-child(7) .ico{background:linear-gradient(145deg,#65a8d9,#3e71a8)}.home .appbtn:nth-child(8) .ico{background:linear-gradient(145deg,#df8a56,#a95034)}.home .appbtn:nth-child(9) .ico{background:linear-gradient(145deg,#8b929b,#565d66)}
+.home .appbtn.lock{opacity:.62}.home .appbtn.new .ico{box-shadow:0 0 0 2px rgba(255,255,255,.65),0 5px 15px rgba(0,0,0,.2)}
+.home .dock{position:absolute;z-index:4;left:12px;right:12px;bottom:12px;height:78px;padding:9px 8px;border:1px solid rgba(255,255,255,.2);border-radius:24px;background:rgba(245,248,255,.2);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 10px 30px rgba(8,14,27,.25);gap:8px}
+.home .dock .btn{position:relative;height:58px;min-height:58px;padding:4px 5px;border:0!important;border-radius:16px;background:transparent!important;display:flex;flex-direction:column;gap:2px;font-size:10px;color:#fff;text-shadow:0 1px 3px #000}.home .dock .btn svg{width:27px;height:27px;stroke:#fff}.home .dock .btn.pri{color:#fff!important;font-weight:500}.home .dock .btn[disabled]{opacity:.55}
+@media(max-width:370px){.home .grid{gap:17px 4px;padding-left:9px;padding-right:9px}.home .appbtn .ico{width:52px;height:52px}.home .homehead{margin-left:12px;margin-right:12px}.home .dock{left:9px;right:9px}}
+
 </style></head><body>
 <title>마지막 접속</title>
 
@@ -365,12 +383,12 @@ function appBtn(a){const open=count()>=a.need,nw=S.newApps.includes(a.id);
  return`<button class="appbtn ${open?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${svg(a.id)}</div><span class="nm">${a.n}</span>${open?'':`<span class="need">단서 ${a.need}개</span>`}</button>`}
 function homeHTML(){const c=count();return`<div class="scr home">${status()}
  <div class="homehead"><div class="case">CASE 2026-1004 · 정윤호 실종</div><h2>수사 단말</h2>
- <div class="prog"><div class="meter g"><i style="width:${c/12*100}%"></i></div><span class="mono small" style="color:var(--amber)">단서 ${c}/12</span></div></div>
+ <div class="prog"><span class="mono small">단서 ${c}/12</span></div></div>
  <div class="grid">${APPS.map(appBtn).join('')}</div>
  <div class="dock">
-  <button class="btn" data-act="notebook">${svg('note')}수첩</button>
-  <button class="btn" data-act="hint">${svg('hint')}힌트 ${S.hints}</button>
-  <button class="btn ${c>=5?'pri':''}" data-act="final" ${c>=5?'':'disabled'}>${svg('final')}${c>=5?'최종 판단':'단서 5개'}</button>
+  <button class="btn" data-act="notebook">${svg('note')}<span>수첩</span></button>
+  <button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button>
+  <button class="btn ${c>=5?'pri':''}" data-act="final" ${c>=5?'':'disabled'}>${svg('final')}<span>${c>=5?'최종 판단':'단서 5개'}</span></button>
  </div></div>`}
 
 /* ===== 앱 ===== */
