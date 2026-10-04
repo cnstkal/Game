@@ -94,6 +94,15 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 .talkapp .detail-head{position:relative!important;padding:0 70px!important}
 .talkapp .detail-head .back{display:grid!important;place-items:center!important;position:absolute!important;left:16px!important;top:50%!important;transform:translateY(-50%)!important;width:44px!important;height:44px!important;border:0!important;background:transparent!important;color:#1d1d1f!important;font-size:0!important;padding:0!important;z-index:10!important}
 .talkapp .detail-head .back::before{content:"‹"!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",sans-serif!important;font-size:42px!important;font-weight:300!important;line-height:1!important;display:block!important}
+
+/* Final message list geometry */
+.talkapp .talk-list{padding-left:0!important;padding-right:0!important}
+.talkapp .talk-row{position:relative!important;width:100%!important;margin:0!important;padding:10px 10px 10px 12px!important;border:0!important;background:#fff!important}
+.talkapp .talk-row::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:1px!important;background:#e5e5e7!important;pointer-events:none!important}
+.talkapp .talk-row .avatar{margin-left:0!important;width:56px!important;height:56px!important;min-width:56px!important}
+.talkapp .talk-row .t{margin-left:0!important}
+.talkapp .talk-row .date{right:36px!important}
+.talkapp .talk-row .arrow{right:8px!important}
 /* ===== Messages final white-mode override ===== */
 .talkapp,.talkapp *{box-sizing:border-box}
 .talkapp{position:absolute!important;inset:0!important;background:#fff!important;color:#1d1d1f!important}
