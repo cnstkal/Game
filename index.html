@@ -306,7 +306,7 @@ const PROLOGUE=[
 ];
 
 /* ===== 상태 / 저장 / 효과음 / 공통 ===== */
-const SAVE_KEY='lastAccess_save_v1';
+const SAVE_KEY='lastAccess_save_v1',INTRO_SEEN_KEY='lastAccess_intro_seen_v1';
 let S=null,toastT=null,prolT=[];
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -553,13 +553,13 @@ function endingHTML(){const e=calcEnding(),E=ENDINGS[e.k],tot=Math.floor(elapsed
  <div class="stack"><button class="btn pri block" data-act="restart">다시 하기</button><button class="btn block" data-act="endhint">다른 엔딩 힌트</button><button class="btn block" data-act="toTitle">메인으로</button></div></div></div>`}
 
 /* ===== 행동 처리 ===== */
-function startGame(){prolT.forEach(clearTimeout);S=fresh();S.screen='PROLOGUE';clearSave();render()}
+function startGame(){prolT.forEach(clearTimeout);S=fresh();clearSave();let seen=false;try{seen=localStorage.getItem(INTRO_SEEN_KEY)==='1'}catch(e){}if(seen){S.screen='HOME'}else{S.screen='PROLOGUE'}render()}
 function act(a,d){
  if(a!=='mute'&&a!=='pskip')sfx.tap();
  switch(a){
  case'new':startGame();return;
- case'begin':S.screen='HOME';S.app=null;S.sub=null;save();break;
- case'pskip':if(S.screen==='PROLOGUE'){skipPrologue();return;}break;
+ case'begin':try{localStorage.setItem(INTRO_SEEN_KEY,'1')}catch(e){}S.screen='HOME';S.app=null;S.sub=null;save();break;
+ case'pskip':if(S.screen==='PROLOGUE'){try{localStorage.setItem(INTRO_SEEN_KEY,'1')}catch(e){}skipPrologue();return;}break;
  case'cont':{const sv=loadSave();if(sv){S=Object.assign(fresh(),sv);S.t0=Date.now();S.app=S.app||null;render()}return}
  
  case'open':{const ap=APPS.find(x=>x.id===d.id);if(count()<ap.need){toast(`단서 ${ap.need}개를 모으면 열립니다`);sfx.bad();return}
