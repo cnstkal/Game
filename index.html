@@ -395,8 +395,6 @@ function skipPrologue(){prolT.forEach(clearTimeout);prolT=[];$$('.prol .ln').for
 function appBtn(a){const open=count()>=a.need,nw=S.newApps.includes(a.id);
  return`<button class="appbtn ${open?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${svg(a.id)}</div><span class="nm">${a.n}</span>${open?'':`<span class="need">단서 ${a.need}개</span>`}</button>`}
 function homeHTML(){const c=count();return`<div class="scr home">${status()}
- <div class="homehead"><div class="case">CASE 2026-1004 · 정윤호 실종</div><h2>수사 단말</h2>
- <div class="prog"><span class="mono small">단서 ${c}/12</span></div></div>
  <div class="grid">${APPS.map(appBtn).join('')}</div>
  <div class="dock">
   <button class="btn" data-act="notebook">${svg('note')}<span>수첩</span></button>
