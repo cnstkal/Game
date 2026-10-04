@@ -307,7 +307,7 @@ const PROLOGUE=[
 
 /* ===== 상태 / 저장 / 효과음 / 공통 ===== */
 const SAVE_KEY='lastAccess_save_v1',MUTE_KEY='lastAccess_mute_v1';
-let S=null,muted=false,toastT=null,prolT=[],AC=null;
+let S=null,muted=false,toastT=null,prolT=[],
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const pad=n=>String(n).padStart(2,'0');
@@ -322,7 +322,7 @@ function loadSave(){try{const r=localStorage.getItem(SAVE_KEY);return r?JSON.par
 function clearSave(){try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
 try{muted=localStorage.getItem(MUTE_KEY)==='1'}catch(e){}
 
-function beep(f,d,type,v,w){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();
+function beep(f,d,type,v,w){if(muted)return;try{
  const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+(w||0);o.type=type||'sine';o.frequency.value=f;
  o.connect(g);g.connect(AC.destination);g.gain.setValueAtTime(v||.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d+.02)}catch(e){}}
 const sfx={tap:()=>beep(520,.05,'square',.02),open:()=>beep(420,.06,'triangle',.04),
