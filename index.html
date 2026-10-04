@@ -481,12 +481,8 @@ function render(){const old=$('.body'),st=old?old.scrollTop:0,key=S.screen+'|'+S
 function ivState(pid){if(!S.iv[pid]){const P=IV[pid];S.iv[pid]={r:0,asked:{},flag:false,fl:{},done:false,
  log:[{k:'sys',x:'— '+P.rounds[0].title+' —'},{k:'npc',x:P.intro}]}}return S.iv[pid]}
 function voiceApp(){
- const memos=[
-  {tm:'10/01 22:40',dur:'00:14',title:'성화와의 마지막 통화',txt:'통화 기록은 남아 있지만 음성은 재생되지 않는다. 마지막 통화 시간만 확인할 수 있다.'},
-  {tm:'10/02 00:41',dur:'00:09',title:'현관 앞 녹음',txt:'성화가 윤호의 집 앞에서 남긴 짧은 기록. 주변이 조용하고 문을 두드리는 소리만 기록되어 있다.'},
-  {tm:'10/02 03:02',dur:'00:06',title:'이동 중 자동 기록',txt:'휴대폰에서 마지막으로 남은 음성 메모. 월포라는 단어가 짧게 언급되어 있다.'}
- ];
- return appWrap('음성 메모',`<div class="stack"><div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">음성 메모</span><span class="small mute">${memos.length}개</span></div><p class="small mute" style="margin-top:8px">기기에 저장된 녹음 기록을 확인한다.</p></div>${memos.map((m,i)=>`<div class="card"><div class="row" style="justify-content:space-between;align-items:center"><div><b>${m.title}</b><div class="small mute" style="margin-top:4px">${m.tm} · ${m.dur}</div></div><button class="btn" style="width:42px;height:42px;padding:0;border-radius:50%" data-act="memo" data-i="${i}" aria-label="녹음 열기">${svg('play')}</button></div><p class="small mute" style="margin-top:10px">${m.txt}</p></div>`).join('')}</div>`)
+ const memos=[{tm:'10/01 22:40',dur:'00:14',title:'성화와의 마지막 통화',txt:'통화 기록은 남아 있지만 음성은 재생되지 않는다. 마지막 통화 시간만 확인할 수 있다.'},{tm:'10/02 00:41',dur:'00:09',title:'현관 앞 녹음',txt:'성화가 윤호의 집 앞에서 남긴 짧은 기록. 주변이 조용하고 문을 두드리는 소리만 기록되어 있다.'},{tm:'10/02 03:02',dur:'00:06',title:'이동 중 자동 기록',txt:'휴대폰에서 마지막으로 남은 음성 메모. 월포라는 단어가 짧게 언급되어 있다.'}];
+ return appWrap('음성 메모',`<div class="stack"><div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">음성 메모</span><span class="small mute">${memos.length}개</span></div><p class="small mute" style="margin-top:8px">기기에 저장된 녹음 기록을 확인한다.</p></div>${memos.map((m,i)=>`<button class="listrow" data-act="memo" data-i="${i}"><div class="avatar" style="background:#1a1a1b;color:#fff">♪</div><div class="t"><b>${m.title}</b><span>${m.tm} · ${m.dur}</span></div><span class="cc">›</span></button>`).join('')}</div>`)
 }
 
 function questApp(){
