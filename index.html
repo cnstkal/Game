@@ -97,6 +97,24 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 .talkapp .detail-head .back::before{font-size:44px!important;line-height:48px!important;transform:translateX(-2px)!important}
 
 
+
+/* Alarm app: iOS-style alarm list, no bottom tab bar */
+.clockapp{background:#fff!important;color:#1d1d1f!important}
+.clockapp .clock-top{height:86px!important;display:flex!important;align-items:center!important;justify-content:center!important;position:relative!important;border-bottom:1px solid #e5e5e7!important}
+.clockapp .clock-title{font-size:25px!important;font-weight:700!important;letter-spacing:-.04em!important}
+.clockapp .clock-edit,.clockapp .clock-add{position:absolute!important;top:50%!important;transform:translateY(-50%)!important;border:0!important;background:#f1f1f3!important;color:#1d1d1f!important;border-radius:28px!important;height:56px!important;min-width:56px!important;font-family:var(--sans)!important}
+.clockapp .clock-edit{right:84px!important;padding:0 20px!important;font-size:17px!important}
+.clockapp .clock-add{right:16px!important;font-size:34px!important;font-weight:300!important;line-height:1!important}
+.clockapp .clock-body{padding:0 16px!important}
+.clockapp .clock-section{font-size:27px!important;font-weight:700!important;padding:38px 0 22px!important;border-bottom:1px solid #d9d9dd!important}
+.clockapp .alarm-list{width:100%!important}
+.clockapp .alarm-row{width:100%!important;display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:116px!important;padding:18px 0!important;border:0!important;border-bottom:1px solid #dedee2!important;background:transparent!important;text-align:left!important;color:#1d1d1f!important}
+.clockapp .alarm-main{min-width:0!important}
+.clockapp .alarm-time{font-family:var(--sans)!important;font-size:58px!important;line-height:.95!important;font-weight:300!important;letter-spacing:-.055em!important;color:#8d8d95!important;font-variant-numeric:tabular-nums!important}
+.clockapp .alarm-note{font-size:17px!important;line-height:1.35!important;margin-top:10px!important;color:#8d8d95!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.clockapp .alarm-toggle{width:64px!important;height:38px!important;min-width:64px!important;border-radius:20px!important;background:#d1d1d6!important;display:flex!important;align-items:center!important;padding:3px!important;box-sizing:border-box!important}
+.clockapp .alarm-toggle i{width:32px!important;height:32px!important;border-radius:50%!important;background:#fff!important;display:block!important;box-shadow:0 1px 3px rgba(0,0,0,.15)!important}
+.clockapp .alarm-clue .alarm-note{color:#707078!important;font-weight:500!important}
 /* iMessage-style outgoing blue */
 /* Home button belongs to message list, not conversation */
 .talkapp .talk-top{position:relative!important}
@@ -225,7 +243,7 @@ const CLUES={
  C03:{t:'성화가 지운 메시지',d:'“네가 사라지면 나도 가만 안 있을 거야.” 협박처럼 읽히지만 앞뒤 맥락이 없다.',src:'톡톡',real:false},
  C04:{t:'한도현의 협박 메시지',d:'“가져간 파일 돌려놔. 안 그러면 성화 씨 직장에도 알려질 거다.”',src:'톡톡',real:true},
  C05:{t:'마지막 게시물 속 풍경',d:'파란 지붕, 등대, 간판 끝 글자 “포수산”. 바닷가 마을 월포로 보인다.',src:'모아',real:true},
- C06:{t:'“새벽3시”의 제보 글',d:'한울프로덕션 장부 조작을 제보했고, 9월 27일 “편집하는곰”에게 자료를 넘겼다고 적었다. 윤호의 닉네임이다.',src:'이웃광장',real:true},
+ C06:{t:'“새벽3시”의 제보 글',d:'한울프로덕션 장부 조작을 제보했고, 9월 27일 “편집하는곰”에게 자료를 넘겼다고 적었다. 윤호의 닉네임이다.',src:'시계',real:true},
  C07:{t:'심야 부재중 전화 3통',d:'성화가 10/1 23:52, 00:07, 00:31에 연달아 전화했다. 집착처럼 보이지만 윤호는 받지 않았다.',src:'통화·결제',real:false},
  C08:{t:'월포행 버스 결제',d:'10/2 03:12 동서울터미널 → 월포 시외버스 18,800원. 윤호의 카드다.',src:'통화·결제',real:true},
  C09:{t:'“월포 파도여관” 검색',d:'10/2 03:02 지도에서 파도여관을 검색하고 길 안내를 저장했다.',src:'지도',real:true},
@@ -611,7 +629,14 @@ function cctvApp(){return appWrap('CCTV 뷰어',`<div class="stack"><div class="
 
 function findMyApp(){const hasLoc=!!S.clues.C09,hasBus=!!S.clues.C08,hasLeave=!!S.notes.leave;return appWrap('나의 찾기',`<div class="findmy"><div class="findmy-map"><div class="findmy-grid"></div><div class="findmy-pin"></div><div class="findmy-label">윤호의 마지막 위치</div><div class="findmy-location">${hasLoc?'월포 · 파도여관':'위치를 확인할 수 없음'}</div></div><div class="findmy-card"><div class="row" style="justify-content:space-between"><div><b>정윤호의 iPhone</b><p class="small mute" style="margin-top:2px">${hasLoc?'마지막 위치 업데이트 · 10/2 03:02':'위치 정보가 아직 동기화되지 않았습니다.'}</p></div><span style="color:#35cf68">${hasLoc?'●':'○'}</span></div><div class="findmy-status">${hasLoc?'마지막 위치 확인됨':'위치 없음'} <span>${hasLoc?'· 배터리 7%':'· 오프라인'}</span></div></div><div class="findmy-card"><h3>기기</h3><div class="findmy-device"><div class="findmy-device-icon"><img src="assets/find-my.svg" alt=""></div><div><b>정윤호의 iPhone</b><p class="small mute">${hasLoc?'월포 파도여관 주변':'마지막 위치를 찾는 중'}</p></div></div></div><div class="findmy-card"><h3>수사 기록</h3><p class="small" style="margin-top:8px"><span class="mono small">02:41</span> ${hasLeave?'윤호가 혼자 집을 나섰습니다.':'마지막 이동 기록이 잠겨 있습니다.'}</p><p class="small" style="margin-top:8px"><span class="mono small">03:02</span> ${hasLoc?'월포 지역에서 마지막 위치가 확인되었습니다.':'위치 기록을 추가로 확보해야 합니다.'}</p><p class="small" style="margin-top:8px"><span class="mono small">03:12</span> ${hasBus?'월포행 이동 기록과 연결됩니다.':'이동 결제 기록은 아직 확인되지 않았습니다.'}</p></div></div>`)}
 
-function timeApp(){return appWrap('시계','<div style="text-align:center;padding:30px 10px"><img src="assets/clock.svg" alt="시계" style="width:min(280px,80vw);border-radius:50%"><div class="card" style="margin-top:18px"><h3>현재 시각</h3><p class="mono" style="font-size:30px;margin-top:8px">12:40</p></div></div>')}
+function timeApp(){const alarms=[
+ {tm:'07:40',note:'알람'},
+ {tm:'08:20',note:'영양제 먹기 · 매일'},
+ {tm:'12:10',note:'메일'},
+ {tm:'18:30',note:'웨이브 가입'},
+ {tm:'23:10',note:'알람'},
+ {tm:'03:00',note:H('C06','새벽 3시 제보 확인 · 편집하는곰'),clue:'C06'}
+];return`<div class="scr app clockapp">${status()}<div class="clock-top"><div class="clock-title">알람</div><button class="clock-edit">편집</button><button class="clock-add">＋</button></div><div class="clock-body"><div class="clock-section">기타</div><div class="alarm-list">${alarms.map(a=>`<button class="alarm-row ${a.clue?'alarm-clue':''}" ${a.clue?'data-act="alarmclue" data-c="'+a.clue+'"':''}><div class="alarm-main"><div class="alarm-time">${a.tm}</div><div class="alarm-note">${a.note}</div></div><span class="alarm-toggle"><i></i></span></button>`).join('')}</div></div></div>`}
 function photosApp(){return appWrap('사진','<div class="card"><h3>사진</h3><p class="small mute" style="margin-top:8px">최근 사진 · 0장</p><div class="small mute" style="padding:40px 10px;text-align:center">사진이 없습니다.</div></div>')}
 function calendarApp(){return appWrap('캘린더','<div class="card"><h3>2026년 10월</h3><div class="small mute" style="margin-top:6px">수사 일정</div><div class="grid" style="grid-template-columns:repeat(7,1fr);gap:4px;margin-top:16px;text-align:center"><div class="small mute">일</div><div class="small mute">월</div><div class="small mute">화</div><div class="small mute">수</div><div class="small mute">목</div><div class="small mute">금</div><div class="small mute">토</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">1</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">2</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">3</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">4</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">5</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">6</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">7</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">8</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">9</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">10</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">11</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">12</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">13</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">14</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">15</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">16</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">17</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">18</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">19</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">20</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">21</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">22</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">23</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">24</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">25</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">26</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">27</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">28</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">29</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">30</div><div class="listrow" style="min-height:34px;justify-content:center;padding:6px">31</div></div></div>')}
 
@@ -761,6 +786,7 @@ function act(a,d){
  case'close':closeModal();return;
  case'chat':S.sub=d.id;break;
  case'recover':S.rec=true;sfx.clue();break;
+ case'alarmclue':if(d.c)gain(d.c);break;
  case'ptab':S.ptab=d.t;break;
  case'mail':S.sub=d.id;break;
  case'pwopen':S.sub='pw';S.pwBuf='';break;
