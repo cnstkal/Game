@@ -36,6 +36,21 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 
 
 
+
+/* ===== Messages list: clean iOS-style white layout ===== */
+.talkapp{background:#fff!important;color:#111!important;overflow:hidden!important}
+.talkapp .talk-top{height:82px!important;justify-content:flex-start!important;padding:0 28px 0 28px!important;background:#fff!important;border-bottom:0!important}
+.talkapp .talk-top .title{font-size:38px!important;font-weight:700!important;color:#111!important;letter-spacing:-.06em!important}
+.talkapp .talk-list{padding:0 24px 24px 26px!important;background:#fff!important;overflow-y:auto!important}
+.talkapp .talk-row{min-height:92px!important;padding:12px 0!important;gap:16px!important;background:#fff!important;border-bottom:1px solid #e2e2e7!important;border-radius:0!important}
+.talkapp .talk-row .avatar{width:62px!important;height:62px!important;min-width:62px!important;border-radius:50%!important;background:linear-gradient(145deg,#b7c9e9,#7f91c2)!important;border:0!important;color:#fff!important;font-size:25px!important;font-weight:500!important;box-shadow:none!important}
+.talkapp .talk-row .avatar.green{width:62px!important;height:62px!important;min-width:62px!important;border-radius:50%!important;background:#20c878!important}
+.talkapp .talk-row .t{min-width:0!important;align-self:center!important}
+.talkapp .talk-row .t b{font-size:18px!important;line-height:1.25!important;color:#111!important;font-weight:700!important}
+.talkapp .talk-row .t span{font-size:14px!important;line-height:1.4!important;color:#8b8b91!important;margin-top:3px!important}
+.talkapp .talk-row .date{font-size:13px!important;color:#8b8b91!important;padding-top:5px!important;margin-left:auto!important}
+.talkapp .talk-row .arrow{font-size:31px!important;color:#b5b5ba!important;font-weight:300!important;margin-left:0!important}
+@media(max-width:370px){.talkapp .talk-top{height:72px!important;padding-left:20px!important}.talkapp .talk-top .title{font-size:34px!important}.talkapp .talk-list{padding-left:16px!important;padding-right:16px!important}.talkapp .talk-row{min-height:82px!important;gap:12px!important}.talkapp .talk-row .avatar{width:54px!important;height:54px!important;min-width:54px!important;font-size:22px!important}.talkapp .talk-row .t b{font-size:16px!important}.talkapp .talk-row .t span{font-size:13px!important}.talkapp .talk-row .date{font-size:12px!important}.talkapp .talk-row .arrow{font-size:27px!important}}
 /* ===== Messages final white-mode override ===== */
 .talkapp,.talkapp *{box-sizing:border-box}
 .talkapp{position:absolute!important;inset:0!important;background:#fff!important;color:#1d1d1f!important}
