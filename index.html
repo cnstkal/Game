@@ -75,6 +75,16 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 /* Clue text inside message bubbles: high contrast */
 .talkapp .detail-chat .bub .hot,
 .talkapp .detail-chat .bub .hot.found{color:#fff!important;border-bottom-color:rgba(255,255,255,.55)!important;text-decoration:none!important}
+
+/* Sender bubbles: white text; clue highlights use a distinct amber-gold */
+.talkapp .detail-chat .bub{color:#fff!important}
+.talkapp .detail-chat .bub.me{color:#fff!important}
+.talkapp .detail-chat .bub .hot,
+.talkapp .detail-chat .bub .hot.found{color:#f4c95d!important;border-bottom-color:rgba(244,201,93,.72)!important;text-decoration:none!important}
+/* Back button: larger hit area, safely inside the screen */
+.talkapp .detail-head{padding-left:88px!important;padding-right:70px!important}
+.talkapp .detail-head .back{left:24px!important;top:50%!important;width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;border-radius:26px!important;background:#f2f2f7!important;color:#1d1d1f!important;z-index:30!important;cursor:pointer!important;touch-action:manipulation!important}
+.talkapp .detail-head .back::before{font-size:44px!important;line-height:48px!important;transform:translateX(-2px)!important}
 /* Message bubbles: size to content, not full row */
 .talkapp .detail-chat{align-items:flex-start!important}
 .talkapp .detail-chat .bub{align-self:flex-start!important;width:max-content!important;max-width:78%!important;min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!important}
