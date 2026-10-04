@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>
-:root{--bg:#101214;--surface:#17191c;--surface2:#1d2024;--surface3:#23272c;--line:#30343a;--line2:#40454d;--text:#e9e7e1;--muted:#969b9f;--accent:#d6a84d;--accent2:#ead18d;--danger:#c85b58;--ok:#789b82;--me:#26313a;--shadow:0 14px 40px rgba(0,0,0,.28);--sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;color-scheme:dark}
+:root{--bg:#101214;--surface:#17191c;--surface2:#1d2024;--surface3:#23272c;--line:#30343a;--line2:#40454d;--text:#e9e7e1;--muted:#969b9f;--accent:#d6a84d;--accent2:#ead18d;--danger:#c85b58;--ok:#789b82;--me:#26313a;--shadow:0 14px 40px rgba(0,0,0,.28);--sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","AppleGothic","Noto Sans KR","Malgun Gothic",sans-serif;--mono:"SF Mono",SFMono-Regular,ui-monospace,Menlo,Monaco,Consolas,monospace;color-scheme:dark}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;background:#0b0c0e;color:var(--text);font:14px/1.65 var(--sans);letter-spacing:-.012em;overflow:hidden;-webkit-font-smoothing:antialiased}button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
 #app{position:relative;width:100%;height:100%;max-width:500px;margin:0 auto;overflow:hidden;background:var(--bg)}@media(min-width:620px){body{display:flex;align-items:center;justify-content:center}#app{height:min(100%,900px);border:1px solid #25282c;box-shadow:0 24px 80px rgba(0,0,0,.55)}}#app:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:40;border:1px solid rgba(255,255,255,.025)}
 .scr{position:absolute;inset:0;display:flex;flex-direction:column}.scr.enter{animation:fade .18s ease}@keyframes fade{from{opacity:.35}to{opacity:1}}@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -361,7 +361,6 @@ function titleHTML(){const sv=loadSave();return`<div class="scr title"><div clas
  <div class="menu">
   <button class="btn pri block" data-act="new">${sv?'새로 시작':'수사 시작'}</button>
   ${sv?'<button class="btn block" data-act="cont">이어하기</button>':''}
-  <button class="btn block" data-act="mute">효과음 ${muted?'꺼짐':'켜짐'}</button>
  </div><p class="small mute">소리가 납니다. 한 판 20~30분 · 엔딩 3종</p></div>`}
 
 function prologueHTML(){return`<div class="scr prol" data-act="pskip">${PROLOGUE.map(l=>`<div class="ln ${l.c||''}">${l.x}</div>`).join('')}
@@ -567,9 +566,7 @@ function act(a,d){
  switch(a){
  case'new':startGame();return;
  case'cont':{const sv=loadSave();if(sv){S=Object.assign(fresh(),sv);S.t0=Date.now();S.app=S.app||null;render()}return}
- case'mute':muted=!muted;try{localStorage.setItem(MUTE_KEY,muted?'1':'0')}catch(e){}render();return;
- case'pskip':skipPrologue();return;
- case'begin':S.screen='HOME';S.t0=Date.now();save();break;
+ 
  case'open':{const ap=APPS.find(x=>x.id===d.id);if(count()<ap.need){toast(`단서 ${ap.need}개를 모으면 열립니다`);sfx.bad();return}
   S.newApps=S.newApps.filter(x=>x!==d.id);S.screen='APP';S.app=d.id;S.sub=null;sfx.open();break}
  case'back':if(S.screen==='APP'){if(S.sub){S.sub=null;S.pwBuf=''}else{S.app=null;S.screen='HOME'}}else if(S.screen==='FINAL'&&S.fin.step){S.fin={}}else S.screen='HOME';break;
