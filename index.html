@@ -141,7 +141,7 @@ function title(){root.innerHTML=`
 </div></section>`}
 function startGame(cont){beep();if(cont){load();if(state.screen==="ENDING"){navigate("ENDING");return}}else{state={...DEFAULT,startTime:Date.now(),muted:state.muted};save()}navigate("BOOT");setTimeout(()=>bootNext(0),100)}
 const bootLines=["수사 단말 초기화...","암호화된 사건 데이터 연결...","압수·확보 기록 무결성 확인...","사건 번호: YH-0317","실종자: 정윤호 / 29세","접수 시각: 2026.10.04 22:41","접근 권한: 실종수사팀"];
-function bootNext(i){const box=document.getElementById("bootlines");if(!box)return;if(i<bootLines.length){box.insertAdjacentHTML("beforeend",'<div class="bootline">> '+esc(bootLines[i])+'</div>');setTimeout(()=>bootNext(i+1),220)}else setTimeout(()=>navigate("LOGIN"),500)}
+function bootNext(i){const box=document.getElementById("bootlines");if(!box)return;if(i>=bootLines.length){navigate("LOGIN");return}box.insertAdjacentHTML("beforeend",'<div class="bootline">> '+esc(bootLines[i])+'</div>');setTimeout(()=>bootNext(i+1),220)}
 function boot(){root.innerHTML=`<section id="boot" class="screen" onclick="bootNext(99)"><div id="bootlines"><div class="bootline">> TERMINAL START</div></div><span class="cursor"></span></section>`}
 function login(){root.innerHTML=`<section id="login" class="screen center"><div class="loginbox"><h2>수사관 인증</h2><small>${DATA.game.investigator} · 현장 접근용 계정</small><input id="loginName" class="logininput" value="김도윤" placeholder="수사관 이름"><button class="primary" style="width:100%" onclick="doLogin()">접속하기</button></div></section>`}
 function doLogin(){beep();state.progress=1;state.startTime ||= Date.now();save();navigate("DESKTOP")}
