@@ -98,9 +98,16 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 
 
 /* iMessage-style outgoing blue */
+/* Home button belongs to message list, not conversation */
+.talkapp .talk-top{position:relative!important}
+.talkapp .talk-top .home-list{position:absolute!important;right:24px!important;top:50%!important;transform:translateY(-50%)!important;width:52px!important;height:52px!important;border:0!important;border-radius:26px!important;background:#f2f2f7!important;color:#1d1d1f!important;font-size:0!important;display:grid!important;place-items:center!important;z-index:20!important;touch-action:manipulation!important}
+.talkapp .talk-top .home-list::before{content:"⌂"!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",sans-serif!important;font-size:27px!important;line-height:1!important}
+/* Move conversation back button significantly inward */
+.talkapp .detail-head .back{left:92px!important}
+
 .talkapp .detail-chat .bub.me{background:#007AFF!important;color:#fff!important}
 /* Home button in message detail */
-.talkapp .detail-head{padding-right:140px!important}
+.talkapp .detail-head{padding-right:70px!important}
 .talkapp .detail-head .home-btn{position:absolute!important;right:24px!important;top:50%!important;transform:translateY(-50%)!important;width:52px!important;height:52px!important;border:0!important;border-radius:26px!important;background:#f2f2f7!important;color:#1d1d1f!important;display:grid!important;place-items:center!important;font-size:0!important;z-index:30!important;touch-action:manipulation!important}
 .talkapp .detail-head .home-btn::before{content:"⌂"!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",sans-serif!important;font-size:27px!important;line-height:1!important}
 /* iOS message colors: incoming gray/black, outgoing green/white */
@@ -545,7 +552,7 @@ function talkApp(){
    const last=c.msgs.filter(g=>!g.d&&!g.sys).slice(-1)[0]||{};
    const date=i<6?'금요일':i===6?'목요일':'수요일';
    return `<button class="talk-row" data-act="chat" data-id="${c.id}"><div class="avatar ${c.id==='tax'?'green':''}">${c.id==='tax'?'':c.n[0]}</div><div class="t"><b>${c.n}</b><span>${c.pre||last.x||''}</span></div><span class="date">${date}</span><span class="arrow">›</span></button>`;}).join('');
-  return `<div class="scr app talkapp">${status()}<div class="talk-top"><button class="edit">편집</button><div class="title">메시지</div><button class="menu">☰</button></div><div class="talk-list">${rows}</div></div>`;
+  return `<div class="scr app talkapp">${status()}<div class="talk-top"><button class="edit">편집</button><div class="title">메시지</div><button class="home-list" data-act="home" aria-label="홈으로">홈</button></div><div class="talk-list">${rows}</div></div>`;
  }
  const c=CHATS.find(x=>x.id===S.sub);
  const m=c.msgs.map(g=>{
@@ -553,7 +560,7 @@ function talkApp(){
   if(g.sys)return`<div class="sysline">${g.sys}</div>`;
   if(g.del)return S.rec?`<div class="bub">${DELETED_TEXT}<span class="tm">${g.tm} · 복구됨</span></div>`:`<button class="bub del" data-act="recover">삭제된 메시지입니다<span class="tm">${g.tm} · 탭하여 복구 시도</span></button>`;
   return`<div class="bub ${g.w==='m'?'me':''}">${g.x}<span class="tm">${g.tm}${g.rd?' · 읽음':''}</span></div>`}).join('');
- return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">‹</button><div class="name">${c.n}</div><button class="home-btn" data-act="home" aria-label="홈으로">홈</button></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
+ return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">‹</button><div class="name">${c.n}</div><span class="contact">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
 }
 
 function moaApp(){return appWrap('모아 · yunho_edit',`<div class="stack">${FEED.map(p=>`<div class="post">${p.sign?SNS_PHOTO:`<div class="ph ph2">[사진] ${p.ph}</div>`}
