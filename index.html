@@ -34,6 +34,20 @@
 .home .appbtn .app-icon-img{width:58px;height:58px;display:block;object-fit:cover;position:relative;z-index:2;border:0;box-shadow:0 7px 18px rgba(20,20,30,.16);border-radius:14px}
 textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;padding:13px 14px;border:1px solid var(--line2);border-radius:6px;background:#17191c;color:var(--text);font:13px/1.7 var(--sans);outline:none}textarea#notebook-memo:focus{border-color:#80652e;box-shadow:0 0 0 1px rgba(214,168,77,.12)}textarea#notebook-memo::placeholder{color:#666d72}
 
+/* ===== Find My app ===== */
+.findmy{display:flex;flex-direction:column;gap:12px}
+.findmy-map{position:relative;height:230px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#d8e9e3,#b9d8d1 48%,#dce8d9);border:1px solid rgba(255,255,255,.18);box-shadow:0 12px 30px rgba(0,0,0,.16)}
+.findmy-map:before{content:"";position:absolute;inset:-30px;background:repeating-linear-gradient(25deg,transparent 0 27px,rgba(255,255,255,.28) 28px 31px,transparent 32px 62px),repeating-linear-gradient(115deg,transparent 0 42px,rgba(99,137,124,.18) 43px 46px,transparent 47px 86px);transform:rotate(-5deg);opacity:.9}
+.findmy-road{position:absolute;height:8px;border-radius:99px;background:rgba(255,255,255,.72);box-shadow:0 1px 2px rgba(70,100,90,.12);transform:rotate(-28deg)}
+.findmy-road.r1{width:240px;left:-40px;top:72px}.findmy-road.r2{width:310px;right:-90px;top:135px;transform:rotate(18deg)}.findmy-road.r3{width:220px;left:50px;bottom:25px;transform:rotate(8deg)}
+.findmy-orb{position:absolute;width:86px;height:86px;border-radius:50%;left:50%;top:47%;transform:translate(-50%,-50%);background:rgba(40,132,255,.12);border:1px solid rgba(40,132,255,.22)}
+.findmy-ring{position:absolute;width:42px;height:42px;border-radius:50%;left:50%;top:47%;transform:translate(-50%,-50%);background:#0a7df2;box-shadow:0 0 0 7px rgba(255,255,255,.9),0 7px 16px rgba(20,80,120,.22)}
+.findmy-pin{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);color:#fff;font-size:13px;line-height:1}
+.findmy-label{position:absolute;left:14px;top:14px;padding:6px 9px;border-radius:12px;background:rgba(255,255,255,.72);color:#28352f;font-size:10px;font-weight:650;backdrop-filter:blur(10px)}
+.findmy-location{position:absolute;left:14px;bottom:13px;padding:7px 10px;border-radius:12px;background:rgba(255,255,255,.72);color:#25342e;font-size:12px;font-weight:700;backdrop-filter:blur(10px)}
+.findmy-card{padding:14px 15px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(29,31,35,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.findmy-dot{color:#35cf68;font-size:12px}.findmy-status{margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#d9e7dc}.findmy-status span{color:#8e9693}.findmy-device{display:flex;align-items:center;gap:11px;margin-top:9px}.findmy-device-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#35cf68,#118be8);color:#fff;font-size:20px}.findmy-device .cc{margin-left:auto;color:#8e9693}.findmy-log{display:flex;flex-direction:column;gap:9px;margin-top:9px}.findmy-log p{font-size:12px;color:#d2d6d4}.findmy-log span{display:inline-block;width:45px;font:10px var(--mono);color:#8f9694}
+
 /* ===== iPhone-style investigation home ===== */
 .home{position:absolute!important;inset:0;background:#e8a9b3 url('./wallpaper.svg') center/cover no-repeat!important;overflow:hidden!important;color:#fff}
 .home:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(45,12,25,.12));pointer-events:none}
@@ -111,7 +125,7 @@ const LINKS=[
 ];
 
 const APPS=[
- {id:'case',n:'사건 파일',need:0},{id:'talk',n:'메시지',need:0},{id:'moa',n:'모아',need:0},
+ {id:'case',n:'사건 파일',need:0},{id:'talk',n:'메시지',need:0},{id:'moa',n:'모아',need:0},{id:'findmy',n:'나의 찾기',need:0},
  {id:'quest',n:'메모',need:0},{id:'voice',n:'음성 메모',need:0},{id:'safari',n:'Safari',need:0},{id:'board',n:'이웃광장',need:3},{id:'pay',n:'통화·결제',need:3},
  {id:'map',n:'지도',need:6},{id:'mail',n:'메일',need:6},{id:'cctv',n:'CCTV',need:6}
 ];
@@ -369,7 +383,7 @@ function mistake(msg){S.bad++;sfx.bad();buzz([60,40,60]);toast(msg+` · 신뢰�
 /* ===== 공통 조각 ===== */
 function clock(){const m=12+Math.floor(elapsed()/60000);return pad(9+Math.floor(m/60))+':'+pad(m%60)}
 const status=()=>`<div class="status"><b>${clock()}</b><span>수사 단말 · LTE 82%</span></div>`;
-const svg=(k)=>k==='talk'?'<img class="app-icon-img" src="assets/ios-message.svg" alt="" aria-hidden="true">':k==='notes'?'<img class="app-icon-img" src="assets/notes.svg" alt="" aria-hidden="true">':k==='safari'?'<img class="app-icon-img" src="assets/safari.svg" alt="" aria-hidden="true">':k==='voice'?'<img class="app-icon-img" src="assets/voice-memos.svg" alt="" aria-hidden="true">':k==='case'?'<img class="app-icon-img" src="assets/files.svg" alt="" aria-hidden="true">':`<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
+const svg=(k)=>k==='findmy'?'<img class="app-icon-img" src="assets/find-my.svg" alt="" aria-hidden="true">':k==='talk'?'<img class="app-icon-img" src="assets/ios-message.svg" alt="" aria-hidden="true">':k==='notes'?'<img class="app-icon-img" src="assets/notes.svg" alt="" aria-hidden="true">':k==='safari'?'<img class="app-icon-img" src="assets/safari.svg" alt="" aria-hidden="true">':k==='voice'?'<img class="app-icon-img" src="assets/voice-memos.svg" alt="" aria-hidden="true">':k==='case'?'<img class="app-icon-img" src="assets/files.svg" alt="" aria-hidden="true">':`<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
 function appWrap(title,inner){return`<div class="scr app">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>${title}</h2><span class="cc">${count()}/12</span></div><div class="body">${inner}</div></div>`}
 function markFound(root){$$('[data-clue]',root).forEach(el=>{const c=el.dataset.clue;if(S.clues[c]){el.classList.add('found');if(S.pulse===c)el.classList.add('pulse')}});
  $$('[data-note]',root).forEach(el=>{if(S.notes[el.dataset.note])el.classList.add('found')})}
@@ -473,7 +487,7 @@ function cctvApp(){return appWrap('CCTV 뷰어',`<div class="stack"><div class="
  <div class="row wrap" style="justify-content:center"><button class="btn" data-act="cstep" data-d="-10">−10분</button><button class="btn" data-act="cstep" data-d="-1">−1분</button><button class="btn" data-act="cstep" data-d="1">+1분</button><button class="btn" data-act="cstep" data-d="10">+10분</button></div>
  <p class="small mute">윤호 집 앞 골목 · 10/2 00:00~04:00. 시간을 움직이며 사람이 보이는 구간을 찾아 탭하세요.</p></div>`)}
 
-function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return moaApp();case'board':return boardApp();
+function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return moaApp();case'findmy':return findMyApp();case'board':return boardApp();
  case'pay':return payApp();case'map':return mapApp();case'mail':return mailApp();case'cctv':return cctvApp();case'quest':return questApp();case'voice':return voiceApp();case'safari':return safariApp();}return''}
 
 /* ===== 렌더 ===== */
@@ -488,6 +502,40 @@ function render(){const old=$('.body'),st=old?old.scrollTop:0,key=S.screen+'|'+S
 /* ===== 조사(심문) ===== */
 function ivState(pid){if(!S.iv[pid]){const P=IV[pid];S.iv[pid]={r:0,asked:{},flag:false,fl:{},done:false,
  log:[{k:'sys',x:'— '+P.rounds[0].title+' —'},{k:'npc',x:P.intro}]}}return S.iv[pid]}
+function findMyApp(){
+ const hasLoc=!!S.clues.C09,hasBus=!!S.clues.C08,hasLeave=!!S.notes.leave;
+ return appWrap('나의 찾기',`<div class="findmy">
+  <div class="findmy-map">
+   <div class="findmy-orb"></div>
+   <div class="findmy-ring"></div>
+   <div class="findmy-pin">●</div>
+   <div class="findmy-road r1"></div><div class="findmy-road r2"></div><div class="findmy-road r3"></div>
+   <div class="findmy-label">윤호의 마지막 위치</div>
+   <div class="findmy-location">${hasLoc?'월포 · 파도여관':'위치를 확인할 수 없음'}</div>
+  </div>
+  <div class="findmy-card">
+   <div class="row" style="justify-content:space-between">
+    <div><b>정윤호의 iPhone</b><p class="small mute" style="margin-top:2px">${hasLoc?'마지막 위치 업데이트 · 10/2 03:02':'위치 정보가 아직 동기화되지 않았습니다.'}</p></div>
+    <span class="findmy-dot">${hasLoc?'●':'○'}</span>
+   </div>
+   <div class="findmy-status">${hasLoc?'마지막 위치 확인됨':'위치 없음'} <span>${hasLoc?'· 배터리 7%':'· 오프라인'}</span></div>
+  </div>
+  <div class="findmy-card">
+   <h3>기기</h3>
+   <div class="findmy-device"><div class="findmy-device-icon">⌁</div><div><b>정윤호의 iPhone</b><p class="small mute">${hasLoc?'월포 파도여관 주변':'마지막 위치를 찾는 중'}</p></div><span class="cc">${hasLoc?'›':''}</span></div>
+  </div>
+  <div class="findmy-card">
+   <h3>수사 기록</h3>
+   <div class="findmy-log">
+    <p><span>${hasLeave?'02:41':'??:??'}</span> ${hasLeave?'윤호가 혼자 집을 나섰습니다.':'마지막 이동 기록이 잠겨 있습니다.'}</p>
+    <p><span>${hasLoc?'03:02':'??:??'}</span> ${hasLoc?'월포 지역에서 마지막 위치가 확인되었습니다.':'위치 기록을 추가로 확보해야 합니다.'}</p>
+    <p><span>${hasBus?'03:12':'??:??'}</span> ${hasBus?'월포행 이동 기록과 연결됩니다.':'이동 결제 기록은 아직 확인되지 않았습니다.'}</p>
+   </div>
+  </div>
+  <div class="card small mute">이 기기의 위치 정보는 수사 단말에 동기화된 기록만 표시됩니다.</div>
+ </div>`);
+}
+
 function safariApp(){
  const pages=[{id:'home',title:'검색',url:'search.local',body:'무엇을 찾으시나요?'},{id:'wave',title:'월포 관광정보',url:'wolpo-guide.local',body:'월포 해변 · 숙박 · 교통 정보를 제공하는 지역 안내 페이지입니다.'},{id:'studio',title:'한울프로덕션',url:'hanul-production.local',body:'영상 제작사 한울프로덕션의 내부 공개 페이지입니다. 현재 서비스 개편 중입니다.'},{id:'board',title:'새벽 3시 게시판',url:'3am-board.local',body:'익명 게시판 · 최근 게시물은 관리자의 요청으로 일부 비공개 처리되었습니다.'}];
  const p=pages.find(x=>x.id===S.sub)||pages[0];
