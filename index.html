@@ -691,7 +691,7 @@ function pwCheck(){if(S.pwBuf==='0314'){S.pw=true;S.sub='m3';S.pwBuf='';sfx.lock
 /* ===== 입력 연결 / 시작 ===== */
 function onHot(el){if(el.dataset.note){const n=el.dataset.note;if(!S.notes[n]){S.notes[n]=true;sfx.clue();toast('메모 · 윤호는 02:41 혼자 집을 나섰다');render();save()}return}
  const id=el.dataset.clue;if(S.clues[id]){toast('이미 확보한 단서다');return}gain(id);render()}
-function boot(){const sv=loadSave();S=sv?Object.assign(fresh(),sv):fresh();S.screen='HOME';S.app=null;S.sub=null;$('#modal').hidden=true;
+function boot(){const sv=loadSave();S=sv?Object.assign(fresh(),sv):fresh();$('#modal').hidden=true;
  $('#app').addEventListener('click',e=>{const h=e.target.closest('.hot');if(h&&$('#stage').contains(h)){onHot(h);return}
   const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b.dataset)});
  $('#app').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('hot')){e.preventDefault();onHot(e.target)}});
