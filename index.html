@@ -104,7 +104,7 @@ const LINKS=[
 
 const APPS=[
  {id:'case',n:'사건 파일',need:0},{id:'talk',n:'톡톡',need:0},{id:'moa',n:'모아',need:0},
- {id:'quest',n:'조사',need:0},{id:'board',n:'이웃광장',need:3},{id:'pay',n:'통화·결제',need:3},
+ {id:'quest',n:'조사',need:0},{id:'voice',n:'음성 메모',need:0},{id:'board',n:'이웃광장',need:3},{id:'pay',n:'통화·결제',need:3},
  {id:'map',n:'지도',need:6},{id:'mail',n:'메일',need:6},{id:'cctv',n:'CCTV',need:6}
 ];
 const ICO={
@@ -361,7 +361,7 @@ function mistake(msg){S.bad++;sfx.bad();buzz([60,40,60]);toast(msg+` · 신뢰�
 /* ===== 공통 조각 ===== */
 function clock(){const m=12+Math.floor(elapsed()/60000);return pad(9+Math.floor(m/60))+':'+pad(m%60)}
 const status=()=>`<div class="status"><b>${clock()}</b><span>수사 단말 · LTE 82%</span></div>`;
-const svg=(k)=>k==='case'?'<img class="app-icon-img" src="assets/files.svg" alt="" aria-hidden="true">':`<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
+const svg=(k)=>k==='voice'?'<img class="app-icon-img" src="assets/voice-memos.svg" alt="" aria-hidden="true">':k==='case'?'<img class="app-icon-img" src="assets/files.svg" alt="" aria-hidden="true">':`<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
 function appWrap(title,inner){return`<div class="scr app">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>${title}</h2><span class="cc">${count()}/12</span></div><div class="body">${inner}</div></div>`}
 function markFound(root){$$('[data-clue]',root).forEach(el=>{const c=el.dataset.clue;if(S.clues[c]){el.classList.add('found');if(S.pulse===c)el.classList.add('pulse')}});
  $$('[data-note]',root).forEach(el=>{if(S.notes[el.dataset.note])el.classList.add('found')})}
@@ -466,7 +466,7 @@ function cctvApp(){return appWrap('CCTV 뷰어',`<div class="stack"><div class="
  <p class="small mute">윤호 집 앞 골목 · 10/2 00:00~04:00. 시간을 움직이며 사람이 보이는 구간을 찾아 탭하세요.</p></div>`)}
 
 function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return moaApp();case'board':return boardApp();
- case'pay':return payApp();case'map':return mapApp();case'mail':return mailApp();case'cctv':return cctvApp();case'quest':return questApp();}return''}
+ case'pay':return payApp();case'map':return mapApp();case'mail':return mailApp();case'cctv':return cctvApp();case'quest':return questApp();case'voice':return voiceApp();}return''}
 
 /* ===== 렌더 ===== */
 function render(){const old=$('.body'),st=old?old.scrollTop:0,key=S.screen+'|'+S.app+'|'+S.sub+'|'+S.tab+'|'+(S.fin.step||0),same=render._k===key;render._k=key;
@@ -480,6 +480,15 @@ function render(){const old=$('.body'),st=old?old.scrollTop:0,key=S.screen+'|'+S
 /* ===== 조사(심문) ===== */
 function ivState(pid){if(!S.iv[pid]){const P=IV[pid];S.iv[pid]={r:0,asked:{},flag:false,fl:{},done:false,
  log:[{k:'sys',x:'— '+P.rounds[0].title+' —'},{k:'npc',x:P.intro}]}}return S.iv[pid]}
+function voiceApp(){
+ const memos=[
+  {tm:'10/01 22:40',dur:'00:14',title:'성화와의 마지막 통화',txt:'통화 기록은 남아 있지만 음성은 재생되지 않는다. 마지막 통화 시간만 확인할 수 있다.'},
+  {tm:'10/02 00:41',dur:'00:09',title:'현관 앞 녹음',txt:'성화가 윤호의 집 앞에서 남긴 짧은 기록. 주변이 조용하고 문을 두드리는 소리만 기록되어 있다.'},
+  {tm:'10/02 03:02',dur:'00:06',title:'이동 중 자동 기록',txt:'휴대폰에서 마지막으로 남은 음성 메모. 월포라는 단어가 짧게 언급되어 있다.'}
+ ];
+ return appWrap('음성 메모',`<div class="stack"><div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">음성 메모</span><span class="small mute">${memos.length}개</span></div><p class="small mute" style="margin-top:8px">기기에 저장된 녹음 기록을 확인한다.</p></div>${memos.map((m,i)=>`<div class="card"><div class="row" style="justify-content:space-between;align-items:center"><div><b>${m.title}</b><div class="small mute" style="margin-top:4px">${m.tm} · ${m.dur}</div></div><button class="btn" style="width:42px;height:42px;padding:0;border-radius:50%" data-act="memo" data-i="${i}" aria-label="녹음 열기">${svg('play')}</button></div><p class="small mute" style="margin-top:10px">${m.txt}</p></div>`).join('')}</div>`)
+}
+
 function questApp(){
  if(!S.sub){return appWrap('조사',`<div class="stack"><div class="row" style="justify-content:space-between"><span class="small mute">신뢰도 · 잘못된 제시는 신뢰도를 깎는다</span><span class="hearts">${hearts()}</span></div>
  ${Object.keys(IV).map(id=>{const P=IV[id],ok=count()>=P.need,st=S.iv[id];return`<button class="listrow" data-act="person" data-id="${id}"><div class="avatar" style="${ok?'':'opacity:.4'}">${P.n[0]}</div>
