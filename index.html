@@ -96,6 +96,13 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 .talkapp .detail-head .back{left:24px!important;top:50%!important;width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;border-radius:26px!important;background:#f2f2f7!important;color:#1d1d1f!important;z-index:30!important;cursor:pointer!important;touch-action:manipulation!important}
 .talkapp .detail-head .back::before{font-size:44px!important;line-height:48px!important;transform:translateX(-2px)!important}
 
+
+/* iMessage-style outgoing blue */
+.talkapp .detail-chat .bub.me{background:#007AFF!important;color:#fff!important}
+/* Home button in message detail */
+.talkapp .detail-head{padding-right:140px!important}
+.talkapp .detail-head .home-btn{position:absolute!important;right:24px!important;top:50%!important;transform:translateY(-50%)!important;width:52px!important;height:52px!important;border:0!important;border-radius:26px!important;background:#f2f2f7!important;color:#1d1d1f!important;display:grid!important;place-items:center!important;font-size:0!important;z-index:30!important;touch-action:manipulation!important}
+.talkapp .detail-head .home-btn::before{content:"⌂"!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",sans-serif!important;font-size:27px!important;line-height:1!important}
 /* iOS message colors: incoming gray/black, outgoing green/white */
 .talkapp .detail-chat .bub:not(.me),
 .talkapp .detail-chat .bub.del{background:#e9e9eb!important;color:#1d1d1f!important}
@@ -546,7 +553,7 @@ function talkApp(){
   if(g.sys)return`<div class="sysline">${g.sys}</div>`;
   if(g.del)return S.rec?`<div class="bub">${DELETED_TEXT}<span class="tm">${g.tm} · 복구됨</span></div>`:`<button class="bub del" data-act="recover">삭제된 메시지입니다<span class="tm">${g.tm} · 탭하여 복구 시도</span></button>`;
   return`<div class="bub ${g.w==='m'?'me':''}">${g.x}<span class="tm">${g.tm}${g.rd?' · 읽음':''}</span></div>`}).join('');
- return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">‹</button><div class="name">${c.n}</div><span class="contact">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
+ return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">‹</button><div class="name">${c.n}</div><button class="home-btn" data-act="home" aria-label="홈으로">홈</button></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
 }
 
 function moaApp(){return appWrap('모아 · yunho_edit',`<div class="stack">${FEED.map(p=>`<div class="post">${p.sign?SNS_PHOTO:`<div class="ph ph2">[사진] ${p.ph}</div>`}
@@ -738,6 +745,7 @@ function act(a,d){
  case'open':{const ap=APPS.find(x=>x.id===d.id);if(count()<ap.need){toast(`단서 ${ap.need}개를 모으면 열립니다`);sfx.bad();return}
   S.newApps=S.newApps.filter(x=>x!==d.id);S.screen='APP';S.app=d.id;S.sub=null;sfx.open();break}
  case'back':if(S.screen==='APP'){if(S.sub){S.sub=null;S.pwBuf=''}else{S.app=null;S.screen='HOME'}}else if(S.screen==='FINAL'&&S.fin.step){S.fin={}}else S.screen='HOME';break;
+ case'home':S.screen='HOME';S.app=null;S.sub=null;S.pwBuf='';break;
  case'notebook':S.screen='NOTEBOOK';S.sel=[];break;
  case'ntab':S.tab=d.t;S.sel=[];break;
  case'sel':{const c=d.c,i=S.sel.indexOf(c);if(i>=0)S.sel.splice(i,1);else{if(S.sel.length>=2)S.sel.shift();S.sel.push(c)}break}
