@@ -105,6 +105,32 @@
 @keyframes camfocus{0%{opacity:1;transform:translate(-50%,-50%) scale(1.4)}20%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
 .camera-captured::after{content:"";position:absolute;inset:0;background:#fff;opacity:.9;animation:cameraFlash .16s ease-out forwards;pointer-events:none;z-index:10}
 @keyframes cameraFlash{from{opacity:.9}to{opacity:0}}
+.musicapp{background:#371420!important;color:#fff;position:relative}
+.musicapp .status{background:#371420;border-color:#371420;color:#d9b9c6;position:relative;z-index:3}
+.mu-scroll{flex:1;min-height:0;overflow-y:auto;position:relative;padding-bottom:110px;scrollbar-width:none}
+.mu-bars{position:absolute;left:0;right:0;top:0;height:520px;pointer-events:none;overflow:hidden}
+.mu-bars i{position:absolute;top:0;bottom:0;background:linear-gradient(180deg,transparent 8%,var(--c) 78%)}
+.mu-bars::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#371420)}
+.mu-top{position:relative;display:flex;justify-content:space-between;padding:8px 12px 0}
+.mu-rb{height:46px;min-width:46px;border:0;border-radius:23px;background:rgba(30,12,18,.72);color:#fff;display:flex;align-items:center;justify-content:center;gap:26px;padding:0 16px;box-shadow:0 0 0 1px rgba(255,255,255,.07) inset}.mu-rb svg{width:24px;height:24px}.mu-rb.bk{font-size:20px;padding:0}
+.mu-big{position:relative;margin:6px 0 0;padding:0 22px;font-size:54px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.mu-mid{position:relative;margin-top:215px;text-align:center}.mu-mid h2{margin:0;font-size:34px;font-weight:800;letter-spacing:-.02em}.mu-mid p{margin:6px 0 16px;color:#d5b3c4;font-size:16px}
+.mu-act{display:flex;justify-content:center;gap:14px;padding:0 20px}
+.mu-shuf{width:58px;height:58px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;display:flex;align-items:center;justify-content:center}.mu-shuf svg{width:28px;height:28px}
+.mu-play{flex:0 1 260px;height:58px;border:0;border-radius:29px;background:#fff;color:#1a1a1a;font-size:19px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}.mu-play svg{width:22px;height:22px}
+.mu-list{position:relative;margin:28px 20px 0;border-top:1px solid rgba(255,255,255,.2)}
+.mu-row{display:flex;align-items:center;gap:14px;padding:6px 0;position:relative;width:100%;border:0;background:none;color:inherit;text-align:left}.mu-row+.mu-row::before{content:"";position:absolute;left:68px;right:0;top:0;height:1px;background:rgba(255,255,255,.2)}
+.mu-row{border-bottom:0}.mu-list>.mu-row:last-child{border-bottom:1px solid rgba(255,255,255,.2)}
+.mu-cv{position:relative;width:54px;height:54px;border-radius:5px;background:#4a3139;overflow:hidden;flex:none;display:flex;align-items:center;justify-content:center;color:#a98593;font-size:22px}.mu-cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mu-add .mu-cv{background:#4b3039;color:#fff;font-size:30px}
+.mu-tx{flex:1;min-width:0}.mu-tx b{display:block;font-size:18px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mu-tx span{display:block;font-size:16px;color:#b08a99}
+.mu-row.now .mu-tx b{color:#ff6b86}
+.mu-dl{width:22px;height:22px;border-radius:50%;background:#9d7a89;color:#371420;display:flex;align-items:center;justify-content:center;flex:none}.mu-dl svg{width:14px;height:14px}
+.mu-dots{width:34px;display:flex;justify-content:center;flex:none}.mu-dots svg{width:26px;height:26px}
+.mu-bar{position:absolute;left:0;right:0;bottom:0;z-index:5;padding:12px 14px 20px;display:flex;gap:10px;align-items:center;background:#371420;border-top:1px solid rgba(255,255,255,.1)}
+.mu-rc{width:62px;height:62px;border:0;border-radius:50%;background:#2a0f18;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;display:flex;align-items:center;justify-content:center;flex:none;color:#fff}.mu-rc svg{width:28px;height:28px}
+.mu-mini{flex:1;min-width:0;height:62px;border:0;border-radius:31px;background:#2a0f18;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;color:#fff;display:flex;align-items:center;gap:12px;padding:0 20px 0 10px;text-align:left}
+.mu-mini .mu-cv{width:42px;height:42px;font-size:20px}.mu-mini b{flex:1;min-width:0;font-size:17px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mu-mini>svg{width:24px;height:24px;flex:none}
 .findmyapp{background:#313c50!important;position:relative}
 .findmyapp .status{background:#2a3446;border-color:#2a3446;color:#cfd5e0;position:relative;z-index:3}
 .fm2-map{flex:1;min-height:0;position:relative;overflow:hidden}.fm2-map>svg{position:absolute;inset:0;width:100%;height:100%}
@@ -682,7 +708,24 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
  else if(a==='close'){PH.view=null;phRender(true)}
  else if(a==='del'){PH.list=PH.list.filter(x=>!PH.picked.has(x.id));PH.picked.forEach(phDel);PH.picked.clear();PH.sel=false;phRender(true)}});
 document.addEventListener('change',e=>{if(e.target.id==='ph-file'){phAddFiles([...e.target.files]);e.target.value=''}});
-function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return cameraApp();case'calendar':return calendarApp();case'music':return appWrap('음악','<div class="card"><h3>음악</h3><p class="small mute" style="margin-top:8px">최근 재생한 음악이 없습니다.</p></div>');case'findmy':return findMyApp();case'time':return timeApp();case'photos':return photosApp();case'board':return boardApp();
+const MU={cur:-1,on:false,T:'새벽 3시',TR:[
+ {t:'성수동 새벽 네 시',a:'Haneul Road'},{t:'화요일의 우산',a:'Blue Pier'},{t:'야간비행',a:'Mirae Choi'},
+ {t:'미지근한 안녕',a:'Soyeon Bae'},{t:'안개 낀 터미널',a:'The Last Bus'},{t:'해변의 끝에서 (Live)',a:'Paran'}]};
+/* 앨범 커버: assets/music/cover1.jpg ~ cover6.jpg 파일을 넣으면 자동 표시 */
+function muCv(i){return `<span class="mu-cv">♪<img src="assets/music/cover${i+1}.jpg" alt="" onerror="this.remove()"></span>`}
+function muRender(){const el=document.querySelector('.musicapp');if(!el)return;const g=el.querySelector('.mu-scroll'),st=g?g.scrollTop:0;el.outerHTML=musicApp();const n=document.querySelector('.mu-scroll');if(n)n.scrollTop=st}
+function musicApp(){const cur=MU.cur>=0?MU.TR[MU.cur]:null;
+ const bars=[[4,10,.28,'#6b5666'],[15,10,.42,'#8a7589'],[26,11,.55,'#a493ad'],[39,11,.5,'#c8b6d6'],[52,11,.65,'#e1d3f0'],[64,11,.95,'#e8e0fb'],[76,11,.6,'#c9b8d8'],[88,12,.35,'#8d7a90']].map(b=>`<i style="left:${b[0]}%;width:${b[1]}%;opacity:${b[2]};--c:${b[3]}"></i>`).join('');
+ const rows=MU.TR.map((x,i)=>`<button class="mu-row${MU.cur===i?' now':''}" data-mu="track" data-i="${i}">${muCv(i)}<span class="mu-tx"><b>${x.t}</b><span>${x.a}</span></span><span class="mu-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.800" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v11M7 12l5 5 5-5"/></svg></span><span class="mu-dots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.800" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.800" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.800" fill="currentColor" stroke="none"/></svg></span></button>`).join('');
+ return `<div class="scr app musicapp">${status()}<div class="mu-scroll"><div class="mu-bars">${bars}</div><div class="mu-top"><button class="mu-rb bk" data-act="back" aria-label="뒤로">←</button><div class="mu-rb"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.500 7.500 12 3l4.500 4.500M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.800" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.800" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.800" fill="currentColor" stroke="none"/></svg></span></div></div><h1 class="mu-big">${MU.T}</h1><div class="mu-mid"><h2>${MU.T}</h2><p>방금 업데이트됨</p><div class="mu-act"><button class="mu-shuf" data-mu="shuf" aria-label="셔플"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3c5 0 6 10 11 10h4M3 17h3c1.500 0 2.700-.8 3.600-2M13.500 9c1-1.300 2.100-2 3.500-2h4M18 4l3 3-3 3M18 14l3 3-3 3"/></svg></button><button class="mu-play" data-mu="play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.500v15l13-7.500z" fill="currentColor"/></svg>재생</button></div></div><div class="mu-list">${rows}<button class="mu-row mu-add" data-mu="add"><span class="mu-cv"><span>＋</span></span><span class="mu-tx"><b>음악 추가</b></span></button></div></div><div class="mu-bar"><span class="mu-rc"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="17" rx="4" fill="#ff4d62"/><rect x="6" y="2" width="12" height="2" rx="1" fill="#ff8a98"/><path d="M10 9.500v7M10 9.500l5-1.300v6.800" stroke="#fff" stroke-width="1.700" fill="none" stroke-linecap="round"/><circle cx="8.700" cy="17" r="1.700" fill="#fff"/><circle cx="13.700" cy="15.500" r="1.700" fill="#fff"/></svg></span><button class="mu-mini" data-mu="toggle">${cur?muCv(MU.cur):'<span class="mu-cv">♪</span>'}<b>${cur?cur.t:'재생 중이 아님'}</b>${MU.on?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4.500" width="4" height="15" rx="1" fill="currentColor"/><rect x="14" y="4.500" width="4" height="15" rx="1" fill="currentColor"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.500v15l13-7.500z" fill="currentColor"/></svg>'}</button><span class="mu-rc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span></div></div>`}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-mu]');if(!b||!document.querySelector('.musicapp'))return;const a=b.dataset.mu;
+ if(a==='track'){MU.cur=+b.dataset.i;MU.on=true}
+ else if(a==='play'){MU.cur=0;MU.on=true}
+ else if(a==='shuf'){MU.cur=Math.floor(Math.random()*MU.TR.length);MU.on=true}
+ else if(a==='toggle'){if(MU.cur<0)MU.cur=0;MU.on=!MU.on}
+ else return;muRender()});
+function __mu_end(){}
+function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return cameraApp();case'calendar':return calendarApp();case'music':return musicApp();case'findmy':return findMyApp();case'time':return timeApp();case'photos':return photosApp();case'board':return boardApp();
  case'pay':return payApp();case'map':return mapApp();case'mail':return mailApp();case'quest':return questApp();case'voice':return voiceApp();case'safari':return safariApp();}return''}
 
 /* ===== 렌더 ===== */
