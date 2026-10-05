@@ -254,3 +254,19 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 .appbar{height:54px;min-height:54px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid #d8d8de;background:#fff;color:#1d1d1f;flex:none;position:relative;z-index:2}
 .appbar-back{width:40px;height:40px;flex:0 0 40px;margin:0;border:0;background:transparent;padding:0;display:flex;align-items:center;justify-content:flex-start;color:#1d1d1f;font:400 24px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Apple SD Gothic Neo","Malgun Gothic",sans-serif;letter-spacing:0}
 .appbar-title{margin-left:14px;font-size:17px;line-height:1;font-weight:650;letter-spacing:-.03em;color:inherit}
+
+/* Hide scrollbars everywhere without disabling scrolling */
+html,
+body,
+*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+  background:transparent;
+}
