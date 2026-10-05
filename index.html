@@ -1706,7 +1706,7 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
   /* 수첩을 대체하는 별도 증거 분석 화면.
      이름/UI상 수첩은 완전히 사라지고, 단서 연결 기능은 유지한다. */
   AREQ.evidence='C02';
-  APPS.push({id:'evidence',n:'증거 분석',need:0});
+  APPS.push({id:'evidence',n:'증거 분석',need:0});\n  const evidenceEntry=APPS.find(a=>a.id==='evidence');\n  Object.defineProperty(evidenceEntry,'need',{get(){return count()>=2?0:99},configurable:true});
 
   const oldIsOpen=isOpen;
   const unlocked=(a)=>{
@@ -1757,7 +1757,7 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
   const oldHome=homeHTML;
   homeHTML=function(){
     let h=oldHome();
-    h=h.replace(/<button class="btn" data-act="notebook">[\s\S]*?<\/button>/,'');
+    h=h.replace(/<button class="btn" data-act="notebook">[\s\S]*?<\/button>/,'');\n    h=h.replace(/<button class="btn" data-act="open" data-id="quest">[\s\S]*?<\/button>/,'');
     h=h.replace(/\$\{count\(\)>=5\?[\s\S]*?\:'\'\}/,'');
     return h;
   };
