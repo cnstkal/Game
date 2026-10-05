@@ -1656,7 +1656,7 @@ act=function(a,d){
  if(a==='chat'&&d.id==='han'&&!S.clues.C16){toast('🔒 잠긴 대화방 · 회사 쪽 증언을 먼저 확보하세요',true);return}
  const b=openIds();_act(a,d);
  if(a==='link'){const nw=openIds().filter(x=>!b.includes(x));if(nw.length){S.newApps=S.newApps.concat(nw);setTimeout(()=>{toast('새 앱 열림 · '+nw.map(i=>APPS.find(x=>x.id===i).n).join(', '));render()},1600)}}};
-appBtn=function(a){const o=isOpen(a),nw=S.newApps.includes(a.id);return`<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${svg(a.id)}</div><span class="nm">${a.n}</span>${o?'':`<span class="need">🔒 ${LBL[a.id]}</span>`}</button>`};
+appBtn=function(a){const o=isOpen(a),nw=S.newApps.includes(a.id),ico=a.id==='evidence'?svg('note'):svg(a.id);return`<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${ico}</div><span class="nm">${a.n}</span>${o?'':`<span class="need">🔒 ${LBL[a.id]}</span>`}</button>`};
 const canFinal=()=>count()>=10&&Object.keys(S.links).length>=3;
 homeHTML=function(){
  const apps=APPS.map(appBtn).join('');
