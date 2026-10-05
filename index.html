@@ -2,6 +2,8 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style id="font-override">:root{--sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important;--mono:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important}*,*::before,*::after{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important;letter-spacing:-.02em!important;font-variant-numeric:normal!important}</style>
 </head><body>
 <title>마지막 접속</title>
 
@@ -343,27 +345,27 @@ async function cameraSwitch(){cameraFacing=cameraFacing==='environment'?'user':'
 const H=(id,t)=>`<span class="hot" data-clue="${id}" tabindex="0" role="button">${t}</span>`;
 
 const CLUES={
- C01:{t:'신고서 속 현장 상황',d:'현관은 잠겨 있었고 외투·보조배터리·노트북 가방만 사라졌다. 끌려간 흔적은 없다.',src:'사건 파일',real:true},
- C02:{t:'윤호의 마지막 메시지',d:'“미안, 며칠만 기다려줘. 아무한테도 말하지 마.” 스스로 연락을 끊으려는 뜻이 보인다.',src:'톡톡',real:true},
- C03:{t:'성화가 지운 메시지',d:'“네가 사라지면 나도 가만 안 있을 거야.” 협박처럼 읽히지만 앞뒤 맥락이 없다.',src:'톡톡',real:false},
+ C01:{t:'신고서 속 현장 상황',d:'현관은 잠겨 있었고 외투·보조배터리·노트북 가방만 사라졌습니다. 끌려간 흔적은 없습니다.',src:'사건 파일',real:true},
+ C02:{t:'윤호의 마지막 메시지',d:'“미안, 며칠만 기다려줘. 아무한테도 말하지 마.” 스스로 연락을 끊으려는 뜻으로 보입니다.',src:'톡톡',real:true},
+ C03:{t:'성화가 지운 메시지',d:'“네가 사라지면 나도 가만 안 있을 거야.” 협박처럼 읽히지만 앞뒤 맥락이 없습니다.',src:'톡톡',real:false},
  C04:{t:'한도현의 협박 메시지',d:'“가져간 파일 돌려놔. 안 그러면 성화 활동에도 문제가 생길 거다.”',src:'톡톡',real:true},
- C05:{t:'마지막 게시물 속 풍경',d:'파란 지붕, 등대, 간판 끝 글자 “포수산”. 바닷가 마을 월포로 보인다.',src:'모아',real:true},
- C06:{t:'“새벽3시”의 제보 글',d:'한울프로덕션 장부 조작을 제보했고, 9월 27일 “편집하는곰”에게 자료를 넘겼다고 적었다. 윤호의 닉네임이다.',src:'시계',real:true},
- C07:{t:'심야 부재중 전화 3통',d:'성화가 10/1 23:52, 00:07, 00:31에 연달아 전화했다. 갑자기 바빠진 뒤에도 윤호를 신경 쓰고 있었지만, 윤호는 받지 않았다.',src:'통화·결제',real:false},
- C08:{t:'월포행 버스 결제',d:'10/2 03:12 동서울터미널 → 월포 시외버스 18,800원. 윤호의 카드다.',src:'통화·결제',real:true},
- C09:{t:'“월포 파도여관” 검색',d:'10/2 03:02 지도에서 파도여관을 검색하고 길 안내를 저장했다.',src:'지도',real:true},
- C10:{t:'잠긴 장부 사본',d:'한울프로덕션 결산 장부 사본. 같은 금액이 가공 거래처로 두 번 빠져나갔고 결재자는 한도현이다.',src:'메일',real:true},
- C11:{t:'집 앞을 서성인 성화',d:'10/2 00:41 CCTV에 성화가 윤호 집 앞에서 17분간 서성였다. 갑자기 바빠진 성화가 뒤늦게 직접 찾아온 정황이다.',src:'CCTV',real:false},
+ C05:{t:'마지막 게시물 속 풍경',d:'파란 지붕, 등대, 간판 끝 글자 “포수산”이 보입니다. 바닷가 마을 월포로 보입니다.',src:'모아',real:true},
+ C06:{t:'“새벽3시”의 제보 글',d:'한울프로덕션 장부 조작을 제보했고, 9월 27일 “편집하는곰”에게 자료를 넘겼다고 적었습니다. 윤호의 닉네임입니다.',src:'시계',real:true},
+ C07:{t:'심야 부재중 전화 3통',d:'성화가 10/1 23:52, 00:07, 00:31에 연달아 전화했습니다. 갑자기 바빠진 뒤에도 윤호를 신경 쓰고 있었지만, 윤호는 받지 않았습니다.',src:'통화·결제',real:false},
+ C08:{t:'월포행 버스 결제',d:'10/2 03:12 동서울터미널 → 월포 시외버스 18,800원이 결제됐습니다. 윤호의 카드입니다.',src:'통화·결제',real:true},
+ C09:{t:'“월포 파도여관” 검색',d:'10/2 03:02 지도에서 파도여관을 검색하고 길 안내를 저장했습니다.',src:'지도',real:true},
+ C10:{t:'잠긴 장부 사본',d:'한울프로덕션 결산 장부 사본입니다. 같은 금액이 가공 거래처로 두 번 빠져나갔고 결재자는 한도현입니다.',src:'메일',real:true},
+ C11:{t:'집 앞을 서성인 성화',d:'10/2 00:41 CCTV에 성화가 윤호 집 앞에서 17분간 서성이는 모습이 찍혔습니다. 갑자기 바빠진 성화가 뒤늦게 직접 찾아온 정황입니다.',src:'CCTV',real:false},
  C12:{t:'오세린의 증언',d:'“윤호가 성화가 알면 위험해진다며 일부러 연락을 끊겠다고 했어요.”',src:'조사',real:true}
 };
 const CLUE_IDS=Object.keys(CLUES);
 
 const LINKS=[
- {id:'L1',a:'C01',b:'C02',t:'윤호는 끌려간 게 아니다. 스스로 짐을 챙겨 떠났다.'},
- {id:'L2',a:'C06',b:'C04',t:'윤호는 한울프로덕션 횡령을 파헤치다 한도현에게 협박받았다.'},
- {id:'L3',a:'C05',b:'C08',t:'사진 속 풍경과 버스 목적지가 같다. 윤호는 월포로 갔다.'},
- {id:'L4',a:'C08',b:'C09',t:'윤호의 은신처는 월포 파도여관이다.'},
- {id:'L5',a:'C10',b:'C12',t:'윤호는 성화를 지키려고 증거를 안고 연락을 끊었다.'}
+ {id:'L1',a:'C01',b:'C02',t:'윤호는 끌려간 게 아니라 스스로 짐을 챙겨 떠났습니다.'},
+ {id:'L2',a:'C06',b:'C04',t:'윤호는 한울프로덕션 횡령을 파헤치다 한도현에게 협박받았습니다.'},
+ {id:'L3',a:'C05',b:'C08',t:'사진 속 풍경과 버스 목적지가 같습니다. 윤호는 월포로 갔습니다.'},
+ {id:'L4',a:'C08',b:'C09',t:'윤호의 은신처는 월포 파도여관입니다.'},
+ {id:'L5',a:'C10',b:'C12',t:'윤호는 성화를 지키려고 증거를 안고 연락을 끊었습니다.'}
 ];
 
 const APPS=[
@@ -593,17 +595,17 @@ const ENDINGS={
   '성화는 풀려났지만 경찰서 복도에서 한참 고개를 들지 못했다. 이 사건에서 가장 먼저 지켜줬어야 할 사람이었다.']}
 };
 const END_HINT={
- A:'성화를 보호 대상으로 두고, 월포 파도여관으로 가려면 윤호의 이동 경로와 은신처 단서를 연결해야 한다.',
- B:'조사를 종결하거나, 단서를 충분히 잇지 못하거나, 한도현에게 월포 단서를 보여주면 늦은 도착이 된다.',
- C:'성화를 체포하거나, 수색 지점을 잘못 고르면 윤호를 놓친다. 의심 단서에 속지 말 것.'
+ A:'성화를 보호 대상으로 두고, 윤호의 이동 경로와 은신처 단서를 연결해 월포 파도여관으로 가야 합니다.',
+ B:'조사를 종결하거나, 단서를 충분히 잇지 못하거나, 한도현에게 월포 단서를 보여 주면 늦은 도착이 됩니다.',
+ C:'성화를 체포하거나, 수색 지점을 잘못 고르면 윤호를 놓칩니다. 의심 단서에 속지 마십시오.'
 };
-const RELATIONSHIP_NOTE='성화는 오랜 무명 생활을 버티다 최근 갑자기 이름을 알리기 시작했다. 그 긴 시간을 윤호가 곁에서 뒷바라지해 왔다. 성화가 잘되기만을 바라던 윤호는 정작 성화가 성공한 뒤 자신이 점점 소외되고 있다는 감정을 숨기고 있었다.';
+const RELATIONSHIP_NOTE='성화는 오랜 무명 생활을 버티다 최근 갑자기 이름을 알리기 시작했습니다. 그 긴 시간을 윤호가 곁에서 뒷바라지해 왔습니다. 성화가 잘되기만을 바라던 윤호는 정작 성화가 성공한 뒤 자신이 점점 소외되고 있다는 감정을 숨기고 있었습니다.';
 const PROLOGUE=[
  {c:'mono',x:'수사 단말 인증 중… 완료.'},
  {c:'mono',x:'사건번호 2026-1004 · 실종 · 정윤호(29)'},
- {x:'10월 4일 일요일, 오전 9시 12분.'},
- {x:'가족의 신고로 실종수사팀에 사건이 배당됐다. 마지막으로 연락한 사람은 박성화. 오랜 무명 생활 끝에 최근 갑자기 이름을 알린 래퍼이자 윤호의 오래된 연인이다.'},
- {x:'윤호의 휴대폰 기록이 이 단말에 복사돼 있다. 메신저, SNS, 통화, 결제, 지도… 오래된 연인 사이에 쌓인 기록도 그대로 남아 있다.'},
+ {x:'10월 4일 일요일, 오전 9시 12분입니다.'},
+ {x:'가족의 신고로 실종수사팀에 사건이 배당됐습니다. 마지막으로 연락한 사람은 박성화입니다. 오랜 무명 생활 끝에 최근 갑자기 이름을 알린 래퍼이자 윤호의 오래된 연인입니다.'},
+ {x:'윤호의 휴대폰 기록이 이 단말에 복사돼 있습니다. 메신저, SNS, 통화, 결제, 지도… 오래된 연인 사이에 쌓인 기록도 그대로 남아 있습니다.'},
  {c:'big',x:'기록 속 어디에나 성화가 있다.'}
 ];
 
@@ -678,7 +680,7 @@ function caseApp(){return appWrap('사건 파일',`<div class="stack">
  <div class="card"><span class="stamp">실종자</span><h2 style="margin:8px 0 2px;font-size:20px">정윤호 <span class="mute" style="font-size:14px">(29)</span></h2>
   <p class="small mute">프리랜서 영상 편집자 · 망원동 거주<br>박성화의 오래된 연인<br>마지막 연락 10/1(목) 22:40 · 신고 10/4(일) 08:50</p></div>
  <h3>신고서</h3>
- <div class="card"><p>신고인: 어머니. “사흘째 전화를 받지 않아요.” 현장 확인 기록: ${H('C01','현관은 잠겨 있었고 외투와 보조배터리, 노트북 가방만 사라져 있었다. 끌려간 흔적은 없었다.')} 휴대폰은 10/2 새벽 3시 20분 이후 꺼져 있다.</p></div>
+ <div class="card"><p>신고인: 어머니. “사흘째 전화를 받지 않아요.” 현장 확인 기록: ${H('C01','현관은 잠겨 있었고 외투와 보조배터리, 노트북 가방만 사라져 있었습니다. 끌려간 흔적은 없었습니다.')} 휴대폰은 10/2 새벽 3시 20분 이후 꺼져 있습니다.</p></div>
  <h3>인물</h3>
  <div class="card stack" style="gap:10px">
   <div class="row"><div class="avatar">성</div><div><b>박성화</b><br><span class="small mute">래퍼 · 오래된 연인 · 마지막 통화자</span></div></div>
@@ -750,7 +752,7 @@ function mapApp(){
 
 function mailApp(){
  if(S.sub==='pw'){const d=[0,1,2,3].map(i=>`<i class="${i<S.pwBuf.length?'on':''}"></i>`).join('');
-  const hint=S.pwHint?'힌트: 두 사람이 처음 만난 날은 3월 14일 → 0314':'힌트: 내 인생에서 제일 잘한 날짜(MMDD). 두 사람 사이에서 찾아보자.';
+  const hint=S.pwHint?'힌트: 두 사람이 처음 만난 날은 3월 14일 → 0314':'힌트: 내 인생에서 제일 잘한 날짜(MMDD). 두 사람 사이에서 찾아야 합니다.';
   const L=['','ABC','DEF','GHI','JKL','MNO','PQRS','TUV','WXYZ'];
   const key=k=>`<button class="pk" data-act="key" data-k="${k}"><b>${k}</b><span>${k>0?L[k-1]:''}</span></button>`;
   return`<div class="scr app pwi"><style>.pwi{background:linear-gradient(#f4f5f9,#e4e6ee);color:#111;align-items:center}.pwi .pt{align-self:stretch;padding:50px 20px 0;display:flex;justify-content:space-between;font-size:17px;color:#007aff}.pwi .pt button{border:0;background:none;color:#007aff;font-size:17px;padding:0}.pwi .lk{margin-top:22px;width:44px;height:44px;color:#111}.pwi h2{margin:12px 0 4px;font-size:20px;font-weight:600}.pwi .sb{font-size:14px;color:#6b6b72;margin:0}.pwi .dots{display:flex;gap:18px;margin:26px 0 12px}.pwi .dots i{width:14px;height:14px;border-radius:50%;border:1.5px solid #111;transition:background .12s}.pwi .dots i.on{background:#111}.pwi .ht{font-size:12px;color:${S.pwHint?'#c77700':'#8a8a92'};text-align:center;padding:0 34px;min-height:34px;margin:0 0 14px}.pwi .kg{display:grid;grid-template-columns:repeat(3,78px);gap:14px 22px}.pwi .pk{width:78px;height:78px;border-radius:50%;border:0;background:rgba(255,255,255,.75);box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;color:#111;line-height:1}.pwi .pk:active{background:#c9ccd6}.pwi .pk b{font-size:32px;font-weight:400}.pwi .pk span{font-size:10px;letter-spacing:.14em;margin-top:3px;height:11px;color:#444}.pwi .pk.t{background:none;box-shadow:none;font-size:16px;color:#111}.pwi .pb{margin-top:auto;align-self:stretch;display:flex;justify-content:space-between;padding:0 54px 40px;font-size:16px}.pwi .pb button{border:0;background:none;color:#111;font-size:16px}</style>
@@ -886,9 +888,9 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 function questApp(){
  const found=CLUE_IDS.filter(function(i){return S.clues[i]});
  const notes=[];
- if(S.notes.wolpo)notes.push('윤호의 외가는 월포다. 방학마다 갔다.');
- if(S.notes.pw)notes.push('잠긴 파일 비밀번호는 윤호와 성화가 처음 만난 날(3월 14일)이다.');
- if(S.notes.leave)notes.push('CCTV: 윤호는 02:41 혼자 집을 나섰다.');
+ if(S.notes.wolpo)notes.push('윤호의 외가는 월포입니다. 방학마다 갔습니다.');
+ if(S.notes.pw)notes.push('잠긴 파일 비밀번호는 윤호와 성화가 처음 만난 날(3월 14일)입니다.');
+ if(S.notes.leave)notes.push('CCTV: 윤호는 02:41 혼자 집을 나섰습니다.');
  let h='<div class="stack">';
  h+='<div><h3>사건</h3><div class="card"><p><b>정윤호 · 29세</b></p><p class="small mute" style="margin-top:4px">프리랜서 영상 편집자 · 10월 2일 새벽부터 연락 두절</p><p class="small mute" style="margin-top:3px">마지막으로 확인된 이동 경로를 중심으로 수사 중</p></div></div>';
  h+='<div><h3>인물</h3><div class="card stack" style="gap:7px"><p><b>박성화</b> <span class="small mute">· 윤호의 연인</span></p><p><b>오세린</b> <span class="small mute">· 윤호의 친구</span></p><p><b>한도현</b> <span class="small mute">· 전 직장 팀장</span></p><p><b>새벽3시</b> <span class="small mute">· 익명 제보자</span></p></div></div>';
@@ -916,7 +918,7 @@ function ivPresent(cid){const pid=S.sub,P=IV[pid],iv=ivState(pid),rd=P.rounds[iv
  if(o.give){if(gain(o.give))iv.flag=true}
  ivAdvance(pid)}
 function ivApproach(m){const iv=ivState('sung');
- if(m==='emp'){iv.log.push({k:'you',x:'윤호 씨를 걱정하는 걸 압니다. 말해주실 수 있나요.'},{k:'npc',x:IV.sung.rounds[2].emp});S.emp=true;S.pwHint=true;S.notes.pw=true;toast('성화가 입을 열었다. 메모가 추가됐다.');sfx.clue()}
+ if(m==='emp'){iv.log.push({k:'you',x:'윤호 씨를 걱정하는 걸 압니다. 말해주실 수 있나요.'},{k:'npc',x:IV.sung.rounds[2].emp});S.emp=true;S.pwHint=true;S.notes.pw=true;toast('성화가 입을 열었습니다. 메모가 추가됐습니다.');sfx.clue()}
  else{iv.log.push({k:'you',x:'거짓말을 하고 계시죠. 솔직히 말하세요.'},{k:'npc',x:IV.sung.rounds[2].prs});S.prs=true;mistake('압박은 통하지 않았다')}
  iv.done=true}
 
@@ -927,9 +929,9 @@ function susp(){const c=id=>S.clues[id]?1:0,l=id=>S.links[id]?1:0;const cl=(v)=>
 function notebookHTML(){
  const found=CLUE_IDS.filter(i=>S.clues[i]);
  const notes=[];
- if(S.notes.wolpo)notes.push('윤호의 외가는 월포다. 방학마다 갔다.');
- if(S.notes.pw)notes.push('잠긴 파일 비밀번호는 윤호와 성화가 처음 만난 날(3월 14일)이다.');
- if(S.notes.leave)notes.push('CCTV: 윤호는 02:41 혼자 집을 나섰다.');
+ if(S.notes.wolpo)notes.push('윤호의 외가는 월포입니다. 방학마다 갔습니다.');
+ if(S.notes.pw)notes.push('잠긴 파일 비밀번호는 윤호와 성화가 처음 만난 날(3월 14일)입니다.');
+ if(S.notes.leave)notes.push('CCTV: 윤호는 02:41 혼자 집을 나섰습니다.');
  let h='<div class="scr">'+status()+'<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>수첩</h2><span class="cc">'+count()+'/12</span></div><div class="body"><div class="stack">';
  h+='<div><h3>사건</h3><div class="card"><p><b>정윤호 · 29세</b></p><p class="small mute" style="margin-top:4px">프리랜서 영상 편집자 · 10월 2일 새벽부터 연락 두절</p><p class="small mute" style="margin-top:3px">마지막으로 확인된 이동 경로를 중심으로 수사 중</p></div></div>';
  h+='<div><h3>인물</h3><div class="card stack" style="gap:7px"><p><b>박성화</b> <span class="small mute">· 윤호의 연인</span></p><p><b>오세린</b> <span class="small mute">· 윤호의 친구</span></p><p><b>한도현</b> <span class="small mute">· 전 직장 팀장</span></p><p><b>새벽3시</b> <span class="small mute">· 익명 제보자</span></p></div></div>';
@@ -944,24 +946,24 @@ function notebookHTML(){
 function doLink(){const [a,b]=S.sel;S.sel=[];
  if(!CLUES[a].real||!CLUES[b].real){mistake('이 조합은 사건을 설명하지 못한다. 의심 단서에 속았을지도 모른다');return}
  const L=LINKS.find(x=>(x.a===a&&x.b===b)||(x.a===b&&x.b===a));
- if(!L){toast('두 단서가 직접 이어지지 않는다');sfx.tap();return}
- if(S.links[L.id]){toast('이미 확정한 사실이다');return}
+ if(!L){toast('두 단서가 직접 이어지지 않습니다');sfx.tap();return}
+ if(S.links[L.id]){toast('이미 확정한 사실입니다');return}
  S.links[L.id]=true;sfx.clue();buzz(40);toast('사실 확정 · '+L.t)}
 
 /* ===== 힌트 ===== */
 function nextHint(){const c=id=>S.clues[id],o=id=>openIds().includes(id);
- if(!c('C02'))return'윤호 폰의 톡톡부터 열어봐. 성화와의 마지막 메시지에 단서가 있을 거야.';
- if(!c('C01'))return'사건 파일의 신고서를 꼼꼼히 읽어. 현장 상황이 중요해.';
- if(!c('C04'))return'톡톡에서 한도현 팀장과의 대화를 열어봐. 누가 윤호를 압박했는지 보일 거다.';
- if(!c('C05'))return'모아 마지막 게시물 사진을 자세히 봐. 간판 글자를 확인해.';
- if(!o('board'))return'단서를 더 모아야 새 앱이 열려. 톡톡의 다른 대화도 훑어봐.';
- if(!c('C06'))return'이웃광장의 “새벽3시” 글과 윤호의 닉네임을 대조해봐.';
- if(!c('C08')&&o('pay'))return'결제 내역에서 새벽 시간대를 봐. 어디로 갔는지 나온다.';
- if(!c('C12'))return'오세린에게 한도현의 협박 메시지를 보여줘. 조사 앱의 증거 제시 기능을 써.';
- if(!c('C09')&&o('map'))return'지도의 최근 검색 기록을 확인해.';
- if(!c('C10')&&o('mail'))return'메일에 잠긴 백업 파일이 있어. 비밀번호는 두 사람의 기념일이다. 성화의 조사 3차가 열쇠야.';
- if(Object.keys(S.links).length<4)return'수첩의 추리 탭에서 단서 두 개를 이어봐. 가짜 단서가 섞여 있으니 조심해. 성화를 의심하게 만드는 건 대부분 함정이다.';
- return'충분히 모았다. 최종 판단으로 가자. 한도현에게 월포 얘기를 흘리면 안 돼.'}
+ if(!c('C02'))return'윤호 폰의 톡톡부터 열어 보십시오. 성화와의 마지막 메시지에 단서가 있을 것입니다.';
+ if(!c('C01'))return'사건 파일의 신고서를 꼼꼼히 읽으십시오. 현장 상황이 중요합니다.';
+ if(!c('C04'))return'톡톡에서 한도현 팀장과의 대화를 열어 보십시오. 누가 윤호를 압박했는지 보일 것입니다.';
+ if(!c('C05'))return'카메라 앱의 마지막 게시물 사진을 자세히 보십시오. 간판 글자를 확인해야 합니다.';
+ if(!o('board'))return'단서를 더 모아야 새 앱이 열립니다. 톡톡의 다른 대화도 훑어 보십시오.';
+ if(!c('C06'))return'이웃광장의 “새벽3시” 글과 윤호의 닉네임을 대조해 보십시오.';
+ if(!c('C08')&&o('pay'))return'결제 내역에서 새벽 시간대를 보십시오. 어디로 갔는지 나옵니다.';
+ if(!c('C12'))return'오세린에게 한도현의 협박 메시지를 보여 주십시오. 조사 앱의 증거 제시 기능을 쓰면 됩니다.';
+ if(!c('C09')&&o('map'))return'지도의 최근 검색 기록을 확인하십시오.';
+ if(!c('C10')&&o('mail'))return'메일에 잠긴 백업 파일이 있습니다. 비밀번호는 두 사람의 기념일입니다. 성화의 조사 3차가 열쇠입니다.';
+ if(Object.keys(S.links).length<4)return'수첩의 추리 탭에서 단서 두 개를 이어 보십시오. 가짜 단서가 섞여 있으니 조심하십시오. 성화를 의심하게 만드는 건 대부분 함정입니다.';
+ return'충분히 모았습니다. 최종 판단으로 가십시오. 한도현에게 월포 이야기를 흘리면 안 됩니다.'}
 
 /* ===== 최종 판단 / 엔딩 ===== */
 const LOCS=[{id:'wolpo',n:'월포 파도여관'},{id:'hap',n:'합정 작업실 일대'},{id:'sang',n:'상수동 성화 집 근처'},{id:'han',n:'한울프로덕션 사옥'}];
@@ -1001,20 +1003,20 @@ function act(a,d){
  case'ntab':S.tab=d.t;S.sel=[];break;
  case'sel':{const c=d.c,i=S.sel.indexOf(c);if(i>=0)S.sel.splice(i,1);else{if(S.sel.length>=2)S.sel.shift();S.sel.push(c)}break}
  case'link':doLink();break;
- case'hint':{if(S.hints<=0){toast('힌트를 모두 사용했다',true);return}S.hints--;modal(`<span class="stamp">김 반장 · 메신저</span><p style="margin:12px 0 18px;font-size:16px">${nextHint()}</p><button class="btn block" data-act="close">알겠습니다 (남은 힌트 ${S.hints})</button>`);save();render();return}
+ case'hint':{if(S.hints<=0){toast('힌트를 모두 사용했습니다',true);return}S.hints--;modal(`<span class="stamp">김 반장 · 메신저</span><p style="margin:12px 0 18px;font-size:16px">${nextHint()}</p><button class="btn block" data-act="close">알겠습니다 (남은 힌트 ${S.hints})</button>`);save();render();return}
  case'close':closeModal();return;
  case'chat':S.sub=d.id;break;
  case'recover':S.rec=true;sfx.clue();break;
  case'alarmclue':if(d.c)gain(d.c);break;
  case'caldetail':{const txt=d.text||'';modal(`<div class="ios-cal-grabber"></div><div class="ios-cal-title">일정</div><div class="ios-cal-text">${txt}</div><button class="ios-cal-close" data-act="close">닫기</button>`,'ios-calendar');if(d.c)gain(d.c);return;}
- case'ptab':S.ptab=d.t;break;case'msrch':S.msub=+d.v;break;case'igpw':S.sub='igpw';S.pwBuf='';break;case'igpost':S.sub='ig'+d.i;break;case'igkey':{const k=d.k;if(k==='x')S.pwBuf=S.pwBuf.slice(0,-1);else if(S.pwBuf.length<4)S.pwBuf+=k;if(S.pwBuf.length===4){if(S.pwBuf==='0419'){S.igu=true;S.sub=null;S.pwBuf='';sfx.lock();toast('로그인 · 게시물이 열렸다')}else{S.igf=(S.igf||0)+1;S.pwBuf='';sfx.bad();toast('비밀번호가 틀렸다',true)}}break}case'mzoom':{const n=Math.max(.8,Math.min(1.8,MV.k+ +d.d)),f=n/MV.k;MV.x=Math.min(0,250-(250-MV.x)*f);MV.y=Math.min(0,380-(380-MV.y)*f);MV.k=n;break}
+ case'ptab':S.ptab=d.t;break;case'msrch':S.msub=+d.v;break;case'igpw':S.sub='igpw';S.pwBuf='';break;case'igpost':S.sub='ig'+d.i;break;case'igkey':{const k=d.k;if(k==='x')S.pwBuf=S.pwBuf.slice(0,-1);else if(S.pwBuf.length<4)S.pwBuf+=k;if(S.pwBuf.length===4){if(S.pwBuf==='0419'){S.igu=true;S.sub=null;S.pwBuf='';sfx.lock();toast('로그인 · 게시물이 열렸습니다')}else{S.igf=(S.igf||0)+1;S.pwBuf='';sfx.bad();toast('비밀번호가 틀렸습니다',true)}}break}case'mzoom':{const n=Math.max(.8,Math.min(1.8,MV.k+ +d.d)),f=n/MV.k;MV.x=Math.min(0,250-(250-MV.x)*f);MV.y=Math.min(0,380-(380-MV.y)*f);MV.k=n;break}
  case'mail':S.sub=d.id;break;
  case'pwopen':S.sub='pw';S.pwBuf='';break;
  case'key':{const k=d.k;if(k==='x')S.pwBuf=S.pwBuf.slice(0,-1);else if(k==='o'){if(S.pwBuf.length<4){toast('4자리를 입력하세요',true);return}pwCheck();break}else if(S.pwBuf.length<4)S.pwBuf+=k;if(S.pwBuf.length===4){pwCheck()}break}
  case'cstep':S.cmin=Math.max(0,Math.min(240,S.cmin+(+d.d)));break;
- case'person':{const P=IV[d.id];if(count()<P.need){toast(`단서 ${P.need}개를 모으면 조사할 수 있다`);sfx.bad();return}S.sub=d.id;break}
+ case'person':{const P=IV[d.id];if(count()<P.need){toast(`단서 ${P.need}개를 모으면 조사할 수 있습니다`);sfx.bad();return}S.sub=d.id;break}
  case'ask':ivAsk(d.q);break;
- case'present':{const f=CLUE_IDS.filter(i=>S.clues[i]);if(!f.length){toast('제시할 단서가 없다');return}
+ case'present':{const f=CLUE_IDS.filter(i=>S.clues[i]);if(!f.length){toast('제시할 단서가 없습니다');return}
   modal(`<h3>제시할 증거</h3><div class="chips" style="margin:12px 0 16px">${f.map(i=>`<button class="chip" data-act="pick" data-c="${i}">#${num(i)} ${CLUES[i].t}</button>`).join('')}</div><button class="btn block" data-act="close">취소</button>`);return}
  case'pick':closeModal();ivPresent(d.c);break;
  case'appr':ivApproach(d.m);break;
@@ -1027,13 +1029,13 @@ function act(a,d){
  }
  render();save()}
 function endNow(){S.screen='ENDING';clearSave();sfx.lock();render()}
-function pwCheck(){if(S.pwBuf==='0314'){S.pw=true;S.sub='m3';S.pwBuf='';sfx.lock();toast('잠금 해제 · 첨부파일이 열렸다');}
- else{S.pwFails++;S.pwBuf='';S.shk=true;sfx.bad();buzz([50,30,50]);if(S.pwFails>=3){S.pwHint=true;toast('비밀번호가 틀렸다. 힌트가 열렸다',true)}else toast('비밀번호가 틀렸다',true)}
+function pwCheck(){if(S.pwBuf==='0314'){S.pw=true;S.sub='m3';S.pwBuf='';sfx.lock();toast('잠금 해제 · 첨부파일이 열렸습니다');}
+ else{S.pwFails++;S.pwBuf='';S.shk=true;sfx.bad();buzz([50,30,50]);if(S.pwFails>=3){S.pwHint=true;toast('비밀번호가 틀렸습니다. 힌트가 열렸습니다',true)}else toast('비밀번호가 틀렸습니다',true)}
  render();save()}
 
 /* ===== 입력 연결 / 시작 ===== */
-function onHot(el){if(el.dataset.note){const n=el.dataset.note;if(!S.notes[n]){S.notes[n]=true;sfx.clue();toast(n==='wolpo'?'메모 · 윤호의 외가는 월포다':'메모 · 윤호는 02:41 혼자 집을 나섰다');render();save()}return}
- const id=el.dataset.clue;if(S.clues[id]){toast('이미 확보한 단서다');return}gain(id);render()}
+function onHot(el){if(el.dataset.note){const n=el.dataset.note;if(!S.notes[n]){S.notes[n]=true;sfx.clue();toast(n==='wolpo'?'메모 · 윤호의 외가는 월포입니다':'메모 · 윤호는 02:41 혼자 집을 나섰습니다');render();save()}return}
+ const id=el.dataset.clue;if(S.clues[id]){toast('이미 확보한 단서입니다');return}gain(id);render()}
 function boot(){const sv=loadSave();S=sv?Object.assign(fresh(),sv):fresh();$('#modal').hidden=true;
  $('#app').addEventListener('click',e=>{const h=e.target.closest('.hot');if(h&&$('#stage').contains(h)){onHot(h);return}
   const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b.dataset)});
