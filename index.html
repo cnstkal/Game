@@ -1609,12 +1609,12 @@ boot();
 <script>
 /* ===== 대규모 흐름 개편: 잠금 → 열쇠(단서) → 열람 ===== */
 (()=>{
-const AREQ={time:'C01',calendar:'C01',voice:'C01',phone:'C01',photos:'C01',music:'C01',coupang:'C01',moa:'C01',insta:'C02',x:'C02',pay:'L1',board:'C04',settings:'C06',mail:'C13',health:'C13',gpt:'C10',cctv:'C07',map:'C08',findmy:'C08',safari:'C09'};
-const LBL={time:'신고서 확인 후',calendar:'신고서 확인 후',voice:'신고서 확인 후',phone:'신고서 확인 후',photos:'신고서 확인 후',music:'신고서 확인 후',coupang:'신고서 확인 후',moa:'신고서 확인 후',insta:'마지막 연락 확인 후',x:'마지막 연락 확인 후',pay:'사실 확정 필요',board:'협박 단서 필요',settings:'제보자 단서 필요',mail:'접속 기록 필요',health:'접속 기록 필요',gpt:'장부 확보 필요',cctv:'부재중 단서 필요',map:'이동 단서 필요',findmy:'이동 단서 필요',safari:'장소 단서 필요'};
+const AREQ={time:'C01',calendar:'C01',voice:'C01',phone:'C01',photos:'C01',music:'C01',coupang:'C01',moa:'C01',insta:'C02',x:'C02',pay:'L1',settings:'C06',mail:'C13',health:'C13',gpt:'C10',cctv:'C07',map:'C08',findmy:'C08',safari:'C09',evidence:'C02'};
+const LBL={time:'신고서 확인 후',calendar:'신고서 확인 후',voice:'신고서 확인 후',phone:'신고서 확인 후',photos:'신고서 확인 후',music:'신고서 확인 후',coupang:'신고서 확인 후',moa:'신고서 확인 후',insta:'마지막 연락 확인 후',x:'마지막 연락 확인 후',pay:'사실 확정 필요',settings:'제보자 단서 필요',mail:'접속 기록 필요',health:'접속 기록 필요',gpt:'장부 확보 필요',cctv:'부재중 단서 필요',map:'이동 단서 필요',findmy:'이동 단서 필요',safari:'장소 단서 필요',evidence:'단서 2개 확보 후'};
 const REQ={C16:'C01',C04:'C16',C06:'C04',C13:'C06',C10:'C13',C19:'C10',C09:'C08',C12:'C04',C05:'C02',C17:'C02',C18:'C02',C15:'C13',C07:'C01',C11:'C07',C08:'L1'};
 const has=r=>!r||!!(S.clues[r]||S.links[r]);
-const isOpen=a=>has(AREQ[a.id]);
-APPS.push({id:'board',n:'이웃광장',need:0},{id:'cctv',n:'CCTV',need:0});
+const isOpen=a=>a.id==='evidence'?count()>=2:has(AREQ[a.id]);
+APPS.push({id:'cctv',n:'CCTV',need:0},{id:'evidence',n:'증거 분석',need:0});
 APPS.forEach(a=>Object.defineProperty(a,'need',{get(){return isOpen(a)?0:99},configurable:true}));
 /* 인스타 마지막 게시물에 사진(단서 C05) */
 IGP[0].svg=SNS_PHOTO;IGP[0].d='10/2';IGP[0].c='잠깐 바람 쐬는 중. 다들 잘 있어.';
@@ -1639,7 +1639,17 @@ gain=function(id){
  return r};
 const _ta=talkApp;
 talkApp=function(){sync();let h=_ta();if(!S.sub&&!S.clues.C16)h=h.replace(/<b>한도현 팀장<\/b><span>[^<]*<\/span>/,'<b>🔒 한도현 팀장</b><span>잠긴 대화 · 열람 불가</span>');return h};
-const _ah=appHTML;appHTML=function(){return S.app==='cctv'?cctvApp():_ah()};
+const _ah=appHTML;
+function evidenceHTML(){
+ const f=CLUE_IDS.filter(i=>S.clues[i]),n=Object.keys(S.links).length,sel=S.sel||[];
+ const chips=f.map(i=>`<button class="chip" data-act="sel" data-c="${i}" style="${sel.includes(i)?'border-color:#d6a84d;background:#252116;color:#ead18d':''}">#${num(i)} ${CLUES[i].t}</button>`).join('');
+ const facts=LINKS.filter(l=>S.links[l.id]).map(l=>`<div class="card"><p class="small">✓ ${l.t}</p></div>`).join('')||'<div class="card"><p class="small mute">아직 확정한 사실이 없습니다.</p></div>';
+ return `<div class="scr"><div class="hdr"><button class="back" data-act="back">←</button><h2>증거 분석</h2><span class="cc">${n}/5</span></div><div class="body"><div class="stack">
+ <div><h3>확보한 단서</h3><p class="small mute">두 단서를 선택해 사건의 연결고리를 확정하세요.</p><div class="chips">${chips||'<p class="small mute">아직 확보한 단서가 없습니다.</p>'}</div>${sel.map(i=>`<div class="card" style="margin-top:8px"><p class="small">${CLUES[i].d}</p></div>`).join('')}<button class="btn pri block" style="margin-top:10px" data-act="link" ${sel.length===2?'':'disabled'}>선택한 두 단서 연결</button></div>
+ <div><h3>확정한 사실</h3><div class="stack">${facts}</div></div>
+ </div></div></div>`;
+}
+appHTML=function(){if(S.app==='cctv')return cctvApp();if(S.app==='evidence')return evidenceHTML();return _ah()};
 const _act=act;
 act=function(a,d){
  if(a==='open'){const ap=APPS.find(x=>x.id===d.id);if(ap&&!isOpen(ap)){toast('🔒 '+LBL[ap.id],true);return}}
@@ -1647,7 +1657,12 @@ act=function(a,d){
  const b=openIds();_act(a,d);
  if(a==='link'){const nw=openIds().filter(x=>!b.includes(x));if(nw.length){S.newApps=S.newApps.concat(nw);setTimeout(()=>{toast('새 앱 열림 · '+nw.map(i=>APPS.find(x=>x.id===i).n).join(', '));render()},1600)}}};
 appBtn=function(a){const o=isOpen(a),nw=S.newApps.includes(a.id);return`<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${svg(a.id)}</div><span class="nm">${a.n}</span>${o?'':`<span class="need">🔒 ${LBL[a.id]}</span>`}</button>`};
-homeHTML=function(){return`<div class="scr home">${status()}<div class="grid">${APPS.map(appBtn).join('')}</div><div class="dock"><button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button><button class="btn" data-act="notebook">${svg('note')}<span>수첩</span></button>${count()>=5?`<button class="btn" data-act="final">${svg('final')}<span>최종 판단</span></button>`:''}${S.memoUsed?`<button class="btn" data-act="open" data-id="quest"><img src="assets/notes.png" alt="" style="width:20px;height:20px;border-radius:5px"><span>메모</span></button>`:''}</div></div>`};
+const canFinal=()=>count()>=10&&Object.keys(S.links).length>=3;
+homeHTML=function(){
+ const apps=APPS.map(appBtn).join('');
+ const final=canFinal()?`<button class="appbtn new" data-act="final"><div class="ico">${svg('final')}</div><span class="nm">최종 판단</span><span class="need">수사 진행 완료</span></button>`:'';
+ return`<div class="scr home">${status()}<div class="grid">${apps}${final}</div><div class="dock"><button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button>${S.memoUsed?`<button class="btn" data-act="open" data-id="quest"><img src="assets/notes.png" alt="" style="width:20px;height:20px;border-radius:5px"><span>메모</span></button>`:''}</div></div>`;
+};
 notebookHTML=function(){const f=CLUE_IDS.filter(i=>S.clues[i]),n=Object.keys(S.links).length,sel=S.sel||[];
  const chip=i=>`<button class="chip" data-act="sel" data-c="${i}" style="${sel.includes(i)?'border-color:#d6a84d;background:#252116;color:#ead18d':''}">#${num(i)} ${CLUES[i].t}</button>`;
  const facts=LINKS.filter(l=>S.links[l.id]).map(l=>`<p class="small">✔ ${l.t}</p>`).join('')||'<p class="small mute">아직 확정한 사실이 없습니다.</p>';
@@ -1660,14 +1675,14 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
  if(!c.C08)return'토스 결제 내역의 새벽 시간대를 보세요.';
  if(!c.C16)return'음성 메모 9/27 녹음에 사서함 번호가 있습니다. 전화 키패드에 입력해 보세요.';
  if(!c.C04)return'잠겨 있던 한도현 팀장 대화방을 여세요.';
- if(!c.C06)return'이웃광장의 “새벽3시” 글을 읽어 보세요.';
+ if(!c.C06)return'시계 앱에서 새벽 3시의 제보 기록을 확인하세요.';
  if(!c.C13)return'설정 > Wi-Fi 연결 기록에서 9/27 새벽을 확인하세요.';
  if(!c.C10)return'메일 [백업]의 잠긴 장부. 비밀번호는 두 사람이 처음 만난 날(MMDD)입니다.';
  if(!c.C12)return'오세린과의 대화를 다시 열어 보세요.';
  if(!c.C09)return'지도의 최근 검색 기록을 보세요.';
  if(!c.C05)return'인스타그램은 비공개입니다. 성화 생일(MMDD)은 캘린더에서 찾고, 마지막 게시물 사진을 살펴보세요.';
- if(n<4)return'수첩에서 단서를 이어 사실을 4개 이상 확정하세요. 성화를 의심하게 만드는 건 함정입니다.';
- return'충분합니다. 최종 판단: 성화는 보호 대상, 수색 지점은 월포입니다.'};
+ if(n<4)return'증거 분석에서 단서를 이어 사실을 4개 이상 확정하세요. 성화를 의심하게 만드는 건 함정입니다.';
+ return canFinal()?'충분히 조사했습니다. 홈 화면에 최종 판단이 열렸습니다.':'단서를 더 확보하고 사실을 몇 가지 더 연결하세요.'};
 })();
 </script>
 </body></html>
