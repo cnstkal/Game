@@ -103,6 +103,11 @@
 @keyframes camfocus{0%{opacity:1;transform:translate(-50%,-50%) scale(1.4)}20%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
 .camera-captured::after{content:"";position:absolute;inset:0;background:#fff;opacity:.9;animation:cameraFlash .16s ease-out forwards;pointer-events:none;z-index:10}
 @keyframes cameraFlash{from{opacity:.9}to{opacity:0}}
+.talkapp .hdr,.calendarapp .hdr{background:#fff!important;color:#1d1d1f!important;border-bottom:1px solid #d8d8de!important;opacity:1!important}
+.talkapp .hdr h2,.calendarapp .hdr h2{color:#1d1d1f!important}
+.talkapp .hdr .back,.calendarapp .hdr .back,.talkapp .hdr .cc{color:#1d1d1f!important}
+.talkapp .status,.calendarapp .status{background:#fff!important;border-color:#fff!important;color:#555!important}
+.clockapp .hdr{background:#000!important;color:#fff!important;border-bottom:1px solid #222!important}.clockapp .hdr h2,.clockapp .hdr .back{color:#fff!important}
 .scr.app.findmyapp,.scr.app.photosapp,.scr.app.musicapp,.scr.app.voiceapp,.scr.app.naverapp{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
 .naverapp{background:#fff!important;color:#111}
 .naverapp .status{background:#fff;border-color:#fff;color:#555}
@@ -137,8 +142,8 @@
 .vm-recbtn{width:62px;height:62px;border-radius:50%;border:1px solid #d9d9dd;background:#fff;padding:5px;box-shadow:0 2px 8px rgba(0,0,0,.08)}.vm-recbtn i{display:block;width:100%;height:100%;border-radius:50%;background:#ec4944}
 .vm-det{padding:8px 4px 0}.vm-det h2{margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em}.vm-det .m{margin:2px 0 12px;color:#8a8a8e;font-size:15px}
 .vm-note{background:#f2f2f6;border-radius:12px;padding:10px 12px;color:#6b6b70;font-size:13px;line-height:1.55;margin-bottom:16px}
-.vm-chat{display:flex;flex-direction:column;gap:10px}.vm-msg{max-width:82%;display:flex;flex-direction:column;gap:3px}.vm-msg small{color:#8a8a8e;font-size:12px}
-.vm-msg p{margin:0;padding:10px 14px;border-radius:18px;background:#ececf0;font-size:16px;line-height:1.45}.vm-msg.me{align-self:flex-end;align-items:flex-end}.vm-msg.me p{background:#0a84ff;color:#fff}
+.vm-chat{display:flex;flex-direction:column;gap:10px}.vm-msg{max-width:82%;width:fit-content;align-self:flex-start;align-items:flex-start;display:flex;flex-direction:column;gap:3px}.vm-msg small{color:#8a8a8e;font-size:12px}
+.vm-msg p{width:fit-content;max-width:100%;margin:0;padding:10px 14px;border-radius:18px;background:#ececf0;font-size:16px;line-height:1.45}.vm-msg.me{align-self:flex-end;align-items:flex-end}.vm-msg.me p{background:#0a84ff;color:#fff}
 .vm-snd{align-self:center;color:#8a8a8e;font-size:13px;padding:2px 10px}
 .musicapp{background:#371420!important;color:#fff}
 .musicapp .status{background:#371420;border-color:#371420;color:#d9b9c6;position:relative;z-index:3}
