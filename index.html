@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style id="font-override">:root{--sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important;--mono:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important}*,*::before,*::after{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important;letter-spacing:-.02em!important;font-variant-numeric:normal!important}</style>
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#000000">
-<style>.hdr{padding-top:env(safe-area-inset-top,0)}
+<style>.scr{top:22px!important}#notebook-memo,.memoapp textarea{background:#fff!important;color:#111!important;-webkit-text-fill-color:#111}.memoapp textarea::placeholder{color:#999}.hdr{padding-top:env(safe-area-inset-top,0)}
 .scr.app.clockapp .hdr{margin-top:20px;padding-left:18px;padding-right:18px}.scr.app.clockapp .clock-body{position:absolute;left:0;right:0;bottom:0;top:78px!important;padding:0 18px!important;overflow-y:auto}
 .scr.app.clockapp .alarm-list{display:block}.scr.app.clockapp .alarm-row{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;border-bottom:1px solid #2a2a2e;padding:12px 0;text-align:left;color:#fff}
 .scr.app.clockapp .alarm-time{font-size:44px;font-weight:300;letter-spacing:-.02em;line-height:1.1}.scr.app.clockapp .alarm-note{font-size:14px;color:#9a9aa0;margin-top:2px}.scr.app.clockapp .alarm-toggle{flex:none;width:51px;height:31px;border-radius:16px;background:#3a3a3c;position:relative}.scr.app.clockapp .alarm-toggle i{position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff}
@@ -788,6 +788,7 @@ function homeHTML(){const c=count();return`<div class="scr home">${status()}
  <div class="grid">${APPS.map(appBtn).join('')}</div>
  <div class="dock">
   <button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button>
+  ${S.memoUsed?`<button class="btn" data-act="open" data-id="quest"><img src="assets/notes.png" alt="" style="width:20px;height:20px;border-radius:5px"><span>메모</span></button>`:''}
  </div></div>`}
 
 /* ===== 앱 ===== */
@@ -1403,7 +1404,7 @@ function act(a,d){
  case'cont':{const sv=loadSave();if(sv){S=Object.assign(fresh(),sv);S.t0=Date.now();S.app=S.app||null;render()}return}
  
  case'open':{const ap=APPS.find(x=>x.id===d.id);if(count()<ap.need){toast(`단서 ${ap.need}개를 모으면 열립니다`);sfx.bad();return}
-  S.newApps=S.newApps.filter(x=>x!==d.id);S.screen='APP';S.app=d.id;S.sub=null;sfx.open();break}
+  S.newApps=S.newApps.filter(x=>x!==d.id);S.screen='APP';S.app=d.id;S.sub=null;if(d.id==='quest')S.memoUsed=true;sfx.open();break}
  case'camera-shot':cameraShot();return;
  case'camera-switch':cameraSwitch();return;
  case'back':if(S.screen==='APP'){if(S.sub){S.sub=null;S.pwBuf=''}else{S.app=null;S.screen='HOME'}}else if(S.screen==='FINAL'&&S.fin.step){S.fin={}}else S.screen='HOME';break;
