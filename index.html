@@ -1304,7 +1304,8 @@ function render(){const old=$('.body'),st=old?old.scrollTop:0,key=S.screen+'|'+S
  markFound($('#stage'));S.pulse=null;S.shk=false;if(S.shake&&sc){sc.classList.add('shake');S.shake=false}
  const nb=$('.body');if(nb&&same)nb.scrollTop=st;
  if(S.screen==='APP'&&S.app==='moa'&&!same)requestAnimationFrame(cameraStart); else if(S.app!=='moa')cameraStop();
- if(S.screen==='PROLOGUE'&&!same)runPrologue()
+ if(S.screen==='PROLOGUE'&&!same)runPrologue();
+ try{const sc2=$('.scr'),ap=$('#app');if(sc2&&ap){const c=getComputedStyle(sc2);ap.style.backgroundColor=c.backgroundColor;ap.style.backgroundImage=c.backgroundImage;ap.style.backgroundSize=c.backgroundSize;ap.style.backgroundPosition=c.backgroundPosition;ap.style.backgroundRepeat=c.backgroundRepeat}}catch(e){}
  if(S.screen==='APP'&&S.app==='calendar'&&!same){const cs=$('.calendar-scroll');if(cs){requestAnimationFrame(()=>{const target=cs.querySelector('[data-default-month="true"]');if(target)cs.scrollLeft=target.offsetLeft})}}
 }
 
