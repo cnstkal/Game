@@ -946,7 +946,7 @@ document.addEventListener('change',async e=>{if(e.target.id!=='ig-file')return;c
  try{const bm=await createImageBitmap(f),k=Math.min(1,1280/Math.max(bm.width,bm.height)),c=document.createElement('canvas');c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext('2d').drawImage(bm,0,0,c.width,c.height);const u=c.toDataURL('image/jpeg',.85);IGI[i]=u;render();igIdb('readwrite',o=>o.put(u,i));toast('저장됨');cldUpload(u,CLD_TAG+'_ig'+i).catch(()=>{})}catch(_){toast('사진을 불러오지 못했습니다',1)}});
 function instaApp(){if(!igLoaded)igLoad();const IG_USER=ovGet('ig.id','dbsghu._.u'),IG_AVATAR=ovGet('ig.av','');const N=(n,t)=>`<span class="hot" data-note="${n}" tabindex="0" role="button">${t}</span>`,sub=S.sub||'';
  const LOCK=(w)=>`<svg width="${w}" height="${w}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 017 0v3"/></svg>`;
- const tile=(p,i)=>{const s=IGI[i]||p.img;return s?`<img src="${s}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">`:''};
+ const tile=(p,i)=>{const s=IGI[i]||p.img;return s?`<img src="${s}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">`:(p.svg||'')};
  const css=`<style>.ig{background:#fff;color:#111}.ig .it{display:flex;align-items:center;justify-content:space-between;padding:46px 16px 8px}.ig .it button{border:0;background:#f3f4f6;width:42px;height:42px;border-radius:50%;font-size:22px;color:#111;padding:0;display:grid;place-items:center}.ig .it b{font-size:20px;font-weight:800;display:flex;align-items:center;gap:6px}.ig .ib{flex:1;overflow-y:auto;padding:0 16px 40px}.ig .ip{display:flex;align-items:center;gap:14px;margin-top:6px}.ig .ia{flex:none;width:86px;height:86px;border-radius:50%;background:#eef0f4;border:1px solid #dfe2e8;overflow:hidden;display:grid;place-items:end center}.ig .ia img{width:100%;height:100%;object-fit:cover}.ig .is{flex:none;display:flex;gap:18px;text-align:center}.ig .is b{display:block;font-size:19px}.ig .is span{font-size:14px}.ig .fo{display:block;width:100%;margin-top:18px;border:0;background:#4a5df5;color:#fff;font-weight:700;font-size:15px;height:46px;border-radius:10px}.ig .ig-tabs{display:flex;justify-content:space-around;margin:20px -16px 0;border-bottom:1px solid #e5e7eb;color:#111}.ig .ig-tabs span{padding:10px 30px;opacity:.4;display:grid;place-items:center}.ig .ig-tabs span:first-child{opacity:1;border-bottom:2px solid #111}.ig .lk{text-align:center;padding:46px 20px}.ig .lk i{display:grid;place-items:center;width:84px;height:84px;margin:0 auto 18px;border:2.5px solid #111;border-radius:50%}.ig .lk b{font-size:20px}.ig .lk p{color:#8e8e93;margin:8px 0 0;font-size:14px}.ig .gr{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:0 -16px}.ig .gr button{aspect-ratio:1;border:0;padding:0;background:#e7e9ee;overflow:hidden}.ig .pd .tl2{aspect-ratio:1;margin:0 -16px;background:#e7e9ee}.ig .pd p{font-size:15px;margin:10px 0 0}.ig .pd em{font-style:normal;color:#8e8e93;font-size:13px}.ig .pk{text-align:center;padding:24px 0}.ig .dots{display:flex;gap:14px;justify-content:center;margin:22px 0}.ig .dots i{width:14px;height:14px;border-radius:50%;border:2px solid #c7c9d0}.ig .dots i.on{background:#111;border-color:#111}.ig .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:300px;margin:0 auto}.ig .kp button{border:0;background:#f0f1f5;border-radius:14px;padding:16px 0;font-size:22px;font-weight:600;color:#111}.ig .hot{color:#2f5fe0;border-bottom:1px dotted #2f5fe0}.ig .hot.found{background:rgba(74,93,245,.12)}</style>`;
  const back=`<button data-act="back" aria-label="뒤로"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>`;
  if(sub==='igpw'){const d=[0,1,2,3].map(i=>`<i class="${i<S.pwBuf.length?'on':''}"></i>`).join('');return`<div class="scr app ig">${css}<div class="it">${back}<b>비공개 풀기</b><span style="width:42px"></span></div><div class="ib"><div class="pk"><p style="font-size:15px;margin:0">비밀번호 4자리를 입력하세요</p><div class="dots">${d}</div><p style="color:#8e8e93;margin:0 0 22px;font-size:13px">${(S.igf||0)>=3?'힌트: 성화의 생일(MMDD)':'실패 '+(S.igf||0)+'/3'}</p></div><div class="kp">${[1,2,3,4,5,6,7,8,9].map(k=>`<button data-act="igkey" data-k="${k}">${k}</button>`).join('')}<button data-act="igkey" data-k="x">⌫</button><button data-act="igkey" data-k="0">0</button><span></span></div></div></div>`}
@@ -1606,4 +1606,68 @@ boot();
 
 </script>
 
+<script>
+/* ===== 대규모 흐름 개편: 잠금 → 열쇠(단서) → 열람 ===== */
+(()=>{
+const AREQ={time:'C01',calendar:'C01',voice:'C01',phone:'C01',photos:'C01',music:'C01',coupang:'C01',moa:'C01',insta:'C02',x:'C02',pay:'L1',board:'C04',settings:'C06',mail:'C13',health:'C13',gpt:'C10',cctv:'C07',map:'C08',findmy:'C08',safari:'C09'};
+const LBL={time:'신고서 확인 후',calendar:'신고서 확인 후',voice:'신고서 확인 후',phone:'신고서 확인 후',photos:'신고서 확인 후',music:'신고서 확인 후',coupang:'신고서 확인 후',moa:'신고서 확인 후',insta:'마지막 연락 확인 후',x:'마지막 연락 확인 후',pay:'사실 확정 필요',board:'협박 단서 필요',settings:'제보자 단서 필요',mail:'접속 기록 필요',health:'접속 기록 필요',gpt:'장부 확보 필요',cctv:'부재중 단서 필요',map:'이동 단서 필요',findmy:'이동 단서 필요',safari:'장소 단서 필요'};
+const REQ={C16:'C01',C04:'C16',C06:'C04',C13:'C06',C10:'C13',C19:'C10',C09:'C08',C12:'C04',C05:'C02',C17:'C02',C18:'C02',C15:'C13',C07:'C01',C11:'C07',C08:'L1'};
+const has=r=>!r||!!(S.clues[r]||S.links[r]);
+const isOpen=a=>has(AREQ[a.id]);
+APPS.push({id:'board',n:'이웃광장',need:0},{id:'cctv',n:'CCTV',need:0});
+APPS.forEach(a=>Object.defineProperty(a,'need',{get(){return isOpen(a)?0:99},configurable:true}));
+/* 인스타 마지막 게시물에 사진(단서 C05) */
+IGP[0].svg=SNS_PHOTO;IGP[0].d='10/2';IGP[0].c='잠깐 바람 쐬는 중. 다들 잘 있어.';
+PROLOGUE.splice(5,0,{x:'휴대폰 복사본은 대부분 잠겨 있습니다. 단서를 찾아 앱을 열고, 알아낸 사실을 수첩에서 이어 붙이며 안쪽으로 들어가야 합니다.'});
+const st=document.createElement('style');st.textContent='.ig .gr svg,.ig .tl2 svg{width:100%;height:100%;display:block}.ig .pd .tl2 svg{height:auto}';document.head.appendChild(st);
+
+camCount=function(){};
+const _fresh=fresh;fresh=function(){const s=_fresh();s.live=1;return s};
+
+function sync(){const g=k=>CHATS.find(c=>c.id===k);
+ if(S.clues.C04){const c=g('sera');if(!c._a){c._a=1;c.msgs.push({d:'10/4(일)'},{w:'t',x:'경찰분이시죠? 윤호 찾고 있다고 들었어요. '+H('C12','윤호가 그랬어요. “성화가 알면 위험해져. 그래서 일부러 연락을 끊을 거야.” 한도현 얘기였나 봐요.'),tm:'10:05'});c.pre='경찰분이시죠? 윤호 찾고 있다고…'}}
+ if(S.clues.C12){const c=g('sung');if(!c._a){c._a=1;c.msgs.push({d:'10/4(일)'},{w:'t',x:'…세린이한테 들었어. 윤호가 일부러 연락을 끊은 거라고.',tm:'10:18'},{w:'t',x:'혹시 윤호 폰에 잠긴 파일이 있다면, 비밀번호는 우리가 처음 만난 날일 거야. 3월 14일.',tm:'10:19'});c.pre='…세린이한테 들었어.'}S.pwHint=true;S.notes.pw=true}}
+const _gain=gain;
+gain=function(id){
+ if(REQ[id]&&!has(REQ[id])){toast('아직 열람할 수 없는 정보입니다',true);return false}
+ const r=_gain(id);
+ if(r){sync();
+  if(id==='C16')setTimeout(()=>toast('잠겨 있던 한도현 팀장 대화가 열렸습니다'),3800);
+  if(id==='C04')setTimeout(()=>toast('오세린에게서 새 메시지가 왔습니다'),3800);
+  if(id==='C12')setTimeout(()=>toast('성화형에게서 새 메시지가 왔습니다'),3800);
+  if(!S.liveDone&&S.clues.C12&&S.clues.C09){S.liveDone=1;setTimeout(liveStart,6000)}}
+ return r};
+const _ta=talkApp;
+talkApp=function(){sync();let h=_ta();if(!S.sub&&!S.clues.C16)h=h.replace(/<b>한도현 팀장<\/b><span>[^<]*<\/span>/,'<b>🔒 한도현 팀장</b><span>잠긴 대화 · 열람 불가</span>');return h};
+const _ah=appHTML;appHTML=function(){return S.app==='cctv'?cctvApp():_ah()};
+const _act=act;
+act=function(a,d){
+ if(a==='open'){const ap=APPS.find(x=>x.id===d.id);if(ap&&!isOpen(ap)){toast('🔒 '+LBL[ap.id],true);return}}
+ if(a==='chat'&&d.id==='han'&&!S.clues.C16){toast('🔒 잠긴 대화방 · 회사 쪽 증언을 먼저 확보하세요',true);return}
+ const b=openIds();_act(a,d);
+ if(a==='link'){const nw=openIds().filter(x=>!b.includes(x));if(nw.length){S.newApps=S.newApps.concat(nw);setTimeout(()=>{toast('새 앱 열림 · '+nw.map(i=>APPS.find(x=>x.id===i).n).join(', '));render()},1600)}}};
+appBtn=function(a){const o=isOpen(a),nw=S.newApps.includes(a.id);return`<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${svg(a.id)}</div><span class="nm">${a.n}</span>${o?'':`<span class="need">🔒 ${LBL[a.id]}</span>`}</button>`};
+homeHTML=function(){return`<div class="scr home">${status()}<div class="grid">${APPS.map(appBtn).join('')}</div><div class="dock"><button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button><button class="btn" data-act="notebook">${svg('note')}<span>수첩</span></button>${count()>=5?`<button class="btn" data-act="final">${svg('final')}<span>최종 판단</span></button>`:''}${S.memoUsed?`<button class="btn" data-act="open" data-id="quest"><img src="assets/notes.png" alt="" style="width:20px;height:20px;border-radius:5px"><span>메모</span></button>`:''}</div></div>`};
+notebookHTML=function(){const f=CLUE_IDS.filter(i=>S.clues[i]),n=Object.keys(S.links).length,sel=S.sel||[];
+ const chip=i=>`<button class="chip" data-act="sel" data-c="${i}" style="${sel.includes(i)?'border-color:#d6a84d;background:#252116;color:#ead18d':''}">#${num(i)} ${CLUES[i].t}</button>`;
+ const facts=LINKS.filter(l=>S.links[l.id]).map(l=>`<p class="small">✔ ${l.t}</p>`).join('')||'<p class="small mute">아직 확정한 사실이 없습니다.</p>';
+ const nt=[];if(S.notes.wolpo)nt.push('윤호의 외가는 월포입니다.');if(S.notes.pw)nt.push('잠긴 파일 비밀번호는 처음 만난 날(MMDD)입니다.');if(S.notes.leave)nt.push('CCTV: 윤호는 02:41 혼자 집을 나섰습니다.');
+ return`<div class="scr">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>수첩</h2><span class="cc">사실 ${n}/5 · ${hearts()}</span></div><div class="body"><div class="stack"><div><h3>단서 잇기</h3><p class="small mute" style="margin:4px 0 10px">두 단서를 골라 연결하면 사실이 확정되고 새 앱이 열립니다. 틀린 조합은 신뢰도가 깎입니다.</p><div class="chips">${f.map(chip).join('')||'<p class="small mute">확보한 단서가 없습니다.</p>'}</div>${sel.map(i=>`<div class="card" style="margin-top:8px"><p class="small">${CLUES[i].d}</p></div>`).join('')}<button class="btn pri block" style="margin-top:10px" data-act="link" ${sel.length===2?'':'disabled'}>선택한 두 단서 연결</button></div><div><h3>확정한 사실</h3><div class="card stack" style="gap:7px">${facts}</div></div>${nt.length?`<div><h3>수사 메모</h3><div class="card stack" style="gap:7px">${nt.map(x=>`<p class="small">${x}</p>`).join('')}</div></div>`:''}<div><h3>내 메모</h3><textarea id="notebook-memo" placeholder="수사 중 알아낸 내용을 정리하세요">${S.memo||''}</textarea></div></div></div></div>`};
+nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
+ if(!c.C01)return'파일 앱의 신고서에서 현장 상황을 확인하세요.';
+ if(!c.C02)return'메시지 앱, 성화형과의 마지막 대화를 보세요.';
+ if(!L.L1)return'수첩에서 “현장 상황”과 “윤호의 마지막 메시지”를 이어 사실을 확정하세요. 새 앱이 열립니다.';
+ if(!c.C08)return'토스 결제 내역의 새벽 시간대를 보세요.';
+ if(!c.C16)return'음성 메모 9/27 녹음에 사서함 번호가 있습니다. 전화 키패드에 입력해 보세요.';
+ if(!c.C04)return'잠겨 있던 한도현 팀장 대화방을 여세요.';
+ if(!c.C06)return'이웃광장의 “새벽3시” 글을 읽어 보세요.';
+ if(!c.C13)return'설정 > Wi-Fi 연결 기록에서 9/27 새벽을 확인하세요.';
+ if(!c.C10)return'메일 [백업]의 잠긴 장부. 비밀번호는 두 사람이 처음 만난 날(MMDD)입니다.';
+ if(!c.C12)return'오세린과의 대화를 다시 열어 보세요.';
+ if(!c.C09)return'지도의 최근 검색 기록을 보세요.';
+ if(!c.C05)return'인스타그램은 비공개입니다. 성화 생일(MMDD)은 캘린더에서 찾고, 마지막 게시물 사진을 살펴보세요.';
+ if(n<4)return'수첩에서 단서를 이어 사실을 4개 이상 확정하세요. 성화를 의심하게 만드는 건 함정입니다.';
+ return'충분합니다. 최종 판단: 성화는 보호 대상, 수색 지점은 월포입니다.'};
+})();
+</script>
 </body></html>
