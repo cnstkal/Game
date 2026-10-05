@@ -1661,7 +1661,7 @@ const canFinal=()=>count()>=10&&Object.keys(S.links).length>=3;
 homeHTML=function(){
  const apps=APPS.map(appBtn).join('');
  const final=canFinal()?`<button class="appbtn new" data-act="final"><div class="ico">${svg('final')}</div><span class="nm">최종 판단</span><span class="need">수사 진행 완료</span></button>`:'';
- return`<div class="scr home">${status()}<div class="grid">${apps}${final}</div><div class="dock"><button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button>${S.memoUsed?`<button class="btn" data-act="open" data-id="quest"><img src="assets/notes.png" alt="" style="width:20px;height:20px;border-radius:5px"><span>메모</span></button>`:''}</div></div>`;
+ return`<div class="scr home">${status()}<div class="grid">${apps}${final}</div><div class="dock"><button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button></div></div>`;
 };
 notebookHTML=function(){const f=CLUE_IDS.filter(i=>S.clues[i]),n=Object.keys(S.links).length,sel=S.sel||[];
  const chip=i=>`<button class="chip" data-act="sel" data-c="${i}" style="${sel.includes(i)?'border-color:#d6a84d;background:#252116;color:#ead18d':''}">#${num(i)} ${CLUES[i].t}</button>`;
