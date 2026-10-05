@@ -1,3 +1,5 @@
-/* Clock app — app-specific overrides */
+/* Clock app */
 
 .clockapp{background:#000!important;color:#fff!important;color-scheme:dark!important}
+.clockapp .appbar{background:#000!important;color:#fff!important;border-bottom:1px solid #222!important}
+.clockapp .appbar-back{color:#fff!important}
