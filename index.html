@@ -1610,7 +1610,7 @@ function onHot(el){if(el.dataset.note){const n=el.dataset.note;if(!S.notes[n]){S
  const id=el.dataset.clue;if(S.clues[id]){toast('이미 확보한 단서입니다');return}gain(id);render()}
 XM.forEach((p,i)=>p.k='m'+i);XP.forEach((p,i)=>p.k='p'+i);MU.D=MU.TR.map(t=>({...t}));MU.DT=MU.T;
 function boot(){const sv=loadSave();S=sv?Object.assign(fresh(),sv):fresh();$('#modal').hidden=true;
- $('#app').addEventListener('click',e=>{const h=e.target.closest('.hot');if(h&&$('#stage').contains(h)){onHot(h);return}
+ $('#app').addEventListener('click',e=>{const h=e.target.closest('.hot,[data-clue]');if(h&&$('#stage').contains(h)){onHot(h);return}
   const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b.dataset)});
  $('#app').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('hot')){e.preventDefault();onHot(e.target)}});
  $('#app').addEventListener('input',e=>{if(e.target.id==='cctv-range'){S.cmin=+e.target.value;$('#camsvg').innerHTML=cctvInner(S.cmin);$('#camts').textContent='CAM-02 '+camTime(S.cmin);markFound($('#camsvg'))}if(e.target.id==='notebook-memo'){S.memo=e.target.value;save();if(window._pipT)_pipT.value=S.memo}});
