@@ -4,7 +4,7 @@ function talkApp(){
    const last=c.msgs.filter(g=>!g.d&&!g.sys).slice(-1)[0]||{};
    const date=i<6?'금요일':i===6?'목요일':'수요일';
    return `<button class="talk-row" data-act="chat" data-id="${c.id}"><div class="avatar ${c.id==='tax'?'green':''}">${c.id==='tax'?'':c.n[0]}</div><div class="t"><b>${c.n}</b><span>${c.pre||last.x||''}</span></div><span class="date">${date}</span><span class="arrow">›</span></button>`;}).join('');
-  return `<div class="scr app talkapp">${status()}<div class="talk-top"><div class="title">메시지</div><button class="home-list" data-act="home" aria-label="홈으로">➔</button></div><div class="talk-list">${rows}</div></div>`;
+  return `<div class="scr app talkapp">${status()}<div class="appbar"><button class="appbar-back" data-act="home" aria-label="홈으로">←</button><div class="appbar-title">메시지</div></div><div class="talk-list">${rows}</div></div>`;
  }
  const c=CHATS.find(x=>x.id===S.sub);
  const m=c.msgs.map(g=>{
