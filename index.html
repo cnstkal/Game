@@ -1670,4 +1670,134 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
  return'충분합니다. 최종 판단: 성화는 보호 대상, 수색 지점은 월포입니다.'};
 })();
 </script>
+
+<script>
+/* ===== 2026-10-06 investigation flow revision ===== */
+(()=>{
+  /* 수첩/이웃광장은 홈 화면과 앱 목록에서 완전히 제거 */
+  const removeIds = new Set(['quest','board']);
+  for(let i=APPS.length-1;i>=0;i--) if(removeIds.has(APPS[i].id)) APPS.splice(i,1);
+
+  /* 정보 확보 전에는 앱 자체가 열리지 않도록 잠금 단계를 세분화 */
+  Object.assign(AREQ,{
+    case:null,
+    talk:'C01',
+    moa:'C01',
+    calendar:'C02',
+    photos:'C02',
+    insta:'C02',
+    x:'C06',
+    music:'C04',
+    coupang:'C04',
+    time:'C06',
+    voice:'C06',
+    safari:'C05',
+    pay:'L1',
+    map:'C08',
+    findmy:'C08',
+    cctv:'C07',
+    mail:'C10',
+    gpt:'C10',
+    settings:'C13',
+    health:'C15',
+    phone:'C16'
+  });
+
+  /* 수첩을 대체하는 별도 증거 분석 화면.
+     이름/UI상 수첩은 완전히 사라지고, 단서 연결 기능은 유지한다. */
+  AREQ.evidence='C02';
+  APPS.push({id:'evidence',n:'증거 분석',need:0});
+
+  const oldIsOpen=isOpen;
+  const unlocked=(a)=>{
+    if(a.id==='evidence') return count()>=2;
+    return oldIsOpen(a);
+  };
+
+  function evidenceApp(){
+    const f=CLUE_IDS.filter(i=>S.clues[i]), n=Object.keys(S.links).length, sel=S.sel||[];
+    const chip=i=>`<button class="chip" data-act="sel" data-c="${i}" style="${sel.includes(i)?'border-color:#d6a84d;background:#252116;color:#ead18d':''}">#${num(i)} ${CLUES[i].t}</button>`;
+    const facts=LINKS.filter(l=>S.links[l.id]).map(l=>`<p class="small">✔ ${l.t}</p>`).join('')||'<p class="small mute">아직 확정한 사실이 없습니다.</p>';
+    return `<div class="scr app"><div class="hdr"><button class="back" data-act="back">←</button><h2>증거 분석</h2><span class="cc">사실 ${n}/5</span></div><div class="body"><div class="stack">
+      <div class="card"><p style="font-weight:650">확보한 정보를 서로 연결해 사건의 흐름을 확인합니다.</p><p class="small mute" style="margin-top:5px">단서 두 개를 선택한 뒤 연결하세요. 잘못 연결하면 신뢰도가 내려갑니다.</p></div>
+      <div><h3>확보 단서 <span class="mono small mute">${f.length}/${CLUE_IDS.length}</span></h3><div class="chips">${f.map(chip).join('')||'<p class="small mute">확보한 단서가 없습니다.</p>'}</div>
+      ${sel.map(i=>`<div class="card" style="margin-top:8px"><p class="small">${CLUES[i].d}</p></div>`).join('')}
+      <button class="btn pri block" style="margin-top:10px" data-act="link" ${sel.length===2?'':'disabled'}>선택한 두 단서 연결</button></div>
+      <div><h3>확정한 사실</h3><div class="card stack" style="gap:7px">${facts}</div></div>
+    </div></div></div>`;
+  }
+
+  const oldAppHTML=appHTML;
+  appHTML=function(){
+    if(S.app==='evidence') return evidenceApp();
+    return oldAppHTML();
+  };
+
+  /* 최종 판단은 충분한 진행 이후에만 홈의 앱 목록에 등장 */
+  const canFinal=()=>count()>=10 && Object.keys(S.links).length>=3;
+  const oldAppBtn=appBtn;
+  appBtn=function(a){
+    if(a.id==='evidence'){
+      const o=unlocked(a),nw=S.newApps.includes(a.id);
+      return `<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="evidence"><div class="ico">${svg('note')}</div><span class="nm">증거 분석</span>${o?'': '<span class="need">🔒 단서 2개 필요</span>'}</button>`;
+    }
+    return oldAppBtn(a);
+  };
+
+  const oldHomeHTML=homeHTML;
+  homeHTML=function(){
+    const base=oldHomeHTML();
+    if(!canFinal()) return base;
+    const finalIcon=`<button class="appbtn new" data-act="open" data-id="__final"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">${ICO.final}</svg></div><span class="nm">최종 판단</span><span class="need">수사 진행 완료</span></button>`;
+    return base.replace('<div class="grid">','<div class="grid">'+finalIcon);
+  };
+
+  /* 기존 하단바에서 수첩/최종판단을 제거.
+     힌트만 남겨 하단바 자체는 유지한다. */
+  const oldHome=homeHTML;
+  homeHTML=function(){
+    let h=oldHome();
+    h=h.replace(/<button class="btn" data-act="notebook">[\s\S]*?<\/button>/,'');
+    h=h.replace(/\$\{count\(\)>=5\?[\s\S]*?\:'\'\}/,'');
+    return h;
+  };
+
+  const oldAct=act;
+  act=function(a,d){
+    if(a==='open' && d.id==='__final'){
+      if(!canFinal()){toast('아직 최종 판단을 내릴 단계가 아닙니다',true);return}
+      S.screen='FINAL';S.app=null;S.sub=null;S.fin={};render();save();return;
+    }
+    if(a==='open'){
+      const ap=APPS.find(x=>x.id===d.id);
+      if(ap && !unlocked(ap)){toast('🔒 정보를 더 확보해야 열 수 있습니다',true);return}
+    }
+    oldAct(a,d);
+  };
+
+  /* 이웃광장에 의존하던 안내 문구 제거 */
+  nextHint=function(){
+    const c=S.clues,L=S.links,n=Object.keys(L).length;
+    if(!c.C01)return'파일 앱의 신고서에서 현장 상황을 확인하세요.';
+    if(!c.C02)return'메시지 앱에서 성화형과의 마지막 대화를 확인하세요.';
+    if(!L.L1)return'증거 분석에서 “현장 상황”과 “윤호의 마지막 메시지”를 연결하세요.';
+    if(!c.C05)return'인스타그램의 마지막 게시물 사진을 자세히 살펴보세요.';
+    if(!c.C08)return'토스 결제 내역에서 새벽 시간대의 이동 기록을 확인하세요.';
+    if(!c.C07)return'CCTV에서 10/2 새벽 시간대를 움직여 보세요.';
+    if(!c.C06)return'캘린더의 9월 27일 “자료 전달 확인” 기록을 확인하세요.';
+    if(!c.C13)return'설정의 Wi-Fi 연결 기록에서 9/27 새벽 접속을 확인하세요.';
+    if(!c.C10)return'메일의 [백업] 장부 사본을 열어 보세요.';
+    if(!c.C12)return'오세린 조사에서 한도현의 협박 메시지를 증거로 제시하세요.';
+    if(!c.C09)return'지도에서 최근 검색 기록을 확인하세요.';
+    if(!c.C15)return'건강 앱에서 10월 1일 걸음 수 기록을 확인하세요.';
+    if(!c.C16)return'전화 앱에서 음성사서함을 확인하세요.';
+    if(n<3)return'증거 분석에서 확보한 단서를 서로 연결해 사실을 확정하세요.';
+    if(!canFinal())return'단서를 더 확보하고 사실을 몇 가지 더 연결하면 최종 판단이 열립니다.';
+    return'충분히 조사했습니다. 홈 화면에 최종 판단이 열렸습니다.';
+  };
+
+  /* 이전 저장 데이터에 남아 있는 제거된 앱 상태도 정리 */
+  if(S.app==='quest'||S.app==='board'){S.app=null;S.screen='HOME';}
+})();
+</script>
 </body></html>
