@@ -49,17 +49,7 @@
 #app:has(.healthapp){background:#f2f2f7!important}#app:has(.healthapp[style]){background:#e0b3c4!important}
 .ig .is{flex:1!important;justify-content:space-between!important;gap:0!important;padding:0 22px 0 30px!important}
 .scr.app.calendarapp .calendar-event[class]{background:#cfeaff!important;color:#0f4c75!important}.scr.app.calendarapp .calendar-week,.scr.app.calendarapp .calendar-day{border-color:#f1f1f4!important}.scr.app.calendarapp .cal-leg{display:none!important}.scr.app.clockapp .alarm-toggle.on{background:#34c759}.scr.app.clockapp .alarm-toggle i{transition:left .2s}.scr.app.clockapp .alarm-toggle.on i{left:22px}
-</style><style id="spoiler-safe-home">.appbtn[data-id="gpt"] .ico{width:58px;height:58px}.appbtn[data-id="gpt"] .ico svg,.appbtn[data-id="gpt"] .ico img{width:28px;height:28px}.appbtn[data-id="cctv"]{position:relative;top:-8px}</style></head><body><style id="home-pages-fix">
-.home .home-pages{position:relative;z-index:2;flex:1;min-height:0;overflow:hidden;touch-action:pan-y}
-.home .home-track{display:flex;width:200%;height:100%;transition:transform .24s ease}
-.home .home-page{width:50%;height:100%;flex:0 0 50%;overflow:hidden}
-.home .home-page .grid{height:auto;grid-template-rows:repeat(4,auto);align-content:start;padding:0 13px 18px;gap:17px 8px}
-.home .appbtn{min-height:0}
-.home .appbtn .need{margin-top:-3px}
-.home .home-pages-indicator{position:absolute;z-index:5;left:0;right:0;bottom:94px;display:flex;justify-content:center;gap:5px;pointer-events:none}
-.home .home-pages-indicator i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.42);box-shadow:0 1px 3px rgba(0,0,0,.25)}
-.home .home-pages-indicator i.on{background:#fff}
-</style>
+</style><style id="spoiler-safe-home">.appbtn[data-id="gpt"] .ico{width:58px;height:58px}.appbtn[data-id="gpt"] .ico svg,.appbtn[data-id="gpt"] .ico img{width:28px;height:28px}.appbtn[data-id="cctv"]{position:relative;top:-8px}</style></head><body>
 <title>마지막 접속</title>
 
 <style>
@@ -1668,30 +1658,13 @@ act=function(a,d){
  if(a==='link'){const nw=openIds().filter(x=>!b.includes(x));if(nw.length){S.newApps=S.newApps.concat(nw);setTimeout(()=>{toast('새 앱 열림 · '+nw.map(i=>APPS.find(x=>x.id===i).n).join(', '));render()},1600)}}};
 appBtn=function(a){const o=isOpen(a),nw=S.newApps.includes(a.id),ico=a.id==='evidence'?svg('note'):svg(a.id);return`<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${ico}</div><span class="nm">${a.n}</span>${o?'':`<span class="need">🔒 ${LBL[a.id]}</span>`}</button>`};
 const canFinal=()=>count()>=10&&Object.keys(S.links).length>=3;
-let HOME_PAGE=0,HOME_SX=0,HOME_SY=0;
 homeHTML=function(){
- const all=APPS.slice();
- if(canFinal())all.push({id:'final',n:'최종 판단',need:0});
- const pages=[all.slice(0,16),all.slice(16)];
- const pageHTML=(arr)=>`<div class="home-page"><div class="grid">${arr.map(a=>a.id==='final'?'<button class="appbtn new" data-act="final"><div class="ico">'+svg('final')+'</div><span class="nm">최종 판단</span><span class="need">수사 진행 완료</span></button>':appBtn(a)).join('')}</div></div>`;
- const dots=pages.length>1?`<div class="home-pages-indicator"><i class="${HOME_PAGE===0?'on':''}"></i><i class="${HOME_PAGE===1?'on':''}"></i></div>`:'';
- return`<div class="scr home">${status()}<div class="home-pages" data-page="${HOME_PAGE}"><div class="home-track" style="transform:translateX(-${HOME_PAGE*50}%)">${pages.map(pageHTML).join('')}</div></div>${dots}<div class="dock"><button class="btn" data-act="hint">${svg('hint')}<span>힌트 ${S.hints}</span></button></div></div>`;
+ const apps=APPS.map(appBtn).join('');
+ const final=canFinal()?
+`<button class="appbtn new" data-act="final"><div class="ico">`${svg('final')}`</div><span class="nm">최종 판단</span><span class="need">수사 진행 완료</span></button>`:'';
+ return
+`<div class="scr home">`${status()}`<div class="grid">`${apps}${final}`</div><div class="dock"><button class="btn" data-act="hint">`${svg('hint')}`<span>힌트 `${S.hints}`</span></button></div></div>`;
 };
-(function(){
- document.addEventListener('touchstart',e=>{
-  const h=e.target.closest&&e.target.closest('.home-pages');if(!h)return;
-  const t=e.touches&&e.touches[0];if(!t)return;
-  HOME_SX=t.clientX;HOME_SY=t.clientY;
- },{passive:true});
- document.addEventListener('touchend',e=>{
-  const h=e.target.closest&&e.target.closest('.home-pages');if(!h)return;
-  const t=e.changedTouches&&e.changedTouches[0];if(!t)return;
-  const dx=t.clientX-HOME_SX,dy=t.clientY-HOME_SY;
-  if(Math.abs(dx)<45||Math.abs(dx)<Math.abs(dy)*1.15)return;
-  if(dx<0&&HOME_PAGE===0){HOME_PAGE=1;render()}
-  else if(dx>0&&HOME_PAGE===1){HOME_PAGE=0;render()}
- },{passive:true});
-})();
 notebookHTML=function(){const f=CLUE_IDS.filter(i=>S.clues[i]),n=Object.keys(S.links).length,sel=S.sel||[];
  const chip=i=>`<button class="chip" data-act="sel" data-c="${i}" style="${sel.includes(i)?'border-color:#d6a84d;background:#252116;color:#ead18d':''}">#${num(i)} ${CLUES[i].t}</button>`;
  const facts=LINKS.filter(l=>S.links[l.id]).map(l=>`<p class="small">✔ ${l.t}</p>`).join('')||'<p class="small mute">아직 확정한 사실이 없습니다.</p>';
