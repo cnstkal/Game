@@ -7,7 +7,7 @@
 
 <style>
 :root{--bg:#101214;--surface:#17191c;--surface2:#1d2024;--surface3:#23272c;--line:#30343a;--line2:#40454d;--text:#e9e7e1;--muted:#969b9f;--accent:#d6a84d;--accent2:#ead18d;--danger:#c85b58;--ok:#789b82;--me:#26313a;--shadow:0 14px 40px rgba(0,0,0,.28);--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Apple SD Gothic Neo","AppleGothic","Noto Sans KR","Malgun Gothic",sans-serif;--mono:"SF Mono","SF Pro Text",SFMono-Regular,ui-monospace,monospace;color-scheme:dark}
-*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:#0b0c0e;color:var(--text);font:14px/1.65 var(--sans);letter-spacing:-.012em;overflow:hidden;-webkit-font-smoothing:antialiased}button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:#0b0c0e;color:var(--text);font:14px/1.65 var(--sans);letter-spacing:-.012em;overflow:hidden;-webkit-font-smoothing:antialiased}button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
 #app{position:relative;width:100%;height:100%;max-width:500px;margin:0 auto;overflow:hidden;background:var(--bg)}@media(min-width:620px){body{display:flex;align-items:center;justify-content:center}#app{height:min(100%,900px);border:1px solid #25282c;box-shadow:0 24px 80px rgba(0,0,0,.55)}}#app:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:40;border:1px solid rgba(255,255,255,.025)}
 .scr{position:absolute;inset:0;display:flex;flex-direction:column}.scr.enter{animation:fade .18s ease}@keyframes fade{from{opacity:.35}to{opacity:1}}@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .status{height:31px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #25282c;background:#0d0f11;color:var(--muted);font:11px var(--mono);letter-spacing:.02em;flex:none}.status b{color:#c9c9c5;font-weight:500}
@@ -58,21 +58,15 @@
 /* ===== APP-SPECIFIC CSS (temporarily inlined) ===== */
 /* Messages app */
 
-.talkapp .appbar{background:#fff!important;color:#1d1d1f!important;border-bottom:1px solid #d8d8de!important}
-.talkapp .appbar-back{color:#1d1d1f!important}
 .talkapp .detail-chat .bub.me{background:#147EFB!important;color:#fff!important}
 
 /* Calendar app */
 
 .calendarapp{background:#fff!important;color:#111!important}
-.calendarapp .appbar{background:#fff!important;color:#1d1d1f!important;border-bottom:1px solid #d8d8de!important}
-.calendarapp .appbar-back{color:#1d1d1f!important}
 
 /* Clock app */
 
 .clockapp{background:#000!important;color:#fff!important;color-scheme:dark!important}
-.clockapp .appbar{background:#000!important;color:#fff!important;border-bottom:1px solid #222!important}
-.clockapp .appbar-back{color:#fff!important}
 
 /* Alarm list: remove the large gap below the app bar */
 .clockapp .clock-body{top:54px!important;padding:0!important}
@@ -92,7 +86,7 @@
 .camera-shutter{width:78px;height:78px;border-radius:50%;border:3px solid #777;background:#fff;padding:5px}.camera-shutter span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;border:1px solid #bbb}
 .camera-switch{position:absolute;right:28px;bottom:8px;font-size:27px}
 .camera-modes{position:absolute;bottom:38px;left:0;right:0;z-index:4;display:flex;justify-content:center;gap:24px;font-size:16px}.camera-modes button{border:0;background:none;color:#ddd;padding:5px}.camera-modes .active{color:#ffd60a;font-weight:600}
-.camera-back{position:absolute;top:18px;left:18px;z-index:5;font-size:24px}
+.camera-back{position:absolute;top:8px;left:10px;z-index:5;width:38px;height:38px;border-radius:0;background:transparent;font-size:20px}
 .camera-captured::after{content:"";position:absolute;inset:0;background:#fff;opacity:.9;animation:cameraFlash .16s ease-out forwards;pointer-events:none;z-index:10}
 @keyframes cameraFlash{from{opacity:.9}to{opacity:0}}
 
@@ -129,7 +123,7 @@ function timeApp(){const alarms=[
  {tm:'22:00',note:'마무리'},
  {tm:'23:10',note:'정리하기'},
  {tm:'23:50',note:'내일 일정 확인'}
-];return`<div class="scr app clockapp"><div class="appbar"><button class="appbar-back" data-act="home" aria-label="홈으로">←</button><div class="appbar-title">알람</div></div><div class="clock-body"><div class="alarm-list">${alarms.map(a=>`<button class="alarm-row ${a.clue?'alarm-clue':''}" ${a.clue?'data-act="alarmclue" data-c="'+a.clue+'"':''}><div class="alarm-main"><div class="alarm-time">${a.tm}</div><div class="alarm-note">${a.note}</div></div><span class="alarm-toggle"><i></i></span></button>`).join('')}</div></div></div>`}
+];return`<div class="scr app clockapp">${status()}<div class="hdr"><button class="back" data-act="home" aria-label="뒤로">←</button><h2>알람</h2></div><div class="clock-body"><div class="alarm-list">${alarms.map(a=>`<button class="alarm-row ${a.clue?'alarm-clue':''}" ${a.clue?'data-act="alarmclue" data-c="'+a.clue+'"':''}><div class="alarm-main"><div class="alarm-time">${a.tm}</div><div class="alarm-note">${a.note}</div></div><span class="alarm-toggle"><i></i></span></button>`).join('')}</div></div></div>`}
 
 </script>
 <script>
@@ -148,7 +142,7 @@ function calendarApp(){const year=2026,months=Array.from({length:12},(_,i)=>i+1)
  11:{3:['광고 영상 납품 마감'],7:['클라이언트 미팅'],11:['성화 공연'],16:['편집본 수정 마감'],19:['외주 미팅'],26:['외주 최종본 마감']},
  12:{3:['연말 광고 영상 촬영'],5:['연말 영상 편집 마감'],12:['성화 공연'],18:['세린이랑 약속'],20:['클라이언트 최종본 납품'],24:['크리스마스'],30:['연말 정산']}
 }
-const monthHTML=(m,idx)=>{const first=new Date(year,m-1,1).getDay(),offset=(first+6)%7,days=new Date(year,m,0).getDate();const cells=Array(offset).fill('');for(let d=1;d<=days;d++)cells.push(String(d));while(cells.length%7)cells.push('');const weeks=[];for(let i=0;i<cells.length;i+=7)weeks.push(cells.slice(i,i+7));return`<section class="calendar-month-section" data-month="${m}" ${m===10?'data-default-month="true"':''}><div class="calendar-month-head"><div class="calendar-month">${names[idx]}</div></div><div class="calendar-weekdays"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div><div class="calendar-grid">${weeks.map((w,wi)=>`<div class="calendar-week ${wi===weeks.length-1?'last-week':''}">${w.map((d,di)=>{if(!d)return '<div class="calendar-day empty"></div>';const n=Number(d),raw=(events[m]||{})[n],list=raw?(Array.isArray(raw)?raw:[raw]):[],isToday=todayYear===year&&todayMonth===m&&todayDay===n;return `<div class="calendar-day ${isToday?'today':''} ${di>=5?'weekend':''}"><div class="calendar-number">${d}</div>${list.map(ev=>{const e=typeof ev==='string'?{t:ev}:ev;return `<button class="calendar-event ${e.clue?'calendar-clue-event':''} ${Array.from(e.t).length>5?'long':''}" data-act="caldetail" data-text="${String(e.t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" ${e.clue?`data-c="${e.clue}"`:''}><span class="cal-event-label">${String(e.t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></button>`}).join('')}</div>`}).join('')}</div>`).join('')}</div></section>`};return`<div class="scr app calendarapp"><div class="appbar"><button class="appbar-back" data-act="home" aria-label="홈으로">←</button><div class="appbar-title">캘린더</div></div><div class="calendar-scroll">${months.map((m,i)=>monthHTML(m,i)).join('')}</div></div>`}
+const monthHTML=(m,idx)=>{const first=new Date(year,m-1,1).getDay(),offset=(first+6)%7,days=new Date(year,m,0).getDate();const cells=Array(offset).fill('');for(let d=1;d<=days;d++)cells.push(String(d));while(cells.length%7)cells.push('');const weeks=[];for(let i=0;i<cells.length;i+=7)weeks.push(cells.slice(i,i+7));return`<section class="calendar-month-section" data-month="${m}" ${m===10?'data-default-month="true"':''}><div class="calendar-month-head"><div class="calendar-month">${names[idx]}</div></div><div class="calendar-weekdays"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div><div class="calendar-grid">${weeks.map((w,wi)=>`<div class="calendar-week ${wi===weeks.length-1?'last-week':''}">${w.map((d,di)=>{if(!d)return '<div class="calendar-day empty"></div>';const n=Number(d),raw=(events[m]||{})[n],list=raw?(Array.isArray(raw)?raw:[raw]):[],isToday=todayYear===year&&todayMonth===m&&todayDay===n;return `<div class="calendar-day ${isToday?'today':''} ${di>=5?'weekend':''}"><div class="calendar-number">${d}</div>${list.map(ev=>{const e=typeof ev==='string'?{t:ev}:ev;return `<button class="calendar-event ${e.clue?'calendar-clue-event':''} ${Array.from(e.t).length>5?'long':''}" data-act="caldetail" data-text="${String(e.t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" ${e.clue?`data-c="${e.clue}"`:''}><span class="cal-event-label">${String(e.t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></button>`}).join('')}</div>`}).join('')}</div>`).join('')}</div></section>`};return`<div class="scr app calendarapp">${status()}<div class="hdr"><button class="back" data-act="home" aria-label="뒤로">←</button><h2>캘린더</h2></div><div class="calendar-scroll">${months.map((m,i)=>monthHTML(m,i)).join('')}</div></div>`}
 
 </script>
 <script>
@@ -159,7 +153,7 @@ function talkApp(){
    const last=c.msgs.filter(g=>!g.d&&!g.sys).slice(-1)[0]||{};
    const date=i<6?'금요일':i===6?'목요일':'수요일';
    return `<button class="talk-row" data-act="chat" data-id="${c.id}"><div class="avatar ${c.id==='tax'?'green':''}">${c.id==='tax'?'':c.n[0]}</div><div class="t"><b>${c.n}</b><span>${c.pre||last.x||''}</span></div><span class="date">${date}</span><span class="arrow">›</span></button>`;}).join('');
-  return `<div class="scr app talkapp">${status()}<div class="appbar"><button class="appbar-back" data-act="home" aria-label="홈으로">←</button><div class="appbar-title">메시지</div></div><div class="talk-list">${rows}</div></div>`;
+  return `<div class="scr app talkapp">${status()}<div class="hdr"><button class="back" data-act="home" aria-label="뒤로">←</button><h2>메시지</h2></div><div class="talk-list">${rows}</div></div>`;
  }
  const c=CHATS.find(x=>x.id===S.sub);
  const m=c.msgs.map(g=>{
@@ -167,7 +161,7 @@ function talkApp(){
   if(g.sys)return`<div class="sysline">${g.sys}</div>`;
   if(g.del)return S.rec?`<div class="bub">${DELETED_TEXT}<span class="tm">${g.tm} · 복구됨</span></div>`:`<button class="bub del" data-act="recover">삭제된 메시지입니다<span class="tm">${g.tm} · 탭하여 복구 시도</span></button>`;
   return`<div class="bub ${g.w==='m'?'me':''}">${g.x}<span class="tm">${g.tm}${g.rd?' · 읽음':''}</span></div>`}).join('');
- return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">←</button><div class="name">${c.n}</div><span class="contact">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
+ return `<div class="scr app talkapp">${status()}<div class="hdr"><button class="back" data-act="back" aria-label="뒤로">←</button><h2>${c.n}</h2><span class="cc">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
 }
 
 
