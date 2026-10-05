@@ -83,11 +83,9 @@
 .camera-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);pointer-events:none;opacity:.5;z-index:2}
 .camera-grid i{border-right:1px solid rgba(255,255,255,.55);border-bottom:1px solid rgba(255,255,255,.55)}
 .camera-grid i:nth-child(3n){border-right:0}.camera-grid i:nth-last-child(-n+3){border-bottom:0}
-.cam-zoom{position:absolute;left:0;right:0;bottom:10px;z-index:4;display:flex;align-items:center;justify-content:center;gap:2px}
-.cam-zoom button{min-width:40px;height:40px;border:0;border-radius:20px;background:transparent;color:#fff;font-size:17px;padding:0 8px}
-.cam-zoom button.on{background:rgba(30,30,30,.7);color:#ffd60a;font-size:19px;min-width:52px}
-.cam-scan{position:absolute;right:14px;bottom:10px;z-index:4;width:48px;height:48px;border-radius:50%;background:rgba(40,40,40,.72);border:0;color:#fff;display:flex;align-items:center;justify-content:center}
-.cam-scan svg{width:26px;height:26px}
+.cam-zoom{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:6px;padding:5px;border-radius:30px;background:rgba(0,0,0,.38);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.cam-zoom button{width:38px;height:38px;border:0;border-radius:50%;background:transparent;color:#fff;font-size:14px;font-weight:600;padding:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cam-zoom button.on{width:46px;height:46px;background:rgba(255,255,255,.2);color:#ffd60a;font-size:15px}.cam-zoom button.on::after{content:"×";font-size:12px;margin-left:1px}
 .cam-bottom{flex:1;min-height:0;background:#000;display:flex;flex-direction:column;justify-content:space-around;padding:6px 0 14px}
 .cam-row1{position:relative;height:84px;display:flex;align-items:center;justify-content:center}
 .camera-shutter{width:80px;height:80px;border-radius:50%;border:3px solid #6f6f6f;background:transparent;padding:4px}
@@ -96,8 +94,8 @@
 .cam-more{right:30px}.cam-more svg{width:24px;height:24px}
 .cam-row2{position:relative;height:50px;display:flex;align-items:center;padding:0 16px;gap:10px}
 .cam-thumb{width:50px;height:50px;border-radius:50%;background:#444 center/cover;border:0;flex:none}
-.camera-modes{flex:1;display:flex;justify-content:space-between;background:#1e1e1e;border-radius:26px;padding:3px;height:48px}
-.camera-modes button{flex:1;border:0;background:none;color:#ddd;font-size:16px;border-radius:24px;white-space:nowrap}
+.camera-modes{flex:none;margin:0 auto;display:flex;background:#1e1e1e;border-radius:26px;padding:3px;height:48px}
+.camera-modes button{flex:none;width:130px;border:0;background:none;color:#ddd;font-size:16px;border-radius:24px;white-space:nowrap}
 .camera-modes .active{background:#0a0a0a;color:#ffd60a;box-shadow:0 0 0 1px #333 inset}
 .cam-flip{position:static;width:48px;height:48px;border-radius:50%;background:#262626;border:0;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
 .cam-flip svg{width:26px;height:26px}
@@ -105,6 +103,20 @@
 @keyframes camfocus{0%{opacity:1;transform:translate(-50%,-50%) scale(1.4)}20%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
 .camera-captured::after{content:"";position:absolute;inset:0;background:#fff;opacity:.9;animation:cameraFlash .16s ease-out forwards;pointer-events:none;z-index:10}
 @keyframes cameraFlash{from{opacity:.9}to{opacity:0}}
+.voiceapp{background:#fff!important;color:#000}
+.voiceapp .status{background:#fff;border-color:#fff;color:#555}
+.vm-top{flex:none;display:flex;justify-content:space-between;align-items:center;padding:8px 12px 10px;border-bottom:1px solid #e4e4e7}.vm-r{display:flex;gap:10px}
+.vm-rb,.vm-pill{height:46px;border:1px solid #e1e1e5;border-radius:23px;background:#fff;color:#000;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center}.vm-rb{width:46px;font-size:20px}.vm-rb svg{width:22px;height:22px}.vm-pill{padding:0 24px;font-size:16px}
+.vm-scroll{flex:1;min-height:0;overflow-y:auto;padding:0 16px 24px;scrollbar-width:none}.vm-scroll h1{margin:8px 0 10px;font-size:36px;font-weight:800;letter-spacing:-.03em}
+.vm-list{border-top:1px solid #dcdce0}
+.vm-row{display:block;width:100%;border:0;border-bottom:1px solid #dcdce0;background:none;text-align:left;padding:12px 0 10px;color:#000}.vm-row b{display:block;font-size:19px;font-weight:600;line-height:1.35}.vm-row span{display:flex;justify-content:space-between;color:#8a8a8e;font-size:16px;font-style:normal}
+.vm-recbar{flex:none;height:96px;border-top:1px solid #e4e4e7;display:flex;align-items:flex-start;justify-content:center;padding-top:4px}
+.vm-recbtn{width:62px;height:62px;border-radius:50%;border:1px solid #d9d9dd;background:#fff;padding:5px;box-shadow:0 2px 8px rgba(0,0,0,.08)}.vm-recbtn i{display:block;width:100%;height:100%;border-radius:50%;background:#ec4944}
+.vm-det{padding:8px 4px 0}.vm-det h2{margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em}.vm-det .m{margin:2px 0 12px;color:#8a8a8e;font-size:15px}
+.vm-note{background:#f2f2f6;border-radius:12px;padding:10px 12px;color:#6b6b70;font-size:13px;line-height:1.55;margin-bottom:16px}
+.vm-chat{display:flex;flex-direction:column;gap:10px}.vm-msg{max-width:82%;display:flex;flex-direction:column;gap:3px}.vm-msg small{color:#8a8a8e;font-size:12px}
+.vm-msg p{margin:0;padding:10px 14px;border-radius:18px;background:#ececf0;font-size:16px;line-height:1.45}.vm-msg.me{align-self:flex-end;align-items:flex-end}.vm-msg.me p{background:#0a84ff;color:#fff}
+.vm-snd{align-self:center;color:#8a8a8e;font-size:13px;padding:2px 10px}
 .musicapp{background:#371420!important;color:#fff;position:relative}
 .musicapp .status{background:#371420;border-color:#371420;color:#d9b9c6;position:relative;z-index:3}
 .mu-scroll{flex:1;min-height:0;overflow-y:auto;position:relative;padding-bottom:110px;scrollbar-width:none}
@@ -262,12 +274,11 @@ function cameraApp(){
       <canvas id="camera-canvas" hidden></canvas>
       <div class="camera-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="cam-focus" id="cam-focus"></div>
-      <div class="cam-zoom"><button type="button" data-z="1">.5</button><button type="button" class="on" data-z="1">1×</button><button type="button" data-z="2">2</button><button type="button" data-z="3">3</button></div>
-      <button class="cam-scan" type="button" aria-label="텍스트 스캔"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 9h8M8 12h8M8 15h5"/></svg></button>
+      <div class="cam-zoom"><button type="button" data-z="1">0.5</button><button type="button" class="on" data-z="1">1</button><button type="button" data-z="2">2</button><button type="button" data-z="3">3</button></div>
     </div>
     <div class="cam-bottom">
       <div class="cam-row1"><button class="camera-shutter" data-act="camera-shot" aria-label="사진 촬영"><span></span></button><button class="cam-circ cam-more" type="button" aria-label="더보기"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.6" fill="currentColor"/><circle cx="12" cy="6" r="1.6" fill="currentColor"/><circle cx="18" cy="6" r="1.6" fill="currentColor"/><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/><circle cx="6" cy="18" r="1.6" fill="currentColor"/><circle cx="12" cy="18" r="1.6" fill="currentColor"/><circle cx="18" cy="18" r="1.6" fill="currentColor"/></svg></button></div>
-      <div class="cam-row2"><button class="cam-thumb" id="cam-thumb" type="button" aria-label="최근 사진"></button><div class="camera-modes"><button type="button">비디오</button><button type="button" class="active">사진</button><button type="button">인물 사진</button></div><button class="cam-flip" data-act="camera-switch" aria-label="카메라 전환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H8a4 4 0 0 0-4 4M4 17h12a4 4 0 0 0 4-4"/><path d="m17 4 3 3-3 3M7 14l-3 3 3 3"/></svg></button></div>
+      <div class="cam-row2"><button class="cam-thumb" id="cam-thumb" type="button" aria-label="최근 사진"></button><div class="camera-modes"><button type="button" class="active">사진</button></div><button class="cam-flip" data-act="camera-switch" aria-label="카메라 전환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H8a4 4 0 0 0-4 4M4 17h12a4 4 0 0 0 4-4"/><path d="m17 4 3 3-3 3M7 14l-3 3 3 3"/></svg></button></div>
     </div>
   </div>`;
 }
@@ -709,8 +720,8 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
  else if(a==='del'){PH.list=PH.list.filter(x=>!PH.picked.has(x.id));PH.picked.forEach(phDel);PH.picked.clear();PH.sel=false;phRender(true)}});
 document.addEventListener('change',e=>{if(e.target.id==='ph-file'){phAddFiles([...e.target.files]);e.target.value=''}});
 const MU={cur:-1,on:false,T:'새벽 3시',TR:[
- {t:'성수동 새벽 네 시',a:'Haneul Road'},{t:'화요일의 우산',a:'Blue Pier'},{t:'야간비행',a:'Mirae Choi'},
- {t:'미지근한 안녕',a:'Soyeon Bae'},{t:'안개 낀 터미널',a:'The Last Bus'},{t:'해변의 끝에서 (Live)',a:'Paran'}]};
+ {t:'월요일의 끝',a:'Haneul Road'},{t:'포구의 불빛',a:'Blue Pier'},{t:'파란 지붕 아래',a:'Mirae Choi'},
+ {t:'도착하지 않은 편지',a:'Soyeon Bae'},{t:'여름밤 라디오',a:'The Last Bus'},{t:'관측자의 새벽 (Live)',a:'Paran'}]};
 /* 앨범 커버: assets/music/cover1.jpg ~ cover6.jpg 파일을 넣으면 자동 표시 */
 function muCv(i){return `<span class="mu-cv">♪<img src="assets/music/cover${i+1}.jpg" alt="" onerror="this.remove()"></span>`}
 function muRender(){const el=document.querySelector('.musicapp');if(!el)return;const g=el.querySelector('.mu-scroll'),st=g?g.scrollTop:0;el.outerHTML=musicApp();const n=document.querySelector('.mu-scroll');if(n)n.scrollTop=st}
@@ -749,11 +760,21 @@ function safariApp(){
  return appWrap('Safari',`<div class="browser"><div class="browserbar"><span class="small mute">⌕</span><span class="mono small">${p.url}</span></div><div class="browsernav"><button class="btn" data-act="safihome">⌂</button><button class="btn" data-act="safipage" data-id="wave">월포</button><button class="btn" data-act="safipage" data-id="studio">한울</button><button class="btn" data-act="safipage" data-id="board">게시판</button></div><div class="browserpage"><span class="stamp">WEB</span><h2 style="margin:10px 0 6px">${p.title}</h2><p class="small mute" style="margin-bottom:18px">${p.url}</p><div class="card"><p>${p.body}</p></div>${p.id==='wave'?'<div class="card" style="margin-top:10px"><b>월포행 시외버스</b><p class="small mute" style="margin-top:5px">심야 운행 정보가 일부 남아 있습니다.</p></div>':''}${p.id==='studio'?'<div class="card" style="margin-top:10px"><b>공지</b><p class="small mute" style="margin-top:5px">퇴사자 관련 자료 문의는 담당자에게 연락하십시오.</p></div>':''}${p.id==='board'?'<div class="card" style="margin-top:10px"><b>최근 글</b><p class="small mute" style="margin-top:5px">“03:00에 올라온 파일을 본 사람?”</p></div>':''}</div></div>`)
 }
 
-function voiceApp(){
- const memos=[{tm:'10/01 22:40',dur:'00:14',title:'성화와의 마지막 통화',txt:'통화 기록은 남아 있지만 음성은 재생되지 않는다. 마지막 통화 시간만 확인할 수 있다.'},{tm:'10/02 00:41',dur:'00:09',title:'현관 앞 녹음',txt:'성화가 윤호의 집 앞에서 남긴 짧은 기록. 주변이 조용하고 문을 두드리는 소리만 기록되어 있다.'},{tm:'10/02 03:02',dur:'00:06',title:'이동 중 자동 기록',txt:'휴대폰에서 마지막으로 남은 음성 메모. 월포라는 단어가 짧게 언급되어 있다.'}];
- return appWrap('음성 메모',`<div class="stack"><div class="card"><div class="row" style="justify-content:space-between"><span class="stamp">음성 메모</span><span class="small mute">${memos.length}개</span></div><p class="small mute" style="margin-top:8px">기기에 저장된 녹음 기록을 확인한다.</p></div>${memos.map((m,i)=>`<button class="listrow" data-act="memo" data-i="${i}"><div class="avatar" style="background:#1a1a1b;color:#fff">♪</div><div class="t"><b>${m.title}</b><span>${m.tm} · ${m.dur}</span></div><span class="cc">›</span></button>`).join('')}</div>`)
-}
-
+const VM={i:-1,L:[
+ {n:'이동 중 자동 기록',d:'2026. 10. 2.',l:'0:06',c:[{w:'n',x:'차량 소음, 낮게 울리는 안내음'},{w:'y',t:'0:02',x:'…월포까지 한 시간 반이면 되겠다.'},{w:'n',x:'소리가 끊김'}]},
+ {n:'현관 앞 녹음',d:'2026. 10. 2.',l:'0:09',c:[{w:'n',x:'문을 두드리는 소리'},{w:'s',t:'0:04',x:'…윤호야.'},{w:'n',x:'주변이 조용하다'}]},
+ {n:'성화와의 마지막 통화',d:'2026. 10. 1.',l:'0:14',c:[{w:'s',t:'0:00',x:'나 지금 끝났어. 잠깐 볼 수 있어?'},{w:'y',t:'0:04',x:'미안, 오늘은 안 될 것 같아. 정리할 게 좀 있어서.'},{w:'s',t:'0:08',x:'무슨 정리? 너 요즘 좀 이상해.'},{w:'y',t:'0:11',x:'별일 아니야. 곧 다 말해줄게. 일단 끊을게.'}]},
+ {n:'새로운 녹음 6',d:'2026. 9. 21.',l:'0:03',c:[{w:'y',t:'0:00',x:'마이크 테스트, 하나 둘.'}]},
+ {n:'새로운 녹음 5',d:'2026. 9. 14.',l:'0:41',c:[{w:'y',t:'0:00',x:'컷 편집 메모. 2분 12초 자막 타이밍 다시 맞추고,'},{w:'y',t:'0:14',x:'배경음은 한 칸 줄이기. 첫 장면은 짧게 가자.'},{w:'y',t:'0:31',x:'수정본은 금요일까지.'}]},
+ {n:'새로운 녹음 4',d:'2026. 8. 30.',l:'1:12',c:[{w:'y',t:'0:00',x:'아이디어. 바닷가 장면에서 파도 소리를 먼저 깔고 화면은 늦게 여는 거.'},{w:'y',t:'0:38',x:'음악은 너무 튀지 않게.'}]},
+ {n:'새로운 녹음 3',d:'2026. 7. 2.',l:'0:00',c:[{w:'n',x:'소리 없음'}]}]};
+function vmRender(){const el=document.querySelector('.voiceapp');if(el)el.outerHTML=voiceApp()}
+function voiceApp(){const top=(back,r)=>`<div class="vm-top"><button class="vm-rb" ${back} aria-label="뒤로">←</button><div class="vm-r">${r}</div></div>`;
+ if(VM.i>=0){const m=VM.L[VM.i];
+  return `<div class="scr app voiceapp">${status()}${top('data-vm="back"','')}<div class="vm-scroll"><div class="vm-det"><h2>${m.n}</h2><p class="m">${m.d} · ${m.l}</p><div class="vm-note">이 기기에는 음성 파일이 남아 있지 않아, 텍스트로 변환된 내용만 확인할 수 있습니다.</div><div class="vm-chat">${m.c.map(g=>g.w==='n'?`<div class="vm-snd">[${g.x}]</div>`:`<div class="vm-msg${g.w==='y'?' me':''}"><small>${g.w==='y'?'윤호':'성화'}${g.t?' · '+g.t:''}</small><p>${g.x}</p></div>`).join('')}</div></div></div></div>`}
+ return `<div class="scr app voiceapp">${status()}${top('data-act="back"','<button class="vm-pill" type="button">선택</button><button class="vm-rb" type="button" aria-label="검색"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>')}<div class="vm-scroll"><h1>모든 녹음 항목</h1><div class="vm-list">${VM.L.map((m,i)=>`<button class="vm-row" data-vm="open" data-i="${i}"><b>${m.n}</b><span><em>${m.d}</em><em>${m.l}</em></span></button>`).join('')}</div></div><div class="vm-recbar"><button class="vm-recbtn" data-vm="rec" aria-label="녹음"><i></i></button></div></div>`}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-vm]');if(!b||!document.querySelector('.voiceapp'))return;const a=b.dataset.vm;
+ if(a==='open'){VM.i=+b.dataset.i;vmRender()}else if(a==='back'){VM.i=-1;vmRender()}else if(a==='rec'){toast('이 기기에서는 새 녹음을 할 수 없습니다')}});
 function questApp(){
  const found=CLUE_IDS.filter(function(i){return S.clues[i]});
  const notes=[];
