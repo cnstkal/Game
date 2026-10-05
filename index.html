@@ -1255,7 +1255,8 @@ const XLOCK='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"
 const XM=[
  {x:'오늘도 작업실. 커피만 세 잔째ㅜ',t:'9월 29일',c:[0,0,0,3]},
  {x:'돌아가고싶지않아',t:'9월 24일',c:[0,0,0,2]},
- {x:'마감 끝나면 바다 보러 가고 싶다!\n기왕이면 사람 없는 곳으로..',t:'9월 18일',c:[0,0,0,4]},
+ {x:'마감 끝나면 바다 보러 가고 싶다!
+기왕이면 사람 없는 곳으로..',t:'9월 18일',c:[0,0,0,4]},
  {x:'형이 잘되니까 기분이 좋다',t:'9월 9일',c:[0,0,0,2]},
  {x:'비 오는 날엔 작업이 잘 된다',t:'8월 30일',c:[0,0,0,3]},
  {x:'자야 하는데 또 새벽.',t:'8월 21일',c:[0,0,0,2]}].map(o=>Object.assign({n:'Yh',h:'@sicnQjdb86djn',col:'#cfd9de'},o));
@@ -1706,7 +1707,9 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
   /* 수첩을 대체하는 별도 증거 분석 화면.
      이름/UI상 수첩은 완전히 사라지고, 단서 연결 기능은 유지한다. */
   AREQ.evidence='C02';
-  APPS.push({id:'evidence',n:'증거 분석',need:0});\n  const evidenceEntry=APPS.find(a=>a.id==='evidence');\n  Object.defineProperty(evidenceEntry,'need',{get(){return count()>=2?0:99},configurable:true});
+  APPS.push({id:'evidence',n:'증거 분석',need:0});
+  const evidenceEntry=APPS.find(a=>a.id==='evidence');
+  Object.defineProperty(evidenceEntry,'need',{get(){return count()>=2?0:99},configurable:true});
 
   const oldIsOpen=isOpen;
   const unlocked=(a)=>{
@@ -1757,8 +1760,9 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
   const oldHome=homeHTML;
   homeHTML=function(){
     let h=oldHome();
-    h=h.replace(/<button class="btn" data-act="notebook">[\s\S]*?<\/button>/,'');\n    h=h.replace(/<button class="btn" data-act="open" data-id="quest">[\s\S]*?<\/button>/,'');
-    h=h.replace(/\$\{count\(\)>=5\?[\s\S]*?\:'\'\}/,'');
+    h=h.replace(/<button class="btn" data-act="notebook">[\s\S]*?<\/button>/,'');
+    h=h.replace(/<button class="btn" data-act="open" data-id="quest">[\s\S]*?<\/button>/,'');
+    h=h.replace(/<button class="btn" data-act="final">[\s\S]*?<\/button>/,'');
     return h;
   };
 
