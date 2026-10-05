@@ -466,7 +466,7 @@ const BOARD=[
  {nick:'새벽3시',ttl:'한울프로덕션 경리팀 퇴사자입니다',tm:'9/12',body:'장부가 맞지 않는 걸 보신 분 계신가요? 같은 금액이 한 달 간격으로 나가는 거래처가 있습니다. 증거를 정리 중입니다.'},
  {nick:'새벽3시',ttl:'제보 받으신 분께 자료 넘겼습니다',tm:'9/27',body:`${H('C06','“편집하는곰”님께 장부 사본을 전달했습니다. 위험할 수 있으니 조심하세요. 저는 당분간 글을 올리지 못합니다.')}`},
  {nick:'망원동주민',ttl:'분실물 찾아요 (검은 우산)',tm:'10/1',body:'어제 저녁 8시쯤 버스 정류장에서 잃어버렸습니다.'},
- {nick:'맛집헌터',ttl:'합정 국밥집 후기',tm:'9/30',body:'수육이 괜찮았어요. 웨이팅은 20분 정도.'}
+ {nick:'맛집헌터',ttl:'해솔 국밥집 후기',tm:'9/30',body:'수육이 괜찮았어요. 웨이팅은 20분 정도.'}
 ];
 
 const CALLS=[
@@ -478,16 +478,27 @@ const CALLS=[
  {tm:'9/30 20:15',who:'엄마',kind:'수신',dur:'3분 11초'}
 ];
 const PAYS=[
- {tm:'10/1 19:22',st:'합정 국밥집',amt:'11,000'},
+ {tm:'10/1 19:22',st:'해솔 국밥집',amt:'11,000'},
  {tm:'10/2 02:48',st:'24시 편의점 (보조배터리)',amt:'19,900'},
  {tm:'10/2 03:12',st:'동서울터미널 시외버스 → 월포',amt:'18,800',c:'C08'},
  {tm:'9/30 14:05',st:'스튜디오 월세 자동이체',amt:'420,000'}
 ];
 
 const MAILS=[
- {id:'m1',from:'모아',ttl:'새 팔로워 12명',tm:'10/1',body:'성화 님 외 11명이 회원님을 팔로우했습니다.'},
- {id:'m2',from:'한결카드',ttl:'[승인] 10/2 02:48 19,900원',tm:'10/2',body:'24시 편의점에서 승인되었습니다.'},
- {id:'m3',from:'나에게',ttl:'[백업] 장부 사본',tm:'9/30',body:'혹시 몰라 올려둔다. 비밀번호는 내 인생에서 제일 잘한 날짜(MMDD).',lock:true}
+ {id:'m4',from:'쿠팡',ttl:'[쿠팡] 주문하신 상품이 배송 출발했어요',tm:'오전 7:30',u:1,body:'안녕하세요, 고객님.<br>주문하신 상품이 오늘 도착 예정입니다.<br><br>- 생수 2L x 12병<br>- 키친타월 3롤<br><br>배송기사님이 문 앞에 두고 가실 예정이에요.'},
+ {id:'m5',from:'무신사',ttl:'가을 아우터 최대 70% 할인, 오늘 마감',tm:'오전 6:02',u:1,body:'가을 시즌오프 마지막 날!<br>코트, 패딩, 가죽 재킷을 최대 70% 할인된 가격에 만나보세요.<br><br>수신을 원하지 않으시면 설정에서 변경하실 수 있습니다.'},
+ {id:'m2',from:'한결카드',ttl:'[승인] 10/2 02:48 19,900원',tm:'오전 2:48',u:1,body:'24시 편의점에서 승인되었습니다.'},
+ {id:'m6',from:'네이버',ttl:'[네이버] 새로운 환경에서 로그인되었습니다',tm:'10/1',body:'회원님의 계정이 새로운 기기에서 로그인되었습니다.<br>본인이 아니라면 비밀번호를 변경해 주세요.'},
+ {id:'m1',from:'모아',ttl:'새 팔로워 12명',tm:'10/1',u:1,body:'성화 님 외 11명이 회원님을 팔로우했습니다.'},
+ {id:'m7',from:'넷플릭스',ttl:'이번 주 새로 올라온 콘텐츠',tm:'10/1',body:'이번 주 신작을 확인해 보세요.<br>취향에 맞는 시리즈와 영화가 기다리고 있어요.'},
+ {id:'m8',from:'배달의민족',ttl:'[배민] 주문이 완료되었어요',tm:'10/1',body:'주문해 주셔서 감사합니다.<br>결제금액 17,500원 · 토스뱅크 계좌 결제'},
+ {id:'m9',from:'주간뉴스',ttl:'[주간뉴스] 이번 주 인기 기사 TOP 10',tm:'9/30',u:1,body:'1. 가을 한파, 내일부터 기온 뚝<br>2. 전세 대출 규제 완화 검토<br>3. 프로야구 포스트시즌 대진 확정<br>4. 편의점 도시락 가격 인상<br>5. 연휴 고속도로 교통 전망'},
+ {id:'m3',from:'나에게',ttl:'[백업] 장부 사본',tm:'9/30',body:'혹시 몰라 올려둔다. 비밀번호는 내 인생에서 제일 잘한 날짜(MMDD).',lock:true},
+ {id:'m12',from:'YouTube',ttl:'[YouTube Premium] 결제 영수증',tm:'9/28',body:'YouTube Premium 월 구독료 14,900원이 결제되었습니다.'},
+ {id:'m11',from:'올리브영',ttl:'[올리브영] 주문이 완료되었습니다',tm:'9/27',body:'주문번호 2709-4418<br>결제금액 27,400원<br>매장 픽업 상품입니다.'},
+ {id:'m10',from:'국민건강보험',ttl:'[국민건강보험] 9월분 보험료 납부 확인',tm:'9/26',body:'9월분 건강보험료 98,760원이 정상 납부되었습니다.'},
+ {id:'m13',from:'스튜디오 관리실',ttl:'9월 관리비 청구서',tm:'9/25',body:'9월 관리비 청구서를 안내드립니다.<br>전기 · 수도 · 공용관리비 합계 63,200원<br>납부기한: 10/10'},
+ {id:'m14',from:'당근',ttl:'[당근] 관심 키워드 새 글 알림',tm:'9/24',body:'"모니터암" 키워드에 새 글이 3개 올라왔어요.'}
 ];
 const LEDGER=`<div class="tblwrap"><table class="tbl"><tr><th>일자</th><th>거래처</th><th>금액</th><th>결재</th></tr>
  <tr><td class="num">8/05</td><td>(주)새빛기획</td><td class="num">48,000,000</td><td>한도현</td></tr>
@@ -496,15 +507,15 @@ const LEDGER=`<div class="tblwrap"><table class="tbl"><tr><th>일자</th><th>거
  <p class="small mute" style="margin-top:8px">메모: 새빛기획은 사업자 등록만 있고 실체가 없음. 형한테는 끝나고 말할 것.</p>`;
 
 const MAP_SEARCH=[
- {d:'10.04.',q:'망원시장'},
- {d:'10.04.',q:'합정역 2번 출구'},
- {d:'10.03.',q:'다이소 망원점'},
- {d:'10.03.',q:'서울 마포구 망원동 482-12',a:1},
+ {d:'10.04.',q:'소라시장'},
+ {d:'10.04.',q:'솔잎역 2번 출구'},
+ {d:'10.03.',q:'생활용품점 솔잎점'},
+ {d:'10.03.',q:'청명시 소라구 해솔동 482-12',a:1},
  {d:'10.02.',q:H('C09','월포 파도여관'),sub:'경북 포항시 북구 청하면 월포리'},
- {d:'10.02.',q:'합정 국밥집'},
- {d:'10.01.',q:'올리브영 합정점'},
+ {d:'10.02.',q:'해솔 국밥집'},
+ {d:'10.01.',q:'화장품 매장 솔잎점'},
  {d:'10.01.',q:'카페 온도',s:1},
- {d:'09.30.',q:'마포구청',s:1}
+ {d:'09.30.',q:'청명시청',s:1}
 ];
 const MAP_FAV=[{n:'우리 집',s:'망원동'},{n:'작업실',s:'합정'},{n:'성화 집',s:'상수동'}];
 
@@ -680,7 +691,7 @@ function boardApp(){return appWrap('이웃광장',`<div class="stack">${BOARD.ma
  <p style="margin:6px 0 4px;font-weight:600">${b.ttl}</p><p class="small" style="color:var(--mute)">${b.body}</p></div>`).join('')}</div>`)}
 
 function payApp(){
- const TX=[['10월 2일','03:12','동서울터미널 시외버스 → 월포',-18800,'C08'],['10월 2일','02:48','24시 편의점 (보조배터리)',-19900],['10월 1일','21:08','배달의민족',-17500],['10월 1일','19:22','합정 국밥집',-11000],['10월 1일','14:10','스타벅스 합정역점',-5800],['9월 30일','14:05','스튜디오 월세 자동이체',-420000],['9월 30일','11:20','넷플릭스',-17000],['9월 29일','18:33','CU 망원한강점',-4300],['9월 29일','15:02','(주)모아미디어',4200000],['9월 28일','20:15','쿠팡',-32900],['9월 28일','12:40','YouTube Premium',-14900],['9월 27일','19:47','올리브영 합정점',-27400],['9월 26일','10:05','국민건강보험',-98760]];
+ const TX=[['10월 2일','03:12','동서울터미널 시외버스 → 월포',-18800,'C08'],['10월 2일','02:48','24시 편의점 (보조배터리)',-19900],['10월 1일','21:08','배달의민족',-17500],['10월 1일','19:22','해솔 국밥집',-11000],['10월 1일','14:10','카페 온도 솔잎역점',-5800],['9월 30일','14:05','스튜디오 월세 자동이체',-420000],['9월 30일','11:20','넷플릭스',-17000],['9월 29일','18:33','CU 해솔점',-4300],['9월 29일','15:02','(주)모아미디어',4200000],['9월 28일','20:15','쿠팡',-32900],['9월 28일','12:40','YouTube Premium',-14900],['9월 27일','19:47','올리브영 솔잎점',-27400],['9월 26일','10:05','국민건강보험',-98760]];
  let bal=23847610,last='';const f=n=>Math.abs(n).toLocaleString('ko-KR')+'원';
  const rows=TX.map(r=>{const o=(r[0]!==last?`<div class="tsd">${r[0]}</div>`:'')+`<div class="tsr"><i>W</i><div class="tsn"><b>${r[4]?H(r[4],r[2]):r[2]}</b><span>${r[1]}</span></div><div class="tsa"><b class="${r[3]>0?'in':''}">${r[3]>0?'+':'-'}${f(r[3])}</b><span>${bal.toLocaleString('ko-KR')}원</span></div></div>`;last=r[0];bal-=r[3];return o}).join('');
  return`<div class="scr app toss"><style>.toss{background:#fff;color:#191f28}.toss .tt{display:flex;justify-content:space-between;align-items:center;padding:44px 20px 8px;color:#8b95a1;font-size:15px;font-weight:600}.toss .tt button{border:0;background:none;color:#191f28;font-size:26px;padding:0}.toss .tb{flex:1;overflow-y:auto;padding:0 20px 100px}.toss .ta{color:#8b95a1;font-size:13px;text-decoration:underline;margin-top:14px}.toss .tm{font-size:32px;font-weight:800;margin:4px 0 18px;letter-spacing:-.03em}.toss .ti{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:15px;padding-bottom:16px;border-bottom:8px solid #f2f4f6;margin:0 -20px;padding:0 20px 16px}.toss .ti em{font-style:normal;background:#e8f3ff;color:#3182f6;border-radius:10px;padding:8px 18px;font-size:14px}.toss .tf{font-size:15px;font-weight:700;margin:18px 0 8px}.toss .tsd{color:#8b95a1;font-size:13px;margin:20px 0 8px}.toss .tsr{display:flex;align-items:center;gap:12px;padding:10px 0}.toss .tsr i{flex:none;width:42px;height:42px;border-radius:50%;background:#dbe8ff;color:#3182f6;font:800 17px/42px var(--sans);text-align:center}.toss .tsn{flex:1;min-width:0}.toss .tsn b,.toss .tsa b{display:block;font-size:15px;font-weight:600;line-height:1.35}.toss .tsn span,.toss .tsa span{font-size:13px;color:#8b95a1}.toss .tsa{text-align:right}.toss .tsa b.in{color:#3182f6}.toss .hot{color:inherit;border-bottom:0}.toss .hot.found{background:rgba(49,130,246,.14);border-radius:3px}.toss .tbt{position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;padding:12px 20px 26px;background:linear-gradient(#fff0,#fff 30%)}.toss .tbt span{flex:1;text-align:center;padding:16px 0;border-radius:16px;font-weight:700;font-size:16px;background:#e8f3ff;color:#3182f6}.toss .tbt span+span{background:#3182f6;color:#fff}</style>
@@ -688,11 +699,28 @@ function payApp(){
  <div class="tb"><div class="ta">토스뱅크 1999-0323-****</div><div class="tm">23,847,610원</div><div class="ti"><span>● &nbsp;이자 2,418원</span><em>받기</em></div><div class="tf">전체 ⌄</div>${rows}</div>
  <div class="tbt"><span>채우기</span><span>보내기</span></div></div>`}
 
+var MV={x:-200,y:-230,k:1},MD=null;
+document.addEventListener('pointerdown',e=>{const m=e.target.closest&&e.target.closest('.mapv');if(m)MD={x:e.clientX,y:e.clientY,ox:MV.x,oy:MV.y,m}});
+document.addEventListener('pointermove',e=>{if(!MD)return;const m=MD.m,v=m.querySelector('.mapsvg');if(!v)return;MV.x=Math.max(Math.min(0,m.clientWidth-900*MV.k),Math.min(0,MD.ox+e.clientX-MD.x));MV.y=Math.max(Math.min(0,m.clientHeight-1200*MV.k),Math.min(0,MD.oy+e.clientY-MD.y));v.style.transform=`translate(${MV.x}px,${MV.y}px) scale(${MV.k})`});
+document.addEventListener('pointerup',()=>{MD=null});
+function mapSVG(){let sd=11;const R=()=>(sd=sd*16807%2147483647)/2147483647,xs=[0,150,330,520,720,900],ys=[0,140,320,500,700,880,1200];
+ let o=`<rect width="900" height="1200" fill="#f3f0e9"/><path d="M0 1000C200 930 360 1080 560 1010S820 930 900 960V1200H0z" fill="#b8d9f1"/><path d="M0 1000C200 930 360 1080 560 1010S820 930 900 960" fill="none" stroke="#a5cce8" stroke-width="3"/><rect x="520" y="140" width="200" height="180" fill="#cfe6bd"/><rect x="0" y="880" width="900" height="50" fill="#d9ecc8"/>`;
+ for(let i=0;i<26;i++)o+=`<circle cx="${535+R()*170}" cy="${155+R()*150}" r="${5+R()*5}" fill="#b4d79d"/>`;
+ const road=(d,w,c,k)=>`<path d="${d}" fill="none" stroke="${k}" stroke-width="${w+4}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+ xs.slice(1,-1).forEach(x=>o+=road(`M${x} 0V1200`,10,'#fff','#ddd8cd'));ys.slice(1,-1).forEach(y=>o+=road(`M0 ${y}H900`,10,'#fff','#ddd8cd'));
+ o+=road('M0 500H900',20,'#fbe3a1','#e6c56a')+road('M-20 780L920 380',16,'#fff4cf','#e6c56a')+`<path d="M720 0V1200" stroke="#9aa3ad" stroke-width="3" stroke-dasharray="10 6" opacity=".0"/>`;
+ for(let c=0;c<5;c++)for(let r=0;r<6;r++){if(r==5||(c==3&&r==1)||(c==2&&r==3))continue;const x0=xs[c]+12,x1=xs[c+1]-12,y0=ys[r]+12,y1=ys[r+1]-12,n=2+Math.floor(R()*3),apt=R()<.4;
+  for(let i=0;i<n;i++){const w=(x1-x0)/(n>2?2:n)-6,h=(y1-y0)/2-6,bx=x0+(i%2)*(w+6)+R()*6,by=y0+Math.floor(i/(n>2?2:n))*(h+6)+R()*8;o+=`<rect x="${bx}" y="${by}" width="${w*(.7+R()*.3)}" height="${h*(.6+R()*.4)}" rx="3" fill="${apt?'#e4dfd3':'#ebe7dd'}"/>`}}
+ o+=`<rect x="365" y="540" width="120" height="110" rx="4" fill="#dbe6f7" stroke="#b8cdee"/><path d="M0 700H900" stroke="#fff" stroke-width="10"/>`;
+ const L=(x,y,t,c='#6b7280',z=13)=>`<text x="${x}" y="${y}" font-size="${z}" fill="${c}" text-anchor="middle" stroke="#f3f0e9" stroke-width="3" paint-order="stroke" font-weight="500">${t}</text>`;
+ o+=L(240,230,'솔잎초등학교','#4b7bd1')+L(620,235,'가온공원','#4f9a4a',14)+L(240,410,'이룸아파트')+L(620,410,'한결병원','#d6564f')+L(240,800,'소라시장','#d98a2b')+L(620,800,'청명시청','#4b7bd1')+L(70,230,'해솔빌라')+L(430,180,'소라구 해솔동','#9aa0a6',18)+L(780,230,'새싹어린이집','#4b7bd1')+L(780,600,'다온빌딩')+L(80,600,'별빛약국','#d6564f')+L(450,1050,'모래내','#5c9fd0',15)+L(120,500-12,'청명대로','#a8832a',12)+L(560,696,'솔잎로','#9aa0a6',11)+L(240,696,'별빛길','#9aa0a6',11);
+ o+=`<g transform="translate(520,700)"><circle r="11" fill="#2fa84f" stroke="#fff" stroke-width="3"/><text y="4" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">2</text></g>`+L(560,722,'솔잎역','#2f8a43');
+ o+=`<g transform="translate(414,556)"><path d="M0 0h22v24q-11 9-22 0z" fill="#2f6fed" stroke="#fff" stroke-width="2"/><path d="M11 6l7 3v7q-1 5-7 7-6-2-7-7V9z" fill="#fff"/></g>`+L(425,602,'청명경찰서','#2f6fed',14)+`<circle cx="425" cy="640" r="30" fill="rgba(10,108,255,.15)"/><circle cx="425" cy="640" r="9" fill="#0a6cff" stroke="#fff" stroke-width="3.5"/>`;
+ return o}
 function mapApp(){
- const css=`<style>.nm{background:#fff;color:#191f28;position:absolute;inset:0;overflow:hidden}.nm .ms{position:absolute;left:12px;right:12px;top:14px;z-index:3;display:flex;gap:8px}.nm .sb{flex:1;background:#fff;border-radius:24px;box-shadow:0 2px 10px rgba(0,0,0,.18);padding:13px 18px;color:#767c85;font-size:15px;display:flex;align-items:center;gap:8px;border:0;text-align:left}.nm .sb i{color:#03c75a;font-style:normal;font-weight:900}.nm .bk{position:absolute;left:12px;bottom:14px;z-index:3;border:0;background:#fff;border-radius:20px;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,.2);font-size:13px}.nm .nv{position:absolute;left:0;right:0;bottom:0;height:60px;background:#fff;border-top:1px solid #e5e8eb;display:flex;justify-content:space-around;align-items:center;font-size:11px;color:#6b7280;z-index:2}.nm .nv b{color:#191f28}.nm .sh{position:absolute;inset:0;background:#fff;overflow-y:auto;z-index:4}.nm .si{margin:14px 12px;background:#f1f3f5;border-radius:24px;padding:13px 16px;color:#9aa0a6;font-size:15px;display:flex;gap:12px;align-items:center}.nm .si button{border:0;background:none;font-size:22px;padding:0;color:#191f28}.nm .tg{display:flex;gap:8px;padding:6px 14px 12px}.nm .tg span{padding:9px 16px;border-radius:20px;background:#f1f3f5;font-size:13px}.nm .tg span:first-child{background:#0a6cff;color:#fff}.nm .sr{display:flex;align-items:center;gap:14px;padding:0 16px}.nm .sr i{flex:none;width:44px;height:44px;border-radius:50%;background:#f1f3f5;color:#9aa0a6;display:grid;place-items:center;font-style:normal;font-size:16px}.nm .sr div{flex:1;padding:15px 0;border-bottom:1px solid #eceef0}.nm .sr b{font-weight:500;font-size:16px;display:block}.nm .sr span{font-size:12px;color:#8b95a1}.nm .sr em{font-style:normal;color:#8b95a1;font-size:14px;padding:0 4px}.nm .hot{color:inherit;border-bottom:0}.nm .hot.found{background:rgba(10,108,255,.14);border-radius:3px}</style>`;
- const map=`<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"><rect width="400" height="700" fill="#f4f1ea"/><path d="M250 330l130-20 40 150-150 40z" fill="#d7ecc8"/><path d="M-10 560q120-40 220-10t220-30v200H-10z" fill="#bfdcf2"/><g fill="#e8e3d9"><rect x="20" y="110" width="90" height="70"/><rect x="130" y="110" width="80" height="70"/><rect x="20" y="210" width="90" height="90"/><rect x="130" y="210" width="80" height="90"/><rect x="250" y="110" width="110" height="70"/><rect x="20" y="360" width="90" height="80"/><rect x="130" y="360" width="80" height="80"/><rect x="250" y="210" width="110" height="80"/></g><g stroke="#fff" stroke-width="9" fill="none"><path d="M0 190h400M0 330h400M0 470h400M120 80v520M240 80v520"/></g><path d="M0 330h400" stroke="#fbe29a" stroke-width="12"/><g font-size="12" fill="#6b7280" text-anchor="middle"><text x="65" y="150">망원현대</text><text x="65" y="162">아파트</text><text x="170" y="150">합정초교</text><text x="305" y="150">한솔빌라</text><text x="65" y="260">세일빌딩</text><text x="305" y="255">망원근린</text><text x="305" y="267">공원</text><text x="320" y="398" fill="#5c9a4a">망원공원</text><text x="200" y="595" fill="#4c8fc0">한강</text></g><g transform="translate(180,262)"><path d="M0 0h20v22q-10 8-20 0z" fill="#2f6fed"/><path d="M10 5l6 3v6q-1 4-6 6-5-2-6-6V8z" fill="#fff"/></g><text x="190" y="298" font-size="13" font-weight="700" fill="#2f6fed" text-anchor="middle">망원파출소</text><circle cx="190" cy="334" r="16" fill="rgba(10,108,255,.2)"/><circle cx="190" cy="334" r="8" fill="#0a6cff" stroke="#fff" stroke-width="3"/></svg>`;
+ const css=`<style>.nm{background:#fff;color:#191f28;position:absolute;inset:0;overflow:hidden}.nm .mapv{position:absolute;inset:0;touch-action:none;overflow:hidden;cursor:grab}.nm .mapsvg{width:900px;height:1200px;transform-origin:0 0;display:block;pointer-events:none}.nm .ms{position:absolute;left:12px;right:12px;top:14px;z-index:3}.nm .sb{width:100%;background:#fff;border-radius:24px;box-shadow:0 2px 10px rgba(0,0,0,.2);padding:13px 18px;color:#767c85;font-size:15px;display:flex;align-items:center;gap:8px;border:0;text-align:left}.nm .sb i{color:#03c75a;font-style:normal;font-weight:900}.nm .rb{position:absolute;right:12px;z-index:3;width:42px;height:42px;border-radius:50%;background:#fff;border:0;box-shadow:0 2px 8px rgba(0,0,0,.22);font-size:20px;color:#191f28;padding:0}.nm .sh{position:absolute;inset:0;background:#fff;overflow-y:auto;z-index:4}.nm .si{margin:14px 12px;background:#f1f3f5;border-radius:24px;padding:13px 16px;color:#9aa0a6;font-size:15px;display:flex;gap:12px;align-items:center}.nm .si button{border:0;background:none;font-size:22px;padding:0;color:#191f28}.nm .tg{display:flex;gap:8px;padding:6px 14px 12px}.nm .tg span{padding:9px 16px;border-radius:20px;background:#f1f3f5;font-size:13px}.nm .tg span:first-child{background:#0a6cff;color:#fff}.nm .sr{display:flex;align-items:center;gap:14px;padding:0 16px}.nm .sr i{flex:none;width:44px;height:44px;border-radius:50%;background:#f1f3f5;color:#9aa0a6;display:grid;place-items:center;font-style:normal;font-size:16px}.nm .sr div{flex:1;padding:15px 0;border-bottom:1px solid #eceef0}.nm .sr b{font-weight:500;font-size:16px;display:block}.nm .sr span{font-size:12px;color:#8b95a1}.nm .sr em{font-style:normal;color:#8b95a1;font-size:14px;padding:0 4px}.nm .hot{color:inherit;border-bottom:0}.nm .hot.found{background:rgba(10,108,255,.14);border-radius:3px}</style>`;
  if(S.msub){return`<div class="scr app nm">${css}<div class="sh"><div class="si"><button data-act="msrch" data-v="0">‹</button>장소, 버스, 지하철, 주소 검색</div><div class="tg"><span>최근검색</span><span>장소</span><span>버스</span><span>경로</span></div>${MAP_SEARCH.map(m=>`<div class="sr"><i>${m.s?'⌕':'●'}</i><div><b>${m.q}</b>${m.sub?`<span>${m.sub}</span>`:''}</div><em>${m.d} ✕</em></div>`).join('')}</div></div>`}
- return`<div class="scr app nm">${css}${map}<div class="ms"><button class="sb" data-act="msrch" data-v="1"><i>N</i>네이버지도 검색</button></div><button class="bk" data-act="back">← 나가기</button><div class="nv"><b>발견</b><span>예약</span><span>대중교통</span><span>내비게이션</span><span>저장</span></div></div>`}
+ return`<div class="scr app nm">${css}<div class="mapv"><svg class="mapsvg" viewBox="0 0 900 1200" style="transform:translate(${MV.x}px,${MV.y}px) scale(${MV.k})">${mapSVG()}</svg></div><div class="ms"><button class="sb" data-act="msrch" data-v="1"><i>N</i>지도 검색</button></div><button class="rb" style="top:78px" data-act="back" aria-label="나가기">✕</button><button class="rb" style="bottom:110px" data-act="mzoom" data-d="0.2">+</button><button class="rb" style="bottom:60px" data-act="mzoom" data-d="-0.2">−</button></div>`}
 
 function mailApp(){
  if(S.sub==='pw'){const d=[0,1,2,3].map(i=>`<i class="${i<S.pwBuf.length?'on':''}"></i>`).join('');
@@ -701,10 +729,12 @@ function mailApp(){
   <div class="pwdots ${S.shk?'shake':''}">${d}</div>
   <p class="small" style="text-align:center;color:${S.pwHint?'var(--amber)':'var(--mute)'}">${hint}</p>
   <div class="keys">${[1,2,3,4,5,6,7,8,9].map(k=>`<button class="btn" data-act="key" data-k="${k}">${k}</button>`).join('')}<button class="btn" data-act="key" data-k="x">⌫</button><button class="btn" data-act="key" data-k="0">0</button><button class="btn" data-act="key" data-k="o">확인</button></div></div>`)}
- if(!S.sub)return appWrap('메일',MAILS.map(m=>`<button class="listrow" data-act="mail" data-id="${m.id}"><div class="avatar">${m.from[0]}</div><div class="t"><b>${m.ttl}</b><span>${m.from} · ${m.tm}${m.lock?' · 첨부':''}</span></div></button>`).join(''));
+ const css=`<style>.ml{background:#fff;color:#111}.ml .mt{display:flex;justify-content:space-between;padding:46px 14px 8px;border-bottom:1px solid #eee}.ml .mc{width:44px;height:44px;border-radius:50%;border:1px solid #e3e3e3;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.08);font-size:26px;line-height:40px;padding:0;color:#111}.ml .mb{flex:1;overflow-y:auto;padding:0 18px 40px}.ml h1{font-size:34px;font-weight:800;margin:14px 0 2px;letter-spacing:-.03em}.ml .ms{color:#8e8e93;font-size:15px;padding-bottom:10px;border-bottom:1px solid #e5e5ea}.ml .mr{display:flex;gap:10px;padding:12px 0 0;width:100%;text-align:left;background:none;border:0;color:inherit}.ml .mr>i{flex:none;width:8px;margin-top:20px;margin-right:-2px}.ml .mr>i.u{height:8px;border-radius:50%;background:#2f7cf6}.ml .mav{flex:none;width:44px;height:44px;border-radius:50%;color:#fff;font:700 15px/44px var(--sans);text-align:center;margin-top:4px}.ml .mx{flex:1;min-width:0;border-bottom:1px solid #e5e5ea;padding-bottom:12px}.ml .mx div{display:flex;justify-content:space-between;gap:8px}.ml .mx b{font-size:16px;font-weight:700}.ml .mx em{font-style:normal;color:#8e8e93;font-size:14px}.ml .mx p{font-size:14px;line-height:1.35;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ml .mx p+p{color:#8e8e93;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.ml .mh{display:flex;gap:12px;padding:16px 0;border-bottom:1px solid #e5e5ea}.ml .mh .mav{width:46px;height:46px;line-height:46px;margin:0}.ml .mh div{flex:1;font-size:14px;color:#8e8e93}.ml .mh b{display:flex;justify-content:space-between;color:#111;font-size:17px}.ml .mj{font-size:22px;font-weight:800;margin:18px 0 14px;line-height:1.3}.ml .mp{font-size:16px;line-height:1.6;white-space:normal}.ml .btn{background:#f2f2f7;color:#111;border-color:#e0e0e5}.ml .tbl td,.ml .tbl th{color:#111}.ml .hot{color:inherit}</style>`;
+ const col=['#7a8fd6','#9b7fe0','#e08a6b','#5aa88a','#d66b8a','#6bb0d6'],av=m=>`<div class="mav" style="background:${col[m.id.charCodeAt(m.id.length-1)%6]}">${m.from[0]}</div>`;
+ if(!S.sub)return`<div class="scr app ml">${css}<div class="mt"><button class="mc" data-act="back" aria-label="뒤로">‹</button></div><div class="mb"><h1>받은 편지함</h1><div class="ms">Gmail · 12,406개 읽지 않음</div>${MAILS.map(m=>`<button class="mr" data-act="mail" data-id="${m.id}"><i class="${m.u?'u':''}"></i>${av(m)}<div class="mx"><div><b>${m.from}</b><em>${m.tm} ›</em></div><p>${m.ttl}</p><p>${m.body.replace(/<br>/g,' ')}</p></div></button>`).join('')}</div></div>`;
  const m=MAILS.find(x=>x.id===S.sub);
- const att=m.lock?(S.pw?`<h3 style="margin:14px 0 8px">장부_사본.zip</h3>${LEDGER}`:`<button class="btn block" style="margin-top:14px" data-act="pwopen">${svg('lock').replace('<svg','<svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7"')} 잠긴 첨부파일 열기</button>`):'';
- return appWrap(m.ttl,`<p class="small mute">보낸 사람 ${m.from} · ${m.tm}</p><p style="margin-top:10px">${m.body}</p>${att}`)}
+ const att=m.lock?(S.pw?`<h3 style="margin:18px 0 8px;color:#8e8e93">장부_사본.zip</h3>${LEDGER}`:`<button class="btn block" style="margin-top:18px" data-act="pwopen">${svg('lock').replace('<svg','<svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7"')} 잠긴 첨부파일 열기</button>`):'';
+ return`<div class="scr app ml">${css}<div class="mt"><button class="mc" data-act="back" aria-label="뒤로">‹</button></div><div class="mb"><div class="mh">${av(m)}<div><b>${m.from}<span style="font-weight:400;color:#8e8e93;font-size:15px">${m.tm}</span></b>받는 사람: 나 ›</div></div><div class="mj">${m.ttl}</div><div class="mp">${m.body}</div>${att}</div></div>`}
 
 function cctvInner(m){
  const a=m>=CCTV.sung[0]&&m<=CCTV.sung[1],b=m>=CCTV.leave[0]&&m<=CCTV.leave[1];let f='';
@@ -946,7 +976,7 @@ function act(a,d){
  case'recover':S.rec=true;sfx.clue();break;
  case'alarmclue':if(d.c)gain(d.c);break;
  case'caldetail':{const txt=d.text||'';modal(`<div class="ios-cal-grabber"></div><div class="ios-cal-title">일정</div><div class="ios-cal-text">${txt}</div><button class="ios-cal-close" data-act="close">닫기</button>`,'ios-calendar');if(d.c)gain(d.c);return;}
- case'ptab':S.ptab=d.t;break;case'msrch':S.msub=+d.v;break;
+ case'ptab':S.ptab=d.t;break;case'msrch':S.msub=+d.v;break;case'mzoom':{const n=Math.max(.8,Math.min(1.8,MV.k+ +d.d)),f=n/MV.k;MV.x=Math.min(0,250-(250-MV.x)*f);MV.y=Math.min(0,380-(380-MV.y)*f);MV.k=n;break}
  case'mail':S.sub=d.id;break;
  case'pwopen':S.sub='pw';S.pwBuf='';break;
  case'key':{const k=d.k;if(k==='x')S.pwBuf=S.pwBuf.slice(0,-1);else if(k==='o'){if(S.pwBuf.length<4){toast('4자리를 입력하세요',true);return}pwCheck();break}else if(S.pwBuf.length<4)S.pwBuf+=k;if(S.pwBuf.length===4){pwCheck()}break}
