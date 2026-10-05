@@ -810,7 +810,6 @@ const OV={};let ovKey='';
 const ED=(t,k,d='')=>`data-ed="${t}|${k}" data-dv="${String(d).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}"`;
 const ovGet=(k,d)=>OV[k]!==undefined&&OV[k]!==''?OV[k]:d;
 const ovT=(k,d)=>OV[k]!==undefined&&OV[k]!==''?igEsc(OV[k]):d;
-XM.forEach((p,i)=>p.k='m'+i);XP.forEach((p,i)=>p.k='p'+i);MU.D=MU.TR.map(t=>({...t}));MU.DT=MU.T;
 const xMedia=p=>{const k='x.'+p.k+'.img',u=OV[k];if(u)return `<div class="xm" ${ED('p',k)} style="background:url(${u}) center/cover"></div>`;if(p.img)return `<div class="xm" ${ED('p',k)} style="background:${p.img}"></div>`;return S.ed?`<div class="xm" ${ED('p',k)} style="display:grid;place-items:center;color:#8b98a5;font-size:13px;border-style:dashed;height:60px">＋ 사진 추가</div>`:''};
 function ovApply(){try{if(OV['x.pic']!==undefined)XS.pic=OV['x.pic'];MU.T=OV['mu.t']?igEsc(OV['mu.t']):MU.DT;MU.TR.forEach((t,i)=>{t.t=OV['mu.'+i+'.t']?igEsc(OV['mu.'+i+'.t']):MU.D[i].t;t.a=OV['mu.'+i+'.a']?igEsc(OV['mu.'+i+'.a']):MU.D[i].a})}catch(e){}}
 function ovRender(){const q='.scr .ib,.scr .xf,.scr .mu-scroll,.scr .cb',e=document.querySelector(q),st=e?e.scrollTop:0;render();const n=document.querySelector(q);if(n)n.scrollTop=st}
@@ -1562,6 +1561,7 @@ function pwCheck(){if(S.pwBuf==='0314'){S.pw=true;S.sub='m3';S.pwBuf='';sfx.lock
 /* ===== 입력 연결 / 시작 ===== */
 function onHot(el){if(el.dataset.note){const n=el.dataset.note;if(!S.notes[n]){S.notes[n]=true;sfx.clue();toast(n==='wolpo'?'메모 · 윤호의 외가는 월포입니다':'메모 · 윤호는 02:41 혼자 집을 나섰습니다');render();save()}return}
  const id=el.dataset.clue;if(S.clues[id]){toast('이미 확보한 단서입니다');return}gain(id);render()}
+XM.forEach((p,i)=>p.k='m'+i);XP.forEach((p,i)=>p.k='p'+i);MU.D=MU.TR.map(t=>({...t}));MU.DT=MU.T;
 function boot(){const sv=loadSave();S=sv?Object.assign(fresh(),sv):fresh();$('#modal').hidden=true;
  $('#app').addEventListener('click',e=>{const h=e.target.closest('.hot');if(h&&$('#stage').contains(h)){onHot(h);return}
   const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b.dataset)});
