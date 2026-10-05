@@ -1,7 +1,8 @@
 <!doctype html><html><head><meta charset=utf8><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><link rel="stylesheet" href="styles/base.css">
 
 
-\n</head><body>
+
+</head><body>
 <title>마지막 접속</title>
 
 <style>
@@ -170,7 +171,8 @@ function talkApp(){
 }
 
 
-</script>\n<script>
+</script>
+<script>
 /* ===== apps/camera.js (temporarily inlined) ===== */
 /* Camera app — real device camera only */
 let cameraStream=null;
@@ -597,7 +599,8 @@ function render(){const old=$('.body'),st=old?old.scrollTop:0,key=S.screen+'|'+S
  $('#stage').innerHTML=(map[S.screen]||titleHTML)();
  const sc=$('.scr');if(sc&&!same)sc.classList.add('enter');
  markFound($('#stage'));S.pulse=null;S.shk=false;if(S.shake&&sc){sc.classList.add('shake');S.shake=false}
- const nb=$('.body');if(nb&&same)nb.scrollTop=st;\n if(S.screen==='APP'&&S.app==='moa'&&!same)requestAnimationFrame(cameraStart); else if(S.app!=='moa')cameraStop();
+ const nb=$('.body');if(nb&&same)nb.scrollTop=st;
+ if(S.screen==='APP'&&S.app==='moa'&&!same)requestAnimationFrame(cameraStart); else if(S.app!=='moa')cameraStop();
  if(S.screen==='PROLOGUE'&&!same)runPrologue()
  if(S.screen==='APP'&&S.app==='calendar'&&!same){const cs=$('.calendar-scroll');if(cs){requestAnimationFrame(()=>{const target=cs.querySelector('[data-default-month="true"]');if(target)cs.scrollLeft=target.offsetLeft})}}
 }
@@ -726,7 +729,9 @@ function act(a,d){
  
  case'open':{const ap=APPS.find(x=>x.id===d.id);if(count()<ap.need){toast(`단서 ${ap.need}개를 모으면 열립니다`);sfx.bad();return}
   S.newApps=S.newApps.filter(x=>x!==d.id);S.screen='APP';S.app=d.id;S.sub=null;sfx.open();break}
- case'camera-shot':cameraShot();return;\n case'camera-switch':cameraSwitch();return;\n case'back':if(S.screen==='APP'){if(S.sub){S.sub=null;S.pwBuf=''}else{S.app=null;S.screen='HOME'}}else if(S.screen==='FINAL'&&S.fin.step){S.fin={}}else S.screen='HOME';break;
+ case'camera-shot':cameraShot();return;
+ case'camera-switch':cameraSwitch();return;
+ case'back':if(S.screen==='APP'){if(S.sub){S.sub=null;S.pwBuf=''}else{S.app=null;S.screen='HOME'}}else if(S.screen==='FINAL'&&S.fin.step){S.fin={}}else S.screen='HOME';break;
  case'home':S.screen='HOME';S.app=null;S.sub=null;S.pwBuf='';break;
  case'notebook':S.screen='NOTEBOOK';S.sel=[];break;
  case'ntab':S.tab=d.t;S.sel=[];break;
