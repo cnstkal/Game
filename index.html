@@ -844,7 +844,8 @@ function act(a,d){
  case'close':closeModal();return;
  case'chat':S.sub=d.id;break;
  case'recover':S.rec=true;sfx.clue();break;
- case'alarmclue':if(d.c)gain(d.c);break;\n case'caldetail':{const txt=d.text||'';modal(`<h3>일정</h3><p style="margin:12px 0 18px;font-size:16px;line-height:1.55">${txt}</p><button class="btn block" data-act="close">닫기</button>`);if(d.c)gain(d.c);return;}
+ case'alarmclue':if(d.c)gain(d.c);break;
+ case'caldetail':{const txt=d.text||'';modal(`<h3>일정</h3><p style="margin:12px 0 18px;font-size:16px;line-height:1.55">${txt}</p><button class="btn block" data-act="close">닫기</button>`);if(d.c)gain(d.c);return;}
  case'ptab':S.ptab=d.t;break;
  case'mail':S.sub=d.id;break;
  case'pwopen':S.sub='pw';S.pwBuf='';break;
