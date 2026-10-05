@@ -3,3 +3,8 @@
 .clockapp{background:#000!important;color:#fff!important;color-scheme:dark!important}
 .clockapp .appbar{background:#000!important;color:#fff!important;border-bottom:1px solid #222!important}
 .clockapp .appbar-back{color:#fff!important}
+
+/* Alarm list: remove the large gap below the app bar */
+.clockapp .clock-body{top:54px!important;padding:0!important}
+.clockapp .alarm-list{margin:0!important;padding:0!important}
+.clockapp .alarm-row:first-child{margin-top:0!important}
