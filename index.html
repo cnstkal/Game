@@ -1,7 +1,7 @@
 <!doctype html><html><head><meta charset=utf8><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/messages.css">
-<link rel="stylesheet" href="styles/calendar.css">
-<link rel="stylesheet" href="styles/time.css">\n<link rel="stylesheet" href="styles/camera.css"></head><body>
+
+
+\n</head><body>
 <title>마지막 접속</title>
 
 <style>
@@ -53,11 +53,163 @@
  justify-content:center!important;
 }
 .talkapp .talk-top .home-list::before{content:none!important}
+
+/* ===== APP-SPECIFIC CSS (temporarily inlined) ===== */
+/* Messages app */
+
+.talkapp .appbar{background:#fff!important;color:#1d1d1f!important;border-bottom:1px solid #d8d8de!important}
+.talkapp .appbar-back{color:#1d1d1f!important}
+.talkapp .detail-chat .bub.me{background:#147EFB!important;color:#fff!important}
+
+/* Calendar app */
+
+.calendarapp{background:#fff!important;color:#111!important}
+.calendarapp .appbar{background:#fff!important;color:#1d1d1f!important;border-bottom:1px solid #d8d8de!important}
+.calendarapp .appbar-back{color:#1d1d1f!important}
+
+/* Clock app */
+
+.clockapp{background:#000!important;color:#fff!important;color-scheme:dark!important}
+.clockapp .appbar{background:#000!important;color:#fff!important;border-bottom:1px solid #222!important}
+.clockapp .appbar-back{color:#fff!important}
+
+/* Alarm list: remove the large gap below the app bar */
+.clockapp .clock-body{top:54px!important;padding:0!important}
+.clockapp .alarm-list{margin:0!important;padding:0!important}
+.clockapp .alarm-row:first-child{margin-top:0!important}
+
+.cameraapp{background:#000!important;color:#fff!important;overflow:hidden!important}
+.camera-view{position:relative;flex:1;min-height:0;background:#111;overflow:hidden}
+#camera-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#111}
+.camera-top{position:absolute;top:18px;left:0;right:0;display:flex;justify-content:center;gap:24px;z-index:3}
+.camera-top button,.camera-switch,.camera-back{border:0;background:rgba(0,0,0,.48);color:#fff;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px}
+.camera-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);pointer-events:none;opacity:.42;z-index:2}
+.camera-grid i{border-right:1px solid rgba(255,255,255,.45);border-bottom:1px solid rgba(255,255,255,.45)}
+.camera-grid i:nth-child(3n){border-right:0}.camera-grid i:nth-last-child(-n+3){border-bottom:0}
+.camera-controls{position:absolute;left:0;right:0;bottom:112px;height:100px;display:flex;align-items:center;justify-content:center;z-index:4}
+.camera-zoom{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(0,0,0,.55);border-radius:20px;padding:5px 10px;color:#fff;font-size:14px}
+.camera-shutter{width:78px;height:78px;border-radius:50%;border:3px solid #777;background:#fff;padding:5px}.camera-shutter span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;border:1px solid #bbb}
+.camera-switch{position:absolute;right:28px;bottom:8px;font-size:27px}
+.camera-modes{position:absolute;bottom:38px;left:0;right:0;z-index:4;display:flex;justify-content:center;gap:24px;font-size:16px}.camera-modes button{border:0;background:none;color:#ddd;padding:5px}.camera-modes .active{color:#ffd60a;font-weight:600}
+.camera-back{position:absolute;top:18px;left:18px;z-index:5;font-size:24px}
+.camera-captured::after{content:"";position:absolute;inset:0;background:#fff;opacity:.9;animation:cameraFlash .16s ease-out forwards;pointer-events:none;z-index:10}
+@keyframes cameraFlash{from{opacity:.9}to{opacity:0}}
+
 </style>
 <div id="app"><div id="stage"></div><div id="toast" aria-live="polite"></div><div id="modal" hidden></div></div>
-<script src="apps/time.js"></script>
-<script src="apps/calendar.js"></script>
-<script src="apps/messages.js"></script>\n<script src="apps/camera.js"></script>
+<script>
+/* ===== apps/time.js (temporarily inlined) ===== */
+function timeApp(){const alarms=[
+ {tm:'00:10',note:'잠깐 확인'},
+ {tm:'00:40',note:'자료 정리'},
+ {tm:'01:20',note:'자기 전에 확인'},
+ {tm:'01:50',note:'물 마시기'},
+ {tm:'02:20',note:'한 번 더 확인'},
+ {tm:'02:40',note:'파일 저장'},
+ {tm:'03:00',note:H('C06','확인하기 · 편집하는곰'),clue:'C06'},
+ {tm:'03:02',note:H('C09','위치 확인 · 월포'),clue:'C09'},
+ {tm:'03:12',note:H('C08','버스 시간 확인'),clue:'C08'},
+ {tm:'04:10',note:'잠들기'},
+ {tm:'06:30',note:'기상'},
+ {tm:'07:10',note:'준비하기'},
+ {tm:'07:40',note:'알람'},
+ {tm:'08:20',note:'영양제 먹기'},
+ {tm:'09:00',note:'메일 확인'},
+ {tm:'10:30',note:'파일 확인'},
+ {tm:'11:40',note:'점심'},
+ {tm:'12:10',note:'메일'},
+ {tm:'13:30',note:'작업 시작'},
+ {tm:'15:00',note:'잠깐 쉬기'},
+ {tm:'16:20',note:'연락 확인'},
+ {tm:'17:40',note:'정리하기'},
+ {tm:'19:00',note:'저녁'},
+ {tm:'20:30',note:'자료 백업'},
+ {tm:'21:10',note:'연락하기'},
+ {tm:'22:00',note:'마무리'},
+ {tm:'23:10',note:'정리하기'},
+ {tm:'23:50',note:'내일 일정 확인'}
+];return`<div class="scr app clockapp"><div class="appbar"><button class="appbar-back" data-act="home" aria-label="홈으로">←</button><div class="appbar-title">알람</div></div><div class="clock-body"><div class="alarm-list">${alarms.map(a=>`<button class="alarm-row ${a.clue?'alarm-clue':''}" ${a.clue?'data-act="alarmclue" data-c="'+a.clue+'"':''}><div class="alarm-main"><div class="alarm-time">${a.tm}</div><div class="alarm-note">${a.note}</div></div><span class="alarm-toggle"><i></i></span></button>`).join('')}</div></div></div>`}
+
+</script>
+<script>
+/* ===== apps/calendar.js (temporarily inlined) ===== */
+function calendarApp(){const year=2026,months=Array.from({length:12},(_,i)=>i+1),names=months.map(m=>m+'월');const now=new Date(),todayYear=now.getFullYear(),todayMonth=now.getMonth()+1,todayDay=now.getDate();const events={
+ 1:{8:['클라이언트 영상 1차 시안 마감'],12:['외주 문의 답장'],17:['성화 녹음실'],23:['세린이랑 저녁 약속'],29:['영상 수정본 전달']},
+ 2:{4:['브랜드 영상 촬영본 정리'],6:['2월 편집본 1차 마감'],13:['클라이언트 미팅'],18:['성화 공연'],21:['성화 녹음실'],27:['외주 영상 최종본 납품']},
+ 3:{5:['광고 영상 콘티 확인'],10:['편집본 1차 전달'],14:['우리 처음 만난 날'],19:['성화 공연 리허설'],24:['클라이언트 수정사항 반영'],27:['뮤직비디오 자막 수정 마감']},
+ 4:{3:['영상 클라이언트 미팅'],8:['인터뷰 영상 편집 마감'],15:['성화 녹음실'],19:['성화 생일 저녁'],22:['광고 영상 2차 시안'],28:['편집비 정산']},
+ 5:{2:['브랜드 영상 촬영본 전달'],8:['광고 영상 최종본 마감'],14:['클라이언트 미팅'],18:['성화 공연'],22:['세린이랑 점심'],26:['외주 수정본 전달'],30:['다음 프로젝트 견적 확인']},
+ 6:{4:['뮤직비디오 2차 편집 마감'],9:['광고 영상 촬영'],13:['클라이언트 수정사항 확인'],17:['성화 공연 보러 가기'],21:['영상 최종본 납품'],25:['성화 녹음실'],29:['편집비 정산']},
+ 7:{3:['여름 화보 촬영본 수령'],9:['여름 화보 편집 마감'],14:['클라이언트 미팅'],19:['성화 공연'],25:['윤호 부모님 댁 방문'],27:['광고 영상 수정본 전달'],31:['외주 견적서 발송']},
+ 8:{2:['브랜드 영상 1차 시안 마감'],7:['뮤직비디오 촬영본 수령'],12:['클라이언트 미팅'],16:['성화랑 휴일'],21:['광고 영상 최종본 납품'],28:['외주 수정본 전달']},
+ 9:{3:['클라이언트 영상 1차 시안'],8:['성화 녹음실'],15:['광고 영상 수정 마감'],20:['세린이랑 저녁 약속'],24:['세린이랑 저녁 약속'],27:{t:'자료 전달 확인',clue:'C06'},28:['영상 수정본 마감'],30:['성화 녹음실']},
+ 10:{1:['뮤직비디오 편집본 마감'],2:{t:'월포 일정 확인',clue:'C09'},3:['개천절'],3:['성화 공연 리허설'],4:['외주 최종본 납품'],6:['광고 영상 수정 마감'],8:['세린이랑 약속'],10:['성화 방송 녹화'],12:['편집비 정산 확인'],14:['새 프로젝트 미팅'],16:['영상 납품 마감'],20:['성화 공연'],27:['외주 영상 2차 마감'],30:['클라이언트 일정 확인']},
+ 11:{3:['광고 영상 납품 마감'],7:['클라이언트 미팅'],11:['성화 공연'],16:['편집본 수정 마감'],19:['외주 미팅'],26:['외주 최종본 마감']},
+ 12:{3:['연말 광고 영상 촬영'],5:['연말 영상 편집 마감'],12:['성화 공연'],18:['세린이랑 약속'],20:['클라이언트 최종본 납품'],24:['크리스마스'],30:['연말 정산']}
+}
+const monthHTML=(m,idx)=>{const first=new Date(year,m-1,1).getDay(),offset=(first+6)%7,days=new Date(year,m,0).getDate();const cells=Array(offset).fill('');for(let d=1;d<=days;d++)cells.push(String(d));while(cells.length%7)cells.push('');const weeks=[];for(let i=0;i<cells.length;i+=7)weeks.push(cells.slice(i,i+7));return`<section class="calendar-month-section" data-month="${m}" ${m===10?'data-default-month="true"':''}><div class="calendar-month-head"><div class="calendar-month">${names[idx]}</div></div><div class="calendar-weekdays"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div><div class="calendar-grid">${weeks.map((w,wi)=>`<div class="calendar-week ${wi===weeks.length-1?'last-week':''}">${w.map((d,di)=>{if(!d)return '<div class="calendar-day empty"></div>';const n=Number(d),raw=(events[m]||{})[n],list=raw?(Array.isArray(raw)?raw:[raw]):[],isToday=todayYear===year&&todayMonth===m&&todayDay===n;return `<div class="calendar-day ${isToday?'today':''} ${di>=5?'weekend':''}"><div class="calendar-number">${d}</div>${list.map(ev=>{const e=typeof ev==='string'?{t:ev}:ev;return `<button class="calendar-event ${e.clue?'calendar-clue-event':''} ${Array.from(e.t).length>5?'long':''}" data-act="caldetail" data-text="${String(e.t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" ${e.clue?`data-c="${e.clue}"`:''}><span class="cal-event-label">${String(e.t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></button>`}).join('')}</div>`}).join('')}</div>`).join('')}</div></section>`};return`<div class="scr app calendarapp"><div class="appbar"><button class="appbar-back" data-act="home" aria-label="홈으로">←</button><div class="appbar-title">캘린더</div></div><div class="calendar-scroll">${months.map((m,i)=>monthHTML(m,i)).join('')}</div></div>`}
+
+</script>
+<script>
+/* ===== apps/messages.js (temporarily inlined) ===== */
+function talkApp(){
+ if(!S.sub){
+  const rows=CHATS.map((c,i)=>{
+   const last=c.msgs.filter(g=>!g.d&&!g.sys).slice(-1)[0]||{};
+   const date=i<6?'금요일':i===6?'목요일':'수요일';
+   return `<button class="talk-row" data-act="chat" data-id="${c.id}"><div class="avatar ${c.id==='tax'?'green':''}">${c.id==='tax'?'':c.n[0]}</div><div class="t"><b>${c.n}</b><span>${c.pre||last.x||''}</span></div><span class="date">${date}</span><span class="arrow">›</span></button>`;}).join('');
+  return `<div class="scr app talkapp">${status()}<div class="appbar"><button class="appbar-back" data-act="home" aria-label="홈으로">←</button><div class="appbar-title">메시지</div></div><div class="talk-list">${rows}</div></div>`;
+ }
+ const c=CHATS.find(x=>x.id===S.sub);
+ const m=c.msgs.map(g=>{
+  if(g.d)return`<div class="daysep">${g.d}</div>`;
+  if(g.sys)return`<div class="sysline">${g.sys}</div>`;
+  if(g.del)return S.rec?`<div class="bub">${DELETED_TEXT}<span class="tm">${g.tm} · 복구됨</span></div>`:`<button class="bub del" data-act="recover">삭제된 메시지입니다<span class="tm">${g.tm} · 탭하여 복구 시도</span></button>`;
+  return`<div class="bub ${g.w==='m'?'me':''}">${g.x}<span class="tm">${g.tm}${g.rd?' · 읽음':''}</span></div>`}).join('');
+ return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">←</button><div class="name">${c.n}</div><span class="contact">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
+}
+
+
+</script>\n<script>
+/* ===== apps/camera.js (temporarily inlined) ===== */
+/* Camera app — real device camera only */
+let cameraStream=null;
+let cameraFacing='environment';
+
+function cameraApp(){
+  return `<div class="scr app cameraapp">
+    <div class="camera-view">
+      <video id="camera-video" autoplay playsinline muted></video>
+      <canvas id="camera-canvas" hidden></canvas>
+      <div class="camera-top"><button class="camera-flash" type="button">⚡</button><button class="camera-live" type="button">◉</button></div>
+      <div class="camera-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="camera-controls"><div class="camera-zoom">1×</div><button class="camera-shutter" data-act="camera-shot" aria-label="사진 촬영"><span></span></button><button class="camera-switch" data-act="camera-switch" aria-label="카메라 전환">↻</button></div>
+      <div class="camera-modes"><button type="button">비디오</button><button type="button" class="active">사진</button><button type="button">인물 사진</button></div>
+      <button class="camera-back" data-act="home" aria-label="홈으로">←</button>
+    </div>
+  </div>`;
+}
+async function cameraStart(){
+  const video=document.getElementById('camera-video');
+  if(!video||!navigator.mediaDevices?.getUserMedia)return;
+  cameraStop();
+  try{
+    cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:cameraFacing},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    video.srcObject=cameraStream;
+  }catch(e){}
+}
+function cameraStop(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}}
+function cameraShot(){
+  const video=document.getElementById('camera-video'),canvas=document.getElementById('camera-canvas');
+  if(!video||!canvas||!video.videoWidth)return;
+  canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+  canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
+  const view=document.querySelector('.camera-view');
+  if(view){view.classList.add('camera-captured');setTimeout(()=>view.classList.remove('camera-captured'),160);}
+}
+async function cameraSwitch(){cameraFacing=cameraFacing==='environment'?'user':'environment';await cameraStart();}
+
+</script>
 <script>
 /* ===== DATA : 스토리 데이터는 전부 여기 ===== */
 const H=(id,t)=>`<span class="hot" data-clue="${id}" tabindex="0" role="button">${t}</span>`;
