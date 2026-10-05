@@ -1679,43 +1679,27 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
   const removeIds = new Set(['quest','board']);
   for(let i=APPS.length-1;i>=0;i--) if(removeIds.has(APPS[i].id)) APPS.splice(i,1);
 
-  /* 정보 확보 전에는 앱 자체가 열리지 않도록 잠금 단계를 세분화 */
-  Object.assign(AREQ,{
-    case:null,
-    talk:'C01',
-    moa:'C01',
-    calendar:'C02',
-    photos:'C02',
-    insta:'C02',
-    x:'C06',
-    music:'C04',
-    coupang:'C04',
-    time:'C06',
-    voice:'C06',
-    safari:'C05',
-    pay:'L1',
-    map:'C08',
-    findmy:'C08',
-    cctv:'C07',
-    mail:'C10',
-    gpt:'C10',
-    settings:'C13',
-    health:'C15',
-    phone:'C16'
-  });
+  /* 앱별 정보 확보 조건. null은 처음부터 열려 있는 앱 */
+  const LOCKS={
+    case:null, talk:'C01', moa:'C01',
+    calendar:'C02', photos:'C02', insta:'C02',
+    x:'C06', music:'C04', coupang:'C04',
+    time:'C06', voice:'C06', safari:'C05',
+    pay:'L1', map:'C08', findmy:'C08', cctv:'C07',
+    mail:'C10', gpt:'C10', settings:'C13',
+    health:'C15', phone:'C16', evidence:'C02'
+  };
+  const unlocked=(a)=>{
+    if(a.id==='evidence') return count()>=2;
+    const req=LOCKS[a.id];
+    if(!req)return true;
+    return !!(S.clues[req]||S.links[req]);
+  };
 
-  /* 수첩을 대체하는 별도 증거 분석 화면.
-     이름/UI상 수첩은 완전히 사라지고, 단서 연결 기능은 유지한다. */
-  AREQ.evidence='C02';
+  /* 수첩 대신 단서 연결만 담당하는 '증거 분석' 앱 */
   APPS.push({id:'evidence',n:'증거 분석',need:0});
   const evidenceEntry=APPS.find(a=>a.id==='evidence');
   Object.defineProperty(evidenceEntry,'need',{get(){return count()>=2?0:99},configurable:true});
-
-  const oldIsOpen=isOpen;
-  const unlocked=(a)=>{
-    if(a.id==='evidence') return count()>=2;
-    return oldIsOpen(a);
-  };
 
   function evidenceApp(){
     const f=CLUE_IDS.filter(i=>S.clues[i]), n=Object.keys(S.links).length, sel=S.sel||[];
@@ -1736,33 +1720,26 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
     return oldAppHTML();
   };
 
-  /* 최종 판단은 충분한 진행 이후에만 홈의 앱 목록에 등장 */
-  const canFinal=()=>count()>=10 && Object.keys(S.links).length>=3;
-  const oldAppBtn=appBtn;
+  /* 앱 아이콘은 실제 잠금 상태를 기준으로 렌더링 */
   appBtn=function(a){
-    if(a.id==='evidence'){
-      const o=unlocked(a),nw=S.newApps.includes(a.id);
-      return `<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="evidence"><div class="ico">${svg('note')}</div><span class="nm">증거 분석</span>${o?'': '<span class="need">🔒 단서 2개 필요</span>'}</button>`;
-    }
-    return oldAppBtn(a);
+    const o=unlocked(a),nw=S.newApps.includes(a.id);
+    const icon=a.id==='evidence'?svg('note'):svg(a.id);
+    const label=LOCKS[a.id]&&!o?'🔒 정보 확보 필요':'';
+    return `<button class="appbtn ${o?'':'lock'} ${nw?'new':''}" data-act="open" data-id="${a.id}"><div class="ico">${icon}</div><span class="nm">${a.n}</span>${o?'':`<span class="need">${label}</span>`}</button>`;
   };
 
+  /* 최종 판단은 단서를 충분히 확보하고 사실을 연결한 뒤에만 홈에 등장 */
+  const canFinal=()=>count()>=10 && Object.keys(S.links).length>=3;
   const oldHomeHTML=homeHTML;
   homeHTML=function(){
-    const base=oldHomeHTML();
-    if(!canFinal()) return base;
-    const finalIcon=`<button class="appbtn new" data-act="open" data-id="__final"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">${ICO.final}</svg></div><span class="nm">최종 판단</span><span class="need">수사 진행 완료</span></button>`;
-    return base.replace('<div class="grid">','<div class="grid">'+finalIcon);
-  };
-
-  /* 기존 하단바에서 수첩/최종판단을 제거.
-     힌트만 남겨 하단바 자체는 유지한다. */
-  const oldHome=homeHTML;
-  homeHTML=function(){
-    let h=oldHome();
+    let h=oldHomeHTML();
     h=h.replace(/<button class="btn" data-act="notebook">[\s\S]*?<\/button>/,'');
     h=h.replace(/<button class="btn" data-act="open" data-id="quest">[\s\S]*?<\/button>/,'');
     h=h.replace(/<button class="btn" data-act="final">[\s\S]*?<\/button>/,'');
+    if(canFinal()){
+      const finalIcon=`<button class="appbtn new" data-act="open" data-id="__final"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">${ICO.final}</svg></div><span class="nm">최종 판단</span><span class="need">수사 진행 완료</span></button>`;
+      h=h.replace('<div class="grid">','<div class="grid">'+finalIcon);
+    }
     return h;
   };
 
@@ -1779,7 +1756,6 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
     oldAct(a,d);
   };
 
-  /* 이웃광장에 의존하던 안내 문구 제거 */
   nextHint=function(){
     const c=S.clues,L=S.links,n=Object.keys(L).length;
     if(!c.C01)return'파일 앱의 신고서에서 현장 상황을 확인하세요.';
@@ -1800,7 +1776,6 @@ nextHint=function(){const c=S.clues,L=S.links,n=Object.keys(L).length;
     return'충분히 조사했습니다. 홈 화면에 최종 판단이 열렸습니다.';
   };
 
-  /* 이전 저장 데이터에 남아 있는 제거된 앱 상태도 정리 */
   if(S.app==='quest'||S.app==='board'){S.app=null;S.screen='HOME';}
 })();
 </script>
