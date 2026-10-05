@@ -74,19 +74,35 @@
 .clockapp .alarm-row:first-child{margin-top:0!important}
 
 .cameraapp{background:#000!important;color:#fff!important;overflow:hidden!important}
-.camera-view{position:relative;flex:1;min-height:0;background:#111;overflow:hidden}
-#camera-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#111}
-.camera-top{position:absolute;top:18px;left:0;right:0;display:flex;justify-content:center;gap:24px;z-index:3}
-.camera-top button,.camera-switch,.camera-back{border:0;background:rgba(0,0,0,.48);color:#fff;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px}
-.camera-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);pointer-events:none;opacity:.42;z-index:2}
-.camera-grid i{border-right:1px solid rgba(255,255,255,.45);border-bottom:1px solid rgba(255,255,255,.45)}
+.cam-top{height:84px;flex:none;position:relative;display:flex;align-items:center;justify-content:center;gap:34px;background:#000}
+.cam-top button,.cam-circ{border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center}
+.cam-top svg{width:28px;height:28px}
+.camera-back{position:absolute;left:10px;top:23px;width:38px;height:38px;border:0;background:transparent;color:#fff;font-size:20px}
+.camera-view{position:relative;width:100%;aspect-ratio:3/4;flex:none;background:#111;overflow:hidden;max-height:calc(100% - 84px - 190px)}
+#camera-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#111;transition:transform .25s}
+.camera-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);pointer-events:none;opacity:.5;z-index:2}
+.camera-grid i{border-right:1px solid rgba(255,255,255,.55);border-bottom:1px solid rgba(255,255,255,.55)}
 .camera-grid i:nth-child(3n){border-right:0}.camera-grid i:nth-last-child(-n+3){border-bottom:0}
-.camera-controls{position:absolute;left:0;right:0;bottom:112px;height:100px;display:flex;align-items:center;justify-content:center;z-index:4}
-.camera-zoom{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(0,0,0,.55);border-radius:20px;padding:5px 10px;color:#fff;font-size:14px}
-.camera-shutter{width:78px;height:78px;border-radius:50%;border:3px solid #777;background:#fff;padding:5px}.camera-shutter span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;border:1px solid #bbb}
-.camera-switch{position:absolute;right:28px;bottom:8px;font-size:27px}
-.camera-modes{position:absolute;bottom:38px;left:0;right:0;z-index:4;display:flex;justify-content:center;gap:24px;font-size:16px}.camera-modes button{border:0;background:none;color:#ddd;padding:5px}.camera-modes .active{color:#ffd60a;font-weight:600}
-.camera-back{position:absolute;top:8px;left:10px;z-index:5;width:38px;height:38px;border-radius:0;background:transparent;font-size:20px}
+.cam-zoom{position:absolute;left:0;right:0;bottom:10px;z-index:4;display:flex;align-items:center;justify-content:center;gap:2px}
+.cam-zoom button{min-width:40px;height:40px;border:0;border-radius:20px;background:transparent;color:#fff;font-size:17px;padding:0 8px}
+.cam-zoom button.on{background:rgba(30,30,30,.7);color:#ffd60a;font-size:19px;min-width:52px}
+.cam-scan{position:absolute;right:14px;bottom:10px;z-index:4;width:48px;height:48px;border-radius:50%;background:rgba(40,40,40,.72);border:0;color:#fff;display:flex;align-items:center;justify-content:center}
+.cam-scan svg{width:26px;height:26px}
+.cam-bottom{flex:1;min-height:0;background:#000;display:flex;flex-direction:column;justify-content:space-around;padding:6px 0 14px}
+.cam-row1{position:relative;height:84px;display:flex;align-items:center;justify-content:center}
+.camera-shutter{width:80px;height:80px;border-radius:50%;border:3px solid #6f6f6f;background:transparent;padding:4px}
+.camera-shutter span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;transition:transform .08s}.camera-shutter:active span{transform:scale(.9)}
+.cam-circ{position:absolute;width:48px;height:48px;border-radius:50%;background:#262626}
+.cam-more{right:30px}.cam-more svg{width:24px;height:24px}
+.cam-row2{position:relative;height:50px;display:flex;align-items:center;padding:0 16px;gap:10px}
+.cam-thumb{width:50px;height:50px;border-radius:50%;background:#444 center/cover;border:0;flex:none}
+.camera-modes{flex:1;display:flex;justify-content:space-between;background:#1e1e1e;border-radius:26px;padding:3px;height:48px}
+.camera-modes button{flex:1;border:0;background:none;color:#ddd;font-size:16px;border-radius:24px;white-space:nowrap}
+.camera-modes .active{background:#0a0a0a;color:#ffd60a;box-shadow:0 0 0 1px #333 inset}
+.cam-flip{position:static;width:48px;height:48px;border-radius:50%;background:#262626;border:0;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.cam-flip svg{width:26px;height:26px}
+.cam-focus{position:absolute;z-index:3;width:80px;height:80px;border:2px solid #ffd60a;border-radius:6px;pointer-events:none;opacity:0;transform:translate(-50%,-50%)}.cam-focus.on{animation:camfocus .9s ease}
+@keyframes camfocus{0%{opacity:1;transform:translate(-50%,-50%) scale(1.4)}20%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
 .camera-captured::after{content:"";position:absolute;inset:0;background:#fff;opacity:.9;animation:cameraFlash .16s ease-out forwards;pointer-events:none;z-index:10}
 @keyframes cameraFlash{from{opacity:.9}to{opacity:0}}
 
@@ -174,14 +190,18 @@ let cameraFacing='environment';
 
 function cameraApp(){
   return `<div class="scr app cameraapp">
-    <div class="camera-view">
+    <div class="cam-top"><button class="camera-back" data-act="home" aria-label="뒤로">←</button><button type="button" id="cam-flash" aria-label="플래시"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 5 14h6l-1 8 8-12h-6z"/></svg></button><button type="button" aria-label="라이브"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9" stroke-dasharray="1.5 3"/><path d="M4 4l16 16"/></svg></button></div>
+    <div class="camera-view" id="cam-view">
       <video id="camera-video" autoplay playsinline muted></video>
       <canvas id="camera-canvas" hidden></canvas>
-      <div class="camera-top"><button class="camera-flash" type="button">⚡</button><button class="camera-live" type="button">◉</button></div>
       <div class="camera-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="camera-controls"><div class="camera-zoom">1×</div><button class="camera-shutter" data-act="camera-shot" aria-label="사진 촬영"><span></span></button><button class="camera-switch" data-act="camera-switch" aria-label="카메라 전환">↻</button></div>
-      <div class="camera-modes"><button type="button">비디오</button><button type="button" class="active">사진</button><button type="button">인물 사진</button></div>
-      <button class="camera-back" data-act="home" aria-label="홈으로">←</button>
+      <div class="cam-focus" id="cam-focus"></div>
+      <div class="cam-zoom"><button type="button" data-z="1">.5</button><button type="button" class="on" data-z="1">1×</button><button type="button" data-z="2">2</button><button type="button" data-z="3">3</button></div>
+      <button class="cam-scan" type="button" aria-label="텍스트 스캔"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 9h8M8 12h8M8 15h5"/></svg></button>
+    </div>
+    <div class="cam-bottom">
+      <div class="cam-row1"><button class="camera-shutter" data-act="camera-shot" aria-label="사진 촬영"><span></span></button><button class="cam-circ cam-more" type="button" aria-label="더보기"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.6" fill="currentColor"/><circle cx="12" cy="6" r="1.6" fill="currentColor"/><circle cx="18" cy="6" r="1.6" fill="currentColor"/><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/><circle cx="6" cy="18" r="1.6" fill="currentColor"/><circle cx="12" cy="18" r="1.6" fill="currentColor"/><circle cx="18" cy="18" r="1.6" fill="currentColor"/></svg></button></div>
+      <div class="cam-row2"><button class="cam-thumb" id="cam-thumb" type="button" aria-label="최근 사진"></button><div class="camera-modes"><button type="button">비디오</button><button type="button" class="active">사진</button><button type="button">인물 사진</button></div><button class="cam-flip" data-act="camera-switch" aria-label="카메라 전환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H8a4 4 0 0 0-4 4M4 17h12a4 4 0 0 0 4-4"/><path d="m17 4 3 3-3 3M7 14l-3 3 3 3"/></svg></button></div>
     </div>
   </div>`;
 }
@@ -200,9 +220,15 @@ function cameraShot(){
   if(!video||!canvas||!video.videoWidth)return;
   canvas.width=video.videoWidth;canvas.height=video.videoHeight;
   canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
+  try{const t=document.getElementById('cam-thumb');if(t)t.style.backgroundImage='url('+canvas.toDataURL('image/jpeg',.4)+')'}catch(e){}
   const view=document.querySelector('.camera-view');
   if(view){view.classList.add('camera-captured');setTimeout(()=>view.classList.remove('camera-captured'),160);}
 }
+document.addEventListener('click',e=>{const t=e.target,b=t.closest&&t.closest('.cam-zoom button,.camera-modes button,#cam-flash');
+ if(b){if(b.id==='cam-flash'){b.style.opacity=b.style.opacity==='.4'?'1':'.4';return}
+  const g=b.parentNode;g.querySelectorAll('button').forEach(x=>x.classList.remove(b.closest('.cam-zoom')?'on':'active'));b.classList.add(b.closest('.cam-zoom')?'on':'active');
+  if(b.dataset.z){const v=document.getElementById('camera-video');if(v)v.style.transform='scale('+b.dataset.z+')'}return}
+ const v=t.closest&&t.closest('#cam-view');if(v&&!t.closest('button')){const r=v.getBoundingClientRect(),f=document.getElementById('cam-focus');f.style.left=(e.clientX-r.left)+'px';f.style.top=(e.clientY-r.top)+'px';f.classList.remove('on');void f.offsetWidth;f.classList.add('on')}});
 async function cameraSwitch(){cameraFacing=cameraFacing==='environment'?'user':'environment';await cameraStart();}
 
 </script>
