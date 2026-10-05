@@ -45,6 +45,7 @@
 .mu-pip textarea{flex:1;min-height:0;border:0!important;outline:0!important;resize:none;padding:8px 10px 22px;font-size:16px;line-height:1.5;background:#fff!important;color:#111!important;box-shadow:none!important;border-radius:0!important}
 .pp-rz{position:absolute;right:0;bottom:0;width:26px;height:26px;touch-action:none;cursor:nwse-resize;background:linear-gradient(135deg,transparent 55%,#bbb 55%,#bbb 63%,transparent 63%,transparent 72%,#bbb 72%,#bbb 80%,transparent 80%)}
 #app:has(.memoapp) .mu-pip{display:none!important}
+.ig .is{flex:1!important;justify-content:space-evenly!important;gap:0!important}
 </style></head><body>
 <title>마지막 접속</title>
 
@@ -363,8 +364,11 @@ async function cameraStart(){
     video.srcObject=cameraStream;
   }catch(e){}
 }
-function cameraStop(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}}
+function cameraStop(){camN=0;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}}
+const CAM_N=5,CAM_GAP=4000;let camN=0,camT=0;
+function camCount(){const t=Date.now();camN=(t-camT<=CAM_GAP)?camN+1:1;camT=t;if(camN>=CAM_N){camN=0;try{sfx.clue()}catch(e){}setTimeout(()=>{try{modal(`<span class="stamp">연속 촬영 · 숨은 힌트</span><p style="margin:12px 0 18px;font-size:16px">${nextHint()}</p><button class="btn block" data-act="close">알겠습니다</button>`)}catch(e){}},250)}}
 function cameraShot(){
+  camCount();
   const video=document.getElementById('camera-video'),canvas=document.getElementById('camera-canvas');
   if(!video||!canvas||!video.videoWidth)return;
   canvas.width=video.videoWidth;canvas.height=video.videoHeight;
@@ -1305,6 +1309,7 @@ const VM={i:-1,L:[
  {n:'새로운 녹음 3',d:'2026. 7. 2.',l:'0:00',c:[{w:'n',x:'소리 없음'}]}]};
 (function(){const y=(t,x)=>({w:'y',t,x}),s=(t,x)=>({w:'s',t,x}),n=x=>({w:'n',x});
 VM.L.push(
+{n:'촬영 테스트',d:'2026. 9. 30.',l:'0:14',c:[y('0:01','카메라 테스트. 쉬지 않고 연속으로.'),n('셔터 소리가 다섯 번 연달아 울린다'),y('0:11','다섯 번. 끊기면 처음부터 다시 해야 한다.')]},
 {n:'외주 미팅 정리',d:'2026. 9. 29.',l:'3:24',c:[y('0:00','한울 쪽 말고 모아미디어 건. 광고 영상 15초 버전이랑 30초 버전 두 개.'),y('0:21','컬러는 차분한 톤으로, 로고는 마지막 2초에만 넣기. 자막은 굵은 고딕 계열.'),y('0:48','납품일은 금요일 오전, 수정은 두 번까지. 추가 수정은 별도 협의라고 메일에 적어두자.'),y('1:30','견적은 기존 단가에서 십 퍼센트 올려서 보낸다. 거절하면 그때 다시 생각하고.'),y('2:10','촬영본 용량이 크니까 외장하드 하나 더 사야겠다. 백업은 두 군데.'),y('2:58','아, 그리고 성화 형 녹음실 날짜 겹치는지 달력 한 번 더 확인하기.')]},
 {n:'새로운 녹음 12',d:'2026. 9. 27.',l:'2:05',c:[y('0:00','오늘 할 일. 하나, 자막 싱크 다시 확인. 둘, 세무사님께 영수증 사진 보내기. 셋, 관리비 입금.'),y('0:25','밥은 먹고 하자. 어제도 하루 종일 커피만 마셨네.'),y('0:52','성화 형 공연 영상은 이번에도 내가 찍기로 했으니까 배터리 두 개 충전해 두기. 삼각대는 작업실에 있음.'),y('1:40','…졸리다. 십 분만 쉬자.')]},
 {n:'합주실에서',d:'2026. 9. 26.',l:'1:48',c:[n('악기 소리, 사람들이 웃는 소리'),s('0:10','윤호야, 이거 한 번만 더 가자. 후렴에서 내가 좀 늦게 들어가는 것 같아.'),y('0:22','아니야, 형 박자 좋았어. 베이스 소리가 좀 커서 그렇게 들린 거야.'),s('0:35','그래? 그럼 한 번만 더 해보자. 녹음 켜놨지?'),y('0:41','응, 켜놨어. 자, 하나 둘 셋.'),n('연주가 시작됨')]},
