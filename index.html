@@ -287,6 +287,9 @@ textarea#notebook-memo{display:block;width:100%;min-height:150px;resize:none;pad
 @media(max-width:619px){#app{max-width:none}}@media(max-width:370px){.grid{grid-template-columns:repeat(3,1fr)}.ico{width:44px;height:44px}.appbtn{padding-top:13px}.body{padding-left:14px;padding-right:14px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <div id="app"><div id="stage"></div><div id="toast" aria-live="polite"></div><div id="modal" hidden></div></div>
+<script src="apps/time.js"></script>
+<script src="apps/calendar.js"></script>
+<script src="apps/messages.js"></script>
 <script>
 /* ===== DATA : 스토리 데이터는 전부 여기 ===== */
 const H=(id,t)=>`<span class="hot" data-clue="${id}" tabindex="0" role="button">${t}</span>`;
@@ -619,23 +622,6 @@ function caseApp(){return appWrap('사건 파일',`<div class="stack">
   <div class="row"><div class="avatar">?</div><div><b>새벽3시</b><br><span class="small mute">익명 커뮤니티 이용자</span></div></div></div>
  <h3>수사 타임라인</h3>${tlHTML()}</div>`)}
 
-function talkApp(){
- if(!S.sub){
-  const rows=CHATS.map((c,i)=>{
-   const last=c.msgs.filter(g=>!g.d&&!g.sys).slice(-1)[0]||{};
-   const date=i<6?'금요일':i===6?'목요일':'수요일';
-   return `<button class="talk-row" data-act="chat" data-id="${c.id}"><div class="avatar ${c.id==='tax'?'green':''}">${c.id==='tax'?'':c.n[0]}</div><div class="t"><b>${c.n}</b><span>${c.pre||last.x||''}</span></div><span class="date">${date}</span><span class="arrow">›</span></button>`;}).join('');
-  return `<div class="scr app talkapp">${status()}<div class="talk-top"><div class="title">메시지</div><button class="home-list" data-act="home" aria-label="홈으로">홈</button></div><div class="talk-list">${rows}</div></div>`;
- }
- const c=CHATS.find(x=>x.id===S.sub);
- const m=c.msgs.map(g=>{
-  if(g.d)return`<div class="daysep">${g.d}</div>`;
-  if(g.sys)return`<div class="sysline">${g.sys}</div>`;
-  if(g.del)return S.rec?`<div class="bub">${DELETED_TEXT}<span class="tm">${g.tm} · 복구됨</span></div>`:`<button class="bub del" data-act="recover">삭제된 메시지입니다<span class="tm">${g.tm} · 탭하여 복구 시도</span></button>`;
-  return`<div class="bub ${g.w==='m'?'me':''}">${g.x}<span class="tm">${g.tm}${g.rd?' · 읽음':''}</span></div>`}).join('');
- return `<div class="scr app talkapp">${status()}<div class="detail-head"><button class="back" data-act="back">›</button><div class="name">${c.n}</div><span class="contact">⌕</span></div><div class="talk-detail"><div class="detail-chat">${m}</div></div></div>`;
-}
-
 function moaApp(){return appWrap('모아 · yunho_edit',`<div class="stack">${FEED.map(p=>`<div class="post">${p.sign?SNS_PHOTO:`<div class="ph ph2">[사진] ${p.ph}</div>`}
  <div class="pc"><span class="mono small mute">${p.tm}</span><p style="margin-top:4px">${p.cap}</p><p class="small mute" style="margin-top:6px">♥ 성화 외 3명</p></div></div>`).join('')}</div>`)}
 
@@ -684,52 +670,7 @@ function cctvApp(){return appWrap('CCTV 뷰어',`<div class="stack"><div class="
 
 function findMyApp(){const hasLoc=!!S.clues.C09,hasBus=!!S.clues.C08,hasLeave=!!S.notes.leave;return appWrap('나의 찾기',`<div class="findmy"><div class="findmy-map"><div class="findmy-grid"></div><div class="findmy-pin"></div><div class="findmy-label">윤호의 마지막 위치</div><div class="findmy-location">${hasLoc?'월포 · 파도여관':'위치를 확인할 수 없음'}</div></div><div class="findmy-card"><div class="row" style="justify-content:space-between"><div><b>정윤호의 iPhone</b><p class="small mute" style="margin-top:2px">${hasLoc?'마지막 위치 업데이트 · 10/2 03:02':'위치 정보가 아직 동기화되지 않았습니다.'}</p></div><span style="color:#35cf68">${hasLoc?'●':'○'}</span></div><div class="findmy-status">${hasLoc?'마지막 위치 확인됨':'위치 없음'} <span>${hasLoc?'· 배터리 7%':'· 오프라인'}</span></div></div><div class="findmy-card"><h3>기기</h3><div class="findmy-device"><div class="findmy-device-icon"><img src="assets/find-my.svg" alt=""></div><div><b>정윤호의 iPhone</b><p class="small mute">${hasLoc?'월포 파도여관 주변':'마지막 위치를 찾는 중'}</p></div></div></div><div class="findmy-card"><h3>수사 기록</h3><p class="small" style="margin-top:8px"><span class="mono small">02:41</span> ${hasLeave?'윤호가 혼자 집을 나섰습니다.':'마지막 이동 기록이 잠겨 있습니다.'}</p><p class="small" style="margin-top:8px"><span class="mono small">03:02</span> ${hasLoc?'월포 지역에서 마지막 위치가 확인되었습니다.':'위치 기록을 추가로 확보해야 합니다.'}</p><p class="small" style="margin-top:8px"><span class="mono small">03:12</span> ${hasBus?'월포행 이동 기록과 연결됩니다.':'이동 결제 기록은 아직 확인되지 않았습니다.'}</p></div></div>`)}
 
-function timeApp(){const alarms=[
- {tm:'00:10',note:'잠깐 확인'},
- {tm:'00:40',note:'자료 정리'},
- {tm:'01:20',note:'자기 전에 확인'},
- {tm:'01:50',note:'물 마시기'},
- {tm:'02:20',note:'한 번 더 확인'},
- {tm:'02:40',note:'파일 저장'},
- {tm:'03:00',note:H('C06','확인하기 · 편집하는곰'),clue:'C06'},
- {tm:'03:02',note:H('C09','위치 확인 · 월포'),clue:'C09'},
- {tm:'03:12',note:H('C08','버스 시간 확인'),clue:'C08'},
- {tm:'04:10',note:'잠들기'},
- {tm:'06:30',note:'기상'},
- {tm:'07:10',note:'준비하기'},
- {tm:'07:40',note:'알람'},
- {tm:'08:20',note:'영양제 먹기'},
- {tm:'09:00',note:'메일 확인'},
- {tm:'10:30',note:'파일 확인'},
- {tm:'11:40',note:'점심'},
- {tm:'12:10',note:'메일'},
- {tm:'13:30',note:'작업 시작'},
- {tm:'15:00',note:'잠깐 쉬기'},
- {tm:'16:20',note:'연락 확인'},
- {tm:'17:40',note:'정리하기'},
- {tm:'19:00',note:'저녁'},
- {tm:'20:30',note:'자료 백업'},
- {tm:'21:10',note:'연락하기'},
- {tm:'22:00',note:'마무리'},
- {tm:'23:10',note:'정리하기'},
- {tm:'23:50',note:'내일 일정 확인'}
-];return`<div class="scr app clockapp"><div class="clock-top"><div class="clock-title">알람</div><button class="clock-home" data-act="home" aria-label="홈으로">⌂</button></div><div class="clock-body"><div class="alarm-list">${alarms.map(a=>`<button class="alarm-row ${a.clue?'alarm-clue':''}" ${a.clue?'data-act="alarmclue" data-c="'+a.clue+'"':''}><div class="alarm-main"><div class="alarm-time">${a.tm}</div><div class="alarm-note">${a.note}</div></div><span class="alarm-toggle"><i></i></span></button>`).join('')}</div></div></div>`}
 function photosApp(){return appWrap('사진','<div class="card"><h3>사진</h3><p class="small mute" style="margin-top:8px">최근 사진 · 0장</p><div class="small mute" style="padding:40px 10px;text-align:center">사진이 없습니다.</div></div>')}
-function calendarApp(){const year=2026,months=Array.from({length:12},(_,i)=>i+1),names=months.map(m=>m+'월');const now=new Date(),todayYear=now.getFullYear(),todayMonth=now.getMonth()+1,todayDay=now.getDate();const events={
- 1:{8:['클라이언트 영상 1차 시안 마감'],12:['외주 문의 답장'],17:['성화 녹음실'],23:['세린이랑 저녁 약속'],29:['영상 수정본 전달']},
- 2:{4:['브랜드 영상 촬영본 정리'],6:['2월 편집본 1차 마감'],13:['클라이언트 미팅'],18:['성화 공연'],21:['성화 녹음실'],27:['외주 영상 최종본 납품']},
- 3:{5:['광고 영상 콘티 확인'],10:['편집본 1차 전달'],14:['우리 처음 만난 날'],19:['성화 공연 리허설'],24:['클라이언트 수정사항 반영'],27:['뮤직비디오 자막 수정 마감']},
- 4:{3:['영상 클라이언트 미팅'],8:['인터뷰 영상 편집 마감'],15:['성화 녹음실'],19:['성화 생일 저녁'],22:['광고 영상 2차 시안'],28:['편집비 정산']},
- 5:{2:['브랜드 영상 촬영본 전달'],8:['광고 영상 최종본 마감'],14:['클라이언트 미팅'],18:['성화 공연'],22:['세린이랑 점심'],26:['외주 수정본 전달'],30:['다음 프로젝트 견적 확인']},
- 6:{4:['뮤직비디오 2차 편집 마감'],9:['광고 영상 촬영'],13:['클라이언트 수정사항 확인'],17:['성화 공연 보러 가기'],21:['영상 최종본 납품'],25:['성화 녹음실'],29:['편집비 정산']},
- 7:{3:['여름 화보 촬영본 수령'],9:['여름 화보 편집 마감'],14:['클라이언트 미팅'],19:['성화 공연'],25:['윤호 부모님 댁 방문'],27:['광고 영상 수정본 전달'],31:['외주 견적서 발송']},
- 8:{2:['브랜드 영상 1차 시안 마감'],7:['뮤직비디오 촬영본 수령'],12:['클라이언트 미팅'],16:['성화랑 휴일'],21:['광고 영상 최종본 납품'],28:['외주 수정본 전달']},
- 9:{3:['클라이언트 영상 1차 시안'],8:['성화 녹음실'],15:['광고 영상 수정 마감'],20:['세린이랑 저녁 약속'],24:['세린이랑 저녁 약속'],27:{t:'자료 전달 확인',clue:'C06'},28:['영상 수정본 마감'],30:['성화 녹음실']},
- 10:{1:['뮤직비디오 편집본 마감'],2:{t:'월포 일정 확인',clue:'C09'},3:['개천절'],3:['성화 공연 리허설'],4:['외주 최종본 납품'],6:['광고 영상 수정 마감'],8:['세린이랑 약속'],10:['성화 방송 녹화'],12:['편집비 정산 확인'],14:['새 프로젝트 미팅'],16:['영상 납품 마감'],20:['성화 공연'],27:['외주 영상 2차 마감'],30:['클라이언트 일정 확인']},
- 11:{3:['광고 영상 납품 마감'],7:['클라이언트 미팅'],11:['성화 공연'],16:['편집본 수정 마감'],19:['외주 미팅'],26:['외주 최종본 마감']},
- 12:{3:['연말 광고 영상 촬영'],5:['연말 영상 편집 마감'],12:['성화 공연'],18:['세린이랑 약속'],20:['클라이언트 최종본 납품'],24:['크리스마스'],30:['연말 정산']}
-}
-const monthHTML=(m,idx)=>{const first=new Date(year,m-1,1).getDay(),offset=(first+6)%7,days=new Date(year,m,0).getDate();const cells=Array(offset).fill('');for(let d=1;d<=days;d++)cells.push(String(d));while(cells.length%7)cells.push('');const weeks=[];for(let i=0;i<cells.length;i+=7)weeks.push(cells.slice(i,i+7));return`<section class="calendar-month-section" data-month="${m}" ${m===10?'data-default-month="true"':''}><div class="calendar-month-head"><div class="calendar-month">${names[idx]}</div><button class="calendar-home" data-act="home" aria-label="홈으로"><span class="calendar-back-arrow" aria-hidden="true"></span></button></div><div class="calendar-weekdays"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div><div class="calendar-grid">${weeks.map((w,wi)=>`<div class="calendar-week ${wi===weeks.length-1?'last-week':''}">${w.map((d,di)=>{if(!d)return '<div class="calendar-day empty"></div>';const n=Number(d),raw=(events[m]||{})[n],list=raw?(Array.isArray(raw)?raw:[raw]):[],isToday=todayYear===year&&todayMonth===m&&todayDay===n;return `<div class="calendar-day ${isToday?'today':''} ${di>=5?'weekend':''}"><div class="calendar-number">${d}</div>${list.map(ev=>{const e=typeof ev==='string'?{t:ev}:ev;return `<button class="calendar-event ${e.clue?'calendar-clue-event':''} ${Array.from(e.t).length>5?'long':''}" data-act="caldetail" data-text="${String(e.t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" ${e.clue?`data-c="${e.clue}"`:''}><span class="cal-event-label">${String(e.t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></button>`}).join('')}</div>`}).join('')}</div>`).join('')}</div></section>`};return`<div class="scr app calendarapp"><div class="calendar-scroll">${months.map((m,i)=>monthHTML(m,i)).join('')}</div></div>`}
 function appHTML(){switch(S.app){case'case':return caseApp();case'talk':return talkApp();case'moa':return moaApp();case'calendar':return calendarApp();case'music':return appWrap('음악','<div class="card"><h3>음악</h3><p class="small mute" style="margin-top:8px">최근 재생한 음악이 없습니다.</p></div>');case'findmy':return findMyApp();case'time':return timeApp();case'photos':return photosApp();case'board':return boardApp();
  case'pay':return payApp();case'map':return mapApp();case'mail':return mailApp();case'quest':return questApp();case'voice':return voiceApp();case'safari':return safariApp();}return''}
 
