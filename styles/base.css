@@ -277,4 +277,4 @@ body::-webkit-scrollbar,
 .home .appbtn[data-id="safari"] .ico{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important;}
 .home .appbtn[data-id="safari"] .ico .app-icon-img{display:block!important;width:64px;height:64px;object-fit:contain;border:0;box-shadow:none;border-radius:14px;transform:translate(-3px,-3px);}
 .home .appbtn[data-id="phone"] .ico .app-icon-img,
-.home .appbtn[data-id="gpt"] .ico .app-icon-img{width:72px;height:72px;object-fit:contain;border:0!important;box-shadow:0 7px 18px rgba(20,20,30,.16);border-radius:0;transform:translate(-7px,-7px);filter:drop-shadow(0 7px 10px rgba(20,20,30,.12));}
+.home .appbtn[data-id="gpt"] .ico .app-icon-img{width:58px;height:58px;object-fit:contain;display:block;border:0!important;box-shadow:none!important;border-radius:0;transform:none;filter:none;}
