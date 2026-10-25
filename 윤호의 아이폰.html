@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>윤호의 아이폰</title><meta name="color-scheme" content="light">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<style>
+:root{--bg:#dcdce2;--ink:#111}
+@media(prefers-color-scheme:dark){:root{--bg:#26262b}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{background:var(--bg);display:grid;place-items:center;font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;color:#111;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+#ph{position:relative;width:390px;height:min(844px,calc(100dvh - 24px));background:#fff;border-radius:56px;border:10px solid #1d1d1f;box-shadow:0 30px 70px rgba(0,0,0,.35),inset 0 0 0 1px #555;overflow:hidden;user-select:none}
+@media(max-width:500px){#ph{width:100vw;height:100dvh;border:0;border-radius:0;box-shadow:none}}
+#scr,.app{position:absolute;inset:0}
+.app{display:flex;flex-direction:column;padding-top:52px;padding-bottom:26px;background:#fff;animation:in .28s ease}
+@keyframes in{from{opacity:0;transform:scale(.96)}}
+.body{flex:1;overflow:auto}
+#sb{position:absolute;top:0;left:0;right:0;height:50px;z-index:30;display:flex;justify-content:space-between;padding:16px 30px 0;font-weight:600;font-size:15px;pointer-events:none}
+#di{position:absolute;top:11px;left:50%;transform:translateX(-50%);height:32px;min-width:100px;padding:0 12px;background:#000;border-radius:20px;z-index:40;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:min-width .3s}
+#di:active{min-width:150px}
+#hbw{position:absolute;bottom:0;left:0;right:0;height:26px;z-index:39;cursor:pointer}
+#hb{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:40;pointer-events:none}
+.wp{background:linear-gradient(160deg,#dfe9ff,#f6e7ff 55%,#ffe9e0)}
+.glass{background:rgba(255,255,255,.62);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);box-shadow:0 2px 12px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.8);border-radius:22px}
+.ic{width:60px;height:60px;border-radius:17px;display:grid;place-items:center;font-size:30px;box-shadow:0 3px 8px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.4);cursor:pointer;transition:transform .12s}
+.ic:active{transform:scale(.9)}
+.lb{font-size:11px;text-align:center;margin-top:4px}
+.hd{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 10px;border-bottom:1px solid #eee;font-weight:700}
+.bk{color:#0a84ff;font-size:24px;cursor:pointer;width:40px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.tile{aspect-ratio:1;display:flex;flex-direction:column;justify-content:flex-end;padding:8px;color:#fff;font-size:12px;cursor:pointer;position:relative;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.tabs{display:flex;border-top:1px solid #eee;padding:8px 0 4px}
+.tabs b{flex:1;text-align:center;font-size:12px;color:#999;cursor:pointer}.tabs b.on{color:#ff3d6e}
+.chip{display:inline-block;margin:4px 4px 0 0;padding:7px 12px;border-radius:16px;background:#fff;border:1px solid #ddd;font-size:13px;cursor:pointer}
+.chip:active{background:#fee500}
+.rm{background:#b9d3e8}
+.row{display:flex;gap:6px;margin:8px 12px;align-items:flex-end}.row.me{flex-direction:row-reverse}
+.bub{max-width:70%;padding:8px 12px;border-radius:16px;background:#fff;font-size:14px;line-height:1.4}
+.me .bub{background:#fee500}
+.av{width:34px;height:34px;border-radius:13px;background:#fff;display:grid;place-items:center;font-size:18px}
+.sys{text-align:center;font-size:12px;color:#fff;background:rgba(0,0,0,.3);margin:10px auto;padding:4px 12px;border-radius:12px;width:max-content}
+.card{touch-action:none;border-radius:26px;height:430px;margin:14px 20px;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;color:#fff;box-shadow:0 12px 30px rgba(0,0,0,.2);text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:26px 26px 0 0;padding:20px;z-index:20;box-shadow:0 -10px 30px rgba(0,0,0,.2);animation:up .25s}
+@keyframes up{from{transform:translateY(100%)}}
+.btn{padding:11px 18px;border-radius:14px;font-weight:700;cursor:pointer;display:inline-block}
+.li{padding:12px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer}
+#toast{position:absolute;top:60px;left:50%;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:8px 16px;border-radius:18px;font-size:13px;z-index:60;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
+#toast.on{opacity:1}
+.nt{margin:8px 14px;padding:12px 14px;cursor:pointer}
+</style></head>
+<body>
+<div id="ph">
+ <div id="sb"><span>4:12</span><span>5G ᯤ 🔋</span></div>
+ <div id="di" data-a="open" data-v="talk">💬<span>3</span></div>
+ <div id="scr"></div>
+ <div id="toast"></div>
+ <div id="hbw" data-a="home"></div><div id="hb"></div>
+</div>
+<script>
+const $=q=>document.querySelector(q),scr=$('#scr');
+const hue=i=>`linear-gradient(135deg,hsl(${i*47%360} 75% 76%),hsl(${(i*47+45)%360} 70% 58%))`;
+const S={app:'lock',room:null,chat:{},read:{},likes:{},R:{tab:'g',i:0,sel:null},ph:{lock:1},ig:0,mm:null,map:null,q:'',
+memos:[['원나잇 수칙','1. 호텔은 내가 잡는다\n2. 연애 얘기는 금지\n3. 끝나면 각자 취침\n4. 애프터 요구는 즉시 차단'],['커밍아웃','말하는 순간 다 끝날 것 같다. 회사에서는 끝까지 평범한 사람이어야 한다.'],['몸만 섞는 이유','감정은 소모고 몸은 깔끔하다. 정 붙이면 내가 먼저 무너진다.']]};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e.t);e.t=setTimeout(()=>e.classList.remove('on'),1600)}
+const hd=(t,r='')=>`<div class="hd"><span class="bk" data-a="home">‹</span><span>${t}</span><span style="width:40px;text-align:right">${r}</span></div>`;
+
+/* ---------- data ---------- */
+const U=[['민석','신사 와인바 대표','112m','TOP'],['Ryan','191cm 모델','340m','TOP'],['김 대리','펀드매니저','1.2km','TOP'],['Jay','필라테스','2km','VERS'],['도현','디자이너','2.4km','TOP'],['Sun','바리스타','3km','SIDE'],['태오','대학원생','3.1km','TOP'],['Min','의사','4km','VERS']];
+const TK={
+min:{n:'민석 (와인바)',av:'🍷',last:'오늘 11시 신사 괜찮아?',gen:'ㅋㅋ 알았어, 편한 대로 해',tree:{
+ s:{o:['오늘 11시 신사 괜찮아?','와인 한 병 오픈해둘게'],c:[['쿨하게 수락','ㅇㅋ 11시. 호텔은 내가 잡을게','a'],['밀당','오늘은 좀 피곤한데','b'],['규칙 상기','먼저 말해둘게. 원나잇만, 끝나면 각자 취침','c'],['칼차단','오늘은 안 돼요. 차단할게요','x']]},
+ a:{o:['깔끔하네 ㅋㅋ 이따 봐'],c:[]},
+ b:{o:['그럼 한 시간만 보자. 와인만 마시고 가도 돼'],c:[['그럼 한 시간','좋아, 11시 반에 봐','a'],['패스','오늘은 패스. 다음에','p']]},
+ p:{o:['알겠어. 편하게 해'],c:[]},
+ c:{o:['룰 확실해서 좋다 ㅋㅋ 나도 그게 편해'],c:[['콜','그럼 11시에 봐','a']]}}},
+ryan:{n:'Ryan',av:'📸',last:'형 키 몇이에요? 저 191',gen:'형 쿨하네요 ㅋㅋ',tree:{
+ s:{o:['형 프로필 봤어요 ㅋㅋ 키 몇이에요? 저 191'],c:[['키 답장','188. 슬림이라 안 불편할걸','a'],['사진 먼저','얼굴은 비공개. 괜찮으면 와','b'],['규칙 상기','나 원나잇만 해. 끝나면 각자 잠','c'],['칼차단','차단할게','x']]},
+ a:{o:['오 비율 좋겠다. 호텔 어디예요?'],c:[['호텔 알려줌','L호텔 1402. 12시, 노크 두 번','e'],['규칙 상기','나 원나잇만 해. 끝나면 각자 잠','c']]},
+ b:{o:['오케이, 일단 가볼게요'],c:[['오면 연락','그래, 도착하면 말해','e']]},
+ c:{o:['쿨하다 형. 저도 애프터 안 좋아해요'],c:[['콜','12시. 호텔로 와','e']]},
+ e:{o:['넵, 12시 ㅋㅋ'],c:[]}}},
+kim:{n:'김 대리 (펀드)',av:'📈',last:'어제 좋았어요 ㅎㅎ',gen:'그래도 한 번만 더 만나면 안 돼요…?',tree:{
+ s:{o:['어제 좋았어요 ㅎㅎ','오늘 저녁 같이 먹을래요?','형 얘기 더 하고 싶어서'],c:[['규칙 상기','어제로 끝. 애프터 안 해','c'],['밀당','바빠서요','b'],['쿨한 수락','한 번만 먹자','a'],['칼차단','연락 그만. 차단','x']]},
+ a:{o:['와 진짜요?? 뭐 좋아하세요?'],c:[['역시 아니다','생각해보니 아니다. 차단할게','x']]},
+ b:{o:['그럼 주말은요?'],c:[['규칙 상기','어제로 끝이라고 했지','c'],['칼차단','차단','x']]},
+ c:{o:['…알았어요. 그래도 한 번만 더 생각해주면 안 돼요?'],c:[['칼차단','더 이상 연락하지 마. 차단','x']]}}}};
+const TW=[['낮: 회의 3개, 일코 만렙. 밤: 후드 쓰고 호텔 로비.',24],['키 얘기 나오면 "슬림 188"까지만 말함. 더는 안 알려줌 ㅋ',58],['애프터 요구하는 순간 차단 버튼이 손가락보다 빨라진다',131],['새벽 5시 체크아웃 후 편의점 커피. 이 맛에 산다',77],['커밍아웃? 아직. 아마 영원히. 근데 평범한 척도 체력이 든다',203]];
+const PH=[['🪞','거울 실루엣 (얼굴 컷)'],['🏨','L호텔 1402 창가'],['🧥','OOTD 오버핏 코트'],['📝','"잘 자. 체크아웃은 알아서." 두고 온 메모'],['🥂','와인바 카운터'],['👟','출근 전 신발장'],['🌃','새벽 귀가길'],['🛏️','화이트 린넨 룸'],['☕','체크아웃 후 커피']];
+const IG=[['🧥','오늘의 착장, 얼굴은 비밀','128','"핏 미쳤다" · "슬랙스 어디 거예요?"'],['👟','신발만 봐도 아는 사람은 안다','94','"기장 완벽" · "188 맞죠?"'],['🕶️','야간 모드','210','"누구세요 ㅋㅋ" · "분위기 장난 아님"']];
+const HT=[['L호텔 강남','방문 7회 · 1402호 선호',30,40],['H 부티크 신사','방문 5회 · 조용한 층',62,28],['S호텔 역삼','방문 3회 · 새벽 체크아웃',46,66]];
+const OD=[['06:12','돼지국밥 · 해장국 1인','9,500원','체크아웃 후 혼자'],['05:48','편의점 아이스 아메리카노','2,000원','귀가길'],['06:40','순두부찌개 1인','8,000원','지난주 새벽'],['13:05','샐러드볼 (사무실)','11,000원','평범한 점심']];
+const SAF=['188 슬랙스 기장 추천','앱 원나잇 후 카톡 깔끔하게 차단하는 법','직장인 일코 질문 넘기는 법','호텔 새벽 체크아웃 가능?','슬림핏 코트 어깨 라인'];
+
+/* ---------- apps ---------- */
+const chat=id=>S.chat[id]??=({log:TK[id].tree.s.o.map(t=>({t})),node:'s'});
+const A={
+lock:()=>`<div class="app wp" style="padding-top:78px;background-size:cover" data-a="">
+<div style="text-align:center"><div style="font-size:13px">🌙 방해금지 모드</div><div style="font-size:15px;margin-top:6px">10월 26일 월요일</div><div style="font-size:92px;font-weight:200;line-height:1">4:12</div></div>
+<div class="body" style="padding-top:22px">${[['RADAR','🔥 불꽃을 받았어요 · 근처 TOP 3명','radar'],['비밀톡','민석 · 오늘 11시 신사 괜찮아?','talk'],['X-Talk','@n_ight_y 님이 회원님의 글을 좋아합니다','x'],['비밀톡','김 대리 · 어제 좋았어요 ㅎㅎ','talk']].map(n=>`<div class="nt glass" data-a="open" data-v="${n[2]}"><b style="font-size:13px">${n[0]}</b><span style="float:right;font-size:11px;color:#666">지금</span><div style="font-size:13px;margin-top:2px">${n[1]}</div></div>`).join('')}</div>
+<div style="text-align:center;font-size:12px;color:#555;padding:6px" data-a="home">위로 밀어서 잠금 해제</div></div>`,
+
+home:()=>`<div class="app wp" style="padding:60px 18px 30px">
+<div class="glass" style="padding:14px 16px;margin-bottom:12px"><span style="font-size:12px;color:#666">오늘의 규칙</span><div style="font-size:19px;font-weight:700;margin-top:4px">끝나면 각자 취침.<br>새벽엔 조용히 나온다.</div></div>
+<div style="display:flex;gap:12px;margin-bottom:18px"><div class="glass" style="flex:1;padding:12px"><span style="font-size:12px;color:#666">🏨 체크아웃</span><div style="font-size:22px;font-weight:700">06:00</div></div><div class="glass" style="flex:1;padding:12px"><span style="font-size:12px;color:#666">🍲 해장</span><div style="font-size:15px;font-weight:700;margin-top:4px">국밥 먹고 취침</div></div></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px 6px;justify-items:center">${[['x','X-Talk','✖️','#111'],['photos','사진','🌸','#fff'],['ig','룩스타그램','📷','linear-gradient(45deg,#f9a03f,#d6249f,#5851db)'],['map','지도','🗺️','#7fd69b'],['eat','배달','🛵','#2ac1bc']].map(a=>`<div data-a="open" data-v="${a[0]}"><div class="ic" style="background:${a[3]};color:#fff">${a[2]}</div><div class="lb">${a[1]}</div></div>`).join('')}</div>
+<div class="glass" style="position:absolute;left:14px;right:14px;bottom:34px;padding:14px 10px;display:flex;justify-content:space-around">${[['radar','🔥','linear-gradient(135deg,#ff6b81,#ff3d6e)'],['talk','💬','#fee500'],['safari','🧭','#fff'],['notes','📒','#ffd54a']].map(a=>`<div class="ic" data-a="open" data-v="${a[0]}" style="background:${a[2]}">${a[1]}</div>`).join('')}</div></div>`,
+
+radar:()=>{const R=S.R,u=U[R.sel];let b='';
+ if(R.tab=='g')b=`<div class="g3">${U.map((x,i)=>`<div class="tile" data-a="sel" data-v="${i}" style="background:${hue(i+2)}"><b>${x[0]}</b><span>${x[2]} · ${x[3]}</span></div>`).join('')}</div>`;
+ if(R.tab=='s'){const x=U[R.i];b=x?`<div class="card" id="card" style="background:${hue(R.i+2)}"><div style="font-size:28px;font-weight:800">${x[0]}</div><div>${x[1]} · ${x[2]} · ${x[3]}</div></div><div style="text-align:center"><span class="btn" data-a="pass" style="background:#eee;font-size:20px">✕</span> <span class="btn" data-a="flame" style="background:#ff3d6e;color:#fff;font-size:20px">🔥</span><div style="font-size:11px;color:#999;margin-top:8px">카드를 좌우로 밀어도 돼요</div></div>`:`<div style="text-align:center;padding:100px 0;color:#999">근처에 더 이상 없어요</div>`}
+ if(R.tab=='m')b=`<div style="padding:20px"><div style="height:200px;border-radius:24px;background:linear-gradient(160deg,#2b2b33,#6c6c7a);display:flex;align-items:flex-end;padding:16px;color:#fff"><div><b style="font-size:22px">Y</b><div style="font-size:13px">얼굴 비공개 · 온라인</div></div></div>
+ <div style="margin-top:14px;font-size:14px;line-height:1.7"><b>188 · 슬림 · 바텀</b><br>연애 ✕ 애프터 ✕ 감정 ✕<br>호텔은 내가 잡음. 끝나면 각자 취침.<br>룰 지킬 사람만. 일반인 코스프레 중이라 얼굴은 나중에.</div><div style="margin-top:10px"><span class="chip">#원나잇</span><span class="chip">#각자취침</span><span class="chip">#노애프터</span></div></div>`;
+ return `<div class="app">${hd('<span style="color:#ff3d6e;font-weight:800;letter-spacing:1px">RADAR</span>','🔔')}<div class="body">${b}</div><div class="tabs">${[['g','▦ 탐색'],['s','🃏 스와이프'],['m','👤 내 프로필']].map(t=>`<b class="${R.tab==t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${t[1]}</b>`).join('')}</div>
+ ${R.sel!=null?`<div class="sheet"><div style="height:120px;border-radius:18px;background:${hue(R.sel+2)}"></div><h3 style="margin:10px 0 2px">${u[0]} <small style="color:#999">${u[2]} · ${u[3]}</small></h3><div style="font-size:14px;color:#555">${u[1]}</div><div style="margin-top:14px;display:flex;gap:8px"><span class="btn" data-a="close" style="background:#eee;flex:1;text-align:center">패스</span><span class="btn" data-a="flame" style="background:#ff3d6e;color:#fff;flex:1;text-align:center">🔥 불꽃</span></div></div>`:''}</div>`},
+
+talk:()=>{if(S.room){const id=S.room,T=TK[id],C=chat(id),n=T.tree[C.node],on=!C.blocked&&!C.wait;
+ return `<div class="app rm"><div class="hd" style="background:#b9d3e8;border:0"><span class="bk" data-a="room" data-v="">‹</span><span>${T.n}</span><span style="width:40px">🔍</span></div>
+ <div class="body bot">${C.log.map(m=>m.s?`<div class="sys">${m.t}</div>`:`<div class="row ${m.m?'me':''}">${m.m?'':`<div class="av">${T.av}</div>`}<div class="bub">${m.t}</div></div>`).join('')}</div>
+ <div style="padding:6px 10px;min-height:20px">${on?n.c.map((c,i)=>`<span class="chip" data-a="pick" data-v="${i}">${c[0]}</span>`).join(''):''}</div>
+ <div style="display:flex;gap:6px;padding:6px 10px;background:#fff"><input id="inp" ${on?'':'disabled'} placeholder="${C.blocked?'차단된 상대예요':'메시지 입력'}" style="flex:1;border:1px solid #ddd;border-radius:18px;padding:8px 14px;font-size:14px;outline:0"><span class="btn" data-a="send" style="background:#fee500;padding:8px 14px">전송</span></div></div>`}
+ return `<div class="app">${hd('채팅','⚙️')}<div class="body">${Object.keys(TK).map(id=>{const T=TK[id],C=S.chat[id];return `<div class="li" data-a="room" data-v="${id}" style="display:flex;gap:12px;align-items:center"><div class="av" style="width:48px;height:48px;border-radius:18px;background:#fff1a8;font-size:24px">${T.av}</div><div style="flex:1"><b>${T.n}</b><div style="font-size:13px;color:#888">${C?C.log.filter(m=>!m.s).slice(-1)[0].t:T.last}</div></div>${S.read[id]?'':'<span style="background:#ff4b4b;color:#fff;border-radius:10px;padding:1px 7px;font-size:12px">1</span>'}</div>`}).join('')}</div></div>`},
+
+x:()=>`<div class="app">${hd('X-Talk <small style="color:#999">🔒 비공개</small>','✏️')}<div class="body">${TW.map((t,i)=>`<div class="li" style="display:flex;gap:10px;cursor:default"><div class="av" style="background:#111;color:#fff;flex:none">🌑</div><div><b style="font-size:14px">밤의 Y</b> <span style="color:#888;font-size:13px">@n_ight_y · ${i+1}시간</span><div style="font-size:14px;line-height:1.45;margin:3px 0 6px">${t[0]}</div><span data-a="like" data-v="${i}" style="cursor:pointer;font-size:13px;color:${S.likes[i]?'#f91880':'#888'}">${S.likes[i]?'♥':'♡'} ${t[1]+(S.likes[i]?1:0)}</span></div></div>`).join('')}</div></div>`,
+
+photos:()=>S.ph.lock?`<div class="app wp" style="align-items:center;justify-content:center;gap:16px;text-align:center" data-a="faceid"><div style="font-size:64px;${S.ph.scan?'animation:in .5s infinite alternate':''}">${S.ph.scan?'🙂':'🔒'}</div><b>시크릿 앨범</b><div style="font-size:13px;color:#555">${S.ph.scan?'Face ID 인식 중…':'화면을 탭해서 Face ID로 열기'}</div></div>`
+:`<div class="app">${hd('시크릿 앨범','')}<div class="body"><div class="g3">${PH.map((p,i)=>`<div class="tile" data-a="view" data-v="${i}" style="background:${hue(i+5)};font-size:34px;align-items:center;justify-content:center">${p[0]}</div>`).join('')}</div></div>
+${S.ph.v!=null?`<div style="position:absolute;inset:0;background:#fff;z-index:20;display:flex;flex-direction:column;padding-top:54px"><div class="hd"><span class="bk" data-a="close">‹</span><span>${S.ph.v+1} / ${PH.length}</span><span style="width:40px"></span></div><div style="flex:1;background:${hue(S.ph.v+5)};display:grid;place-items:center;font-size:110px">${PH[S.ph.v][0]}</div><div style="padding:16px 16px 40px;font-size:15px">${PH[S.ph.v][1]}</div></div>`:''}</div>`,
+
+notes:()=>{const m=S.mm;
+ if(m===-1)return `<div class="app" style="background:#fffbe8"><div class="hd"><span class="bk" data-a="nm" data-v="">‹</span><span>새 메모</span><span data-a="save" style="color:#e0a800;cursor:pointer">저장</span></div><div style="padding:14px"><input id="nt" placeholder="제목" style="width:100%;border:0;background:none;font-size:22px;font-weight:700;outline:0"><textarea id="nb" rows="14" placeholder="내용" style="width:100%;border:0;background:none;font-size:16px;outline:0;margin-top:8px"></textarea></div></div>`;
+ if(m!=null)return `<div class="app" style="background:#fffbe8"><div class="hd"><span class="bk" data-a="nm" data-v="">‹</span><span>메모</span><span></span></div><div style="padding:18px"><h2 style="margin:0 0 10px">${S.memos[m][0]}</h2><div style="white-space:pre-line;line-height:1.8;font-size:16px">${S.memos[m][1]}</div></div></div>`;
+ return `<div class="app" style="background:#f2f2f7">${hd('메모','<span data-a="nm" data-v="-1" style="color:#e0a800;cursor:pointer">✏️</span>')}<div class="body" style="padding:12px">${S.memos.map((x,i)=>`<div class="li" data-a="nm" data-v="${i}" style="background:#fff;border-radius:14px;margin-bottom:8px;border:0"><b>${x[0]}</b><div style="font-size:13px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x[1].replace(/\n/g,' ')}</div></div>`).join('')}</div></div>`},
+
+ig:()=>`<div class="app">${hd('<i style="font-family:Georgia,serif;font-size:22px">Luxtagram</i>',`<span data-a="dm" style="cursor:pointer">✈️<sup style="color:#f33">3</sup></span>`)}<div class="body">${S.ig?[['yoon.s','형 오늘 사진 올렸네요?'],['night_ryan','착장 어디 거예요?'],['mina_','오빠 연락 좀…']].map(d=>`<div class="li"><b>${d[0]}</b><div style="font-size:13px;color:#777">${d[1]}</div></div>`).join(''):`<div style="display:flex;gap:12px;padding:12px;overflow:auto">${['🧥','👟','🕶️','🥂'].map((e,i)=>`<div style="flex:none;width:58px;height:58px;border-radius:50%;background:${hue(i+9)};display:grid;place-items:center;font-size:26px;border:3px solid #fff;outline:2px solid #d6249f">${e}</div>`).join('')}</div>`+IG.map((p,i)=>`<div style="margin-bottom:14px"><div style="height:340px;background:${hue(i+11)};display:grid;place-items:center;font-size:90px">${p[0]}</div><div style="padding:8px 14px;font-size:14px"><span data-a="like" data-v="i${i}" style="cursor:pointer;font-size:20px;color:${S.likes['i'+i]?'#f33':'#222'}">${S.likes['i'+i]?'♥':'♡'}</span> 💬<div><b>${+p[2]+(S.likes['i'+i]?1:0)}명이 좋아함</b></div><div><b>y_look</b> ${p[1]}</div><div style="color:#888;font-size:13px">${p[3]}</div></div></div>`).join('')}</div></div>`,
+
+safari:()=>`<div class="app" style="background:#eceef1">${hd('<span style="font-size:13px">🕶️ 개인정보 보호 브라우징</span>','탭 1')}<div class="body" style="padding:14px"><div style="background:#fff;border-radius:14px;padding:10px 14px;font-size:14px;color:${S.q?'#111':'#999'}">🔍 ${S.q||'검색 또는 웹사이트 이름 입력'}</div><div style="margin:16px 4px 6px;font-size:12px;color:#888">최근 검색</div><div style="background:#fff;border-radius:14px;overflow:hidden">${SAF.map((q,i)=>`<div class="li" data-a="q" data-v="${i}" style="font-size:14px">🕘 ${q}</div>`).join('')}</div></div></div>`,
+
+map:()=>`<div class="app">${hd('지도','')}<div class="body"><div style="position:relative;height:250px;background:linear-gradient(90deg,#e8efe4 1px,transparent 1px) 0 0/40px 40px,linear-gradient(#e8efe4 1px,transparent 1px) 0 0/40px 40px,#f4f7f1">${HT.map((h,i)=>`<div data-a="pin" data-v="${i}" style="position:absolute;left:${h[2]}%;top:${h[3]}%;font-size:30px;cursor:pointer;transform:${S.map==i?'scale(1.35)':'none'};transition:.2s">📍</div>`).join('')}<div style="position:absolute;left:78%;top:20%;font-size:26px">🔒</div></div>
+${S.map!=null?`<div style="padding:12px 16px;background:#fff3f6;font-size:14px"><b>${HT[S.map][0]}</b> · ${HT[S.map][1]}</div>`:''}
+<div style="padding:10px 16px 4px;font-size:12px;color:#888">단골 호텔</div>${HT.map((h,i)=>`<div class="li" data-a="pin" data-v="${i}"><b>🏨 ${h[0]}</b><div style="font-size:13px;color:#888">${h[1]}</div></div>`).join('')}<div class="li" data-a="home2"><b>🏠 윤호의 자취방</b><div style="font-size:13px;color:#888">초대한 사람 0명 · 앞으로도</div></div></div></div>`,
+
+eat:()=>`<div class="app">${hd('<span style="color:#2ac1bc;font-weight:800">배달24</span>','🛒')}<div class="body"><div style="padding:12px 16px 4px;font-size:12px;color:#888">주문 내역</div>${OD.map(o=>`<div class="li" style="cursor:default"><b>${o[1]}</b><span style="float:right;font-size:13px">${o[2]}</span><div style="font-size:13px;color:#888">${o[0]} · ${o[3]}</div></div>`).join('')}</div></div>`
+};
+
+/* ---------- logic ---------- */
+function draw(){scr.innerHTML=A[S.app]();const b=scr.querySelector('.bot');if(b)b.scrollTop=1e9;if(S.app=='photos'&&S.ph.lock&&0)0}
+function say(id,key,my){const C=chat(id),T=TK[id];if(my)C.log.push({m:1,t:my});
+ if(key=='x'){C.blocked=1;C.log.push({s:1,t:'🚫 윤호가 상대를 차단했습니다'});return draw()}
+ C.node=key;C.wait=1;draw();setTimeout(()=>{T.tree[key].o.forEach(t=>C.log.push({t}));C.wait=0;draw()},750)}
+const ACT={
+home(){S.app='home';S.room=null;S.mm=null;S.R.sel=null;S.ph.v=null;draw()},
+open(v){S.app=v;draw()},
+tab(v){S.R.tab=v;S.R.sel=null;draw()},sel(v){S.R.sel=+v;draw()},
+close(){S.R.sel=null;S.ph.v=null;draw()},
+pass(){S.R.i++;draw()},
+flame(){toast('🔥 불꽃을 보냈어요');S.R.sel=null;if(S.R.tab=='s')S.R.i++;draw()},
+room(v){S.room=v||null;if(v)S.read[v]=1;draw()},
+pick(v){const id=S.room,C=chat(id),c=TK[id].tree[C.node].c[+v];say(id,c[2],c[1])},
+send(){const i=$('#inp'),v=i&&i.value.trim();if(!v)return;const id=S.room,C=chat(id);
+ const k=/차단|꺼져|그만/.test(v)?'x':/애프터|또 |다음|연락|밥|저녁/.test(v)?'c':/ㅇㅋ|콜|좋아|갈게|가자|오케/.test(v)?'a':null;
+ if(k&&(k=='x'||TK[id].tree[k]))return say(id,k,v);
+ C.log.push({m:1,t:v});C.wait=1;draw();setTimeout(()=>{C.log.push({t:TK[id].gen});C.wait=0;draw()},750)},
+like(v){S.likes[v]=!S.likes[v];draw()},
+faceid(){if(S.ph.scan)return;S.ph.scan=1;draw();setTimeout(()=>{S.ph.lock=0;S.ph.scan=0;draw()},1000)},
+view(v){S.ph.v=+v;draw()},
+nm(v){S.mm=v===''?null:+v;draw()},
+save(){const t=$('#nt').value.trim(),b=$('#nb').value.trim();if(!t&&!b)return toast('내용을 입력하세요');S.memos.unshift([t||'새 메모',b]);S.mm=null;toast('메모를 저장했어요');draw()},
+dm(){S.ig=!S.ig;draw()},
+q(v){S.q=SAF[+v];draw();toast('오프라인 · 결과를 불러올 수 없어요')},
+pin(v){S.map=+v;draw()},home2(){toast('🔒 이 위치는 윤호만 알아요')}};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const a=el.dataset.a;
+ if(a=='home'&&S.app=='lock'&&el.id=='hbw')return;if(a&&ACT[a])ACT[a](el.dataset.v)});
+document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.id=='inp')ACT.send()});
+/* swipe: lock (up) & radar card (left/right) */
+let P=null;
+document.addEventListener('pointerdown',e=>{const c=e.target.closest('#card');P={x:e.clientX,y:e.clientY,c}});
+document.addEventListener('pointermove',e=>{if(P&&P.c){const d=e.clientX-P.x;P.c.style.transform=`translateX(${d}px) rotate(${d/18}deg)`}});
+document.addEventListener('pointerup',e=>{if(!P)return;const dx=e.clientX-P.x,dy=e.clientY-P.y;
+ if(P.c){if(dx>90)ACT.flame();else if(dx<-90)ACT.pass();else P.c.style.transform=''}
+ else if(S.app=='lock'&&dy<-60)ACT.home();P=null});
+draw();
+</script>
+<style>
+.nf .app{animation:none}
+.ico{display:block}
+#bn{position:absolute;top:52px;left:12px;right:12px;z-index:55;padding:10px 14px;transform:translateY(-140px);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.3,1.1),opacity .3s;cursor:pointer}
+#bn.on{transform:none;opacity:1}
+.shade{position:absolute;inset:0;border-radius:26px;background:linear-gradient(transparent 42%,rgba(0,0,0,.72))}
+.stamp{position:absolute;top:28px;padding:2px 12px;border:4px solid;border-radius:8px;font-size:30px;font-weight:900;opacity:0}
+.rb{width:62px;height:62px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.18);cursor:pointer}
+.rb:active{transform:scale(.9)}
+.dot{position:absolute;top:-6px;right:-4px;background:#ff3b30;color:#fff;border-radius:9px;font-size:11px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+</style>
+<script>
+/* ===== v2: 사진(SVG 생성) · 아이콘 · 스토리 엔진 · 틴더 스와이프 · 신규 앱 ===== */
+const rn=s=>()=>(s=(s*9301+49297)%233280)/233280;
+const sc=(()=>{const m={};return i=>m[i]||(m[i]=(()=>{const r=rn(i*7+3),k=i%5,H=(i*53+210)%360,dk=k==1||k==4;
+let s=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 360' preserveAspectRatio='xMidYMid slice'><defs><linearGradient id='g' x2='0' y2='1'><stop offset='0' stop-color='hsl(${H},40%,${dk?24:72}%)'/><stop offset='1' stop-color='hsl(${H+35},38%,${dk?8:88}%)'/></linearGradient><filter id='n'><feTurbulence baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .45 0'/></filter><filter id='b'><feGaussianBlur stdDeviation='7'/></filter></defs><rect width='300' height='360' fill='url(#g)'/>`;
+for(let j=0;j<7;j++)s+=`<circle cx='${r()*300}' cy='${r()*360}' r='${10+r()*26}' fill='hsl(${H+r()*60},70%,${dk?60:92}%)' opacity='.3' filter='url(#b)'/>`;
+if(k==0)s+=`<rect x='190' y='40' width='70' height='250' fill='#fff' opacity='.55'/><path d='M130 118q20-6 40 0l6 90-8 0-4 140h-16l-4-140-8 0z' fill='#14141a'/><circle cx='150' cy='96' r='16' fill='#14141a'/>`;
+if(k==1){s+=`<circle cx='240' cy='60' r='18' fill='#fff' opacity='.8'/>`;for(let x=0;x<300;x+=30){const h=90+r()*170;s+=`<rect x='${x}' y='${360-h}' width='27' height='${h}' fill='#0d0d18'/>`;for(const d of[5,16])for(let y=360-h+10;y<350;y+=15)if(r()>.55)s+=`<rect x='${x+d}' y='${y}' width='5' height='7' fill='#ffd98a'/>`}}
+if(k==2)s+=`<rect x='60' y='50' width='180' height='230' fill='#fff' opacity='.75'/><path d='M150 50v230M60 160h180' stroke='#bbb' stroke-width='3'/><path d='M60 50h22l-8 230h-14zM240 50h-24l8 230h16z' fill='hsl(${H},25%,45%)'/><rect y='300' width='300' height='60' fill='#f4efe8'/>`;
+if(k==3){for(let j=0;j<9;j++)s+=`<path d='M${j*34} 0q${r()*40-20} 180 ${r()*30-15} 360' stroke='#fff' stroke-opacity='.35' stroke-width='${14+r()*20}' fill='none'/>`;s+=`<path d='M90 360l10-210q50-30 100 0l10 210z' fill='#2a2a30' opacity='.85'/><path d='M130 150l20 60 20-60' stroke='#555' stroke-width='3' fill='none'/>`}
+if(k==4)s+=`<path d='M125 90h50q4 70-25 80-29-10-25-80z' fill='#fff' opacity='.35'/><path d='M133 125h34q0 36-17 42-17-6-17-42z' fill='#7a1030' opacity='.9'/><rect x='148' y='170' width='4' height='80' fill='#fff' opacity='.5'/><ellipse cx='150' cy='256' rx='28' ry='5' fill='#fff' opacity='.4'/>`;
+s+=`<rect width='300' height='360' filter='url(#n)' opacity='.35'/></svg>`;
+return `url('data:image/svg+xml,${encodeURIComponent(s).replace(/'/g,'%27')}')`})())})();
+var ph=i=>`background:${sc(i)} center/cover`;
+const IC={radar:'M12 3a9 9 0 100 18 9 9 0 100-18zM12 8a4 4 0 100 8 4 4 0 100-8zM12 12l6-6',talk:'M4 5h16v11H9l-5 4z',safari:'M12 3a9 9 0 100 18 9 9 0 100-18zM16 8l-2 6-6 2 2-6z',notes:'M6 3h12a1 1 0 011 1v16a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1zM9 8h6M9 12h6M9 16h3',x:'M5 5l14 14M19 5L5 19',photos:'M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM4 18l5-5 4 4 3-3 4 4M9 8a1 1 0 100 2 1 1 0 100-2',ig:'M7 3h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4zM12 8a4 4 0 100 8 4 4 0 100-8z',map:'M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11zM12 8a2.5 2.5 0 100 5 2.5 2.5 0 100-5',eat:'M4 11h16a8 8 0 01-16 0zM9 3c0 2 2 2 2 4M14 3c0 2 2 2 2 4',cal:'M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2zM3 10h18M8 3v4M16 3v4',phone:'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A15 15 0 013 6a2 2 0 012-2z',music:'M9 18V6l10-2v12M7 16a2 2 0 100 4 2 2 0 100-4M17 14a2 2 0 100 4 2 2 0 100-4',heart:'M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z',back:'M15 5l-7 7 7 7',lock:'M7 11V8a5 5 0 0110 0v3M6 11h12v9H6z',play:'M8 5v14l11-7z',pause:'M8 5v14M16 5v14'};
+const I=(n,s=26,c='currentColor')=>`<svg class='ico' width='${s}' height='${s}' viewBox='0 0 24 24' fill='none' stroke='${c}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='${IC[n]}'/></svg>`;
+const AP={radar:['RADAR','linear-gradient(135deg,#ff7a8a,#ff3d6e)','#fff'],talk:['비밀톡','#fee500','#3b1e1e'],x:['X-Talk','#111','#fff'],photos:['사진','#fff','#e8478b'],ig:['룩스타그램','linear-gradient(45deg,#f9a03f,#d6249f,#5851db)','#fff'],map:['지도','linear-gradient(#8fdca8,#4fb97a)','#fff'],eat:['배달24','#2ac1bc','#fff'],cal:['캘린더','#fff','#ff3b30'],music:['음악','linear-gradient(#ff6b7a,#e0243c)','#fff'],phone:['전화','#34c759','#fff'],safari:['사파리','#fff','#0a84ff'],notes:['메모','#ffd54a','#5a4300']};
+const unread=()=>Object.keys(TK).filter(id=>!S.read[id]).length;
+const appIc=(k,lab=1)=>{const a=AP[k],b=k=='talk'?unread():0;return `<div data-a='open' data-v='${k}' style='position:relative'><div class='ic' style='background:${a[1]};color:${a[2]}'>${I(k,30)}</div>${lab?`<div class='lb'>${a[0]}</div>`:''}${b?`<span class='dot'>${b}</span>`:''}</div>`};
+const clock=()=>{const m=252+Math.floor(Math.min(S.t,200)*.58);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')};
+S.t=0;S.R.tab='s';S.likesMe=[4,6];S.mt=0;
+S.nots=[['RADAR','불꽃을 받았어요 · 근처 TOP 3명','radar'],['비밀톡','민석 · 오늘 11시 신사 괜찮아?','talk:min'],['X-Talk','@n_ight_y 님이 회원님의 글을 좋아합니다','x'],['비밀톡','김 대리 · 어제 좋았어요 ㅎㅎ','talk:kim']];
+S.tw=TW.map((t,i)=>[t[0],t[1],'t'+i]);S.orders=OD.slice();
+TK.ryan.tree.in={o:[],c:[['올라와','1402호. 올라와','e'],['잠깐만','5분만 기다려','e']]};
+TK.kim.tree.in={o:[],c:[['규칙 상기','어제로 끝이라고 했지','c'],['칼차단','차단','x']]};
+TK.min.tree.in={o:[],c:[['쿨한 수락','그럼 잠깐 들를게','a'],['규칙 상기','원나잇만. 끝나면 각자 취침','c']]};
+function mk(i){const id='u'+i;if(!TK[id]){const c=[['쿨하게 인사','안녕. 오늘 시간 돼?','a'],['규칙 먼저','먼저 말해둘게. 원나잇만, 끝나면 각자 취침','c'],['패스','매치 취소할게','x']];TK[id]={n:U[i][0],last:'매치됐어요',gen:'ㅎㅎ 그렇죠',tree:{s:{o:[],c},in:{o:[],c},a:{o:['좋아요 ㅎㅎ 어디서 볼까요?'],c:[['호텔은 내가','호텔은 내가 잡을게. 위치 보낼게','e'],['규칙','원나잇만. 끝나면 각자 취침','c']]},c:{o:['오 쿨하다. 저도 그게 편해요'],c:[['콜','그럼 콜. 위치 보낼게','e']]},e:{o:['넵, 갈게요'],c:[]}}}}return id}
+/* 배너 · 다이내믹 아일랜드 */
+const bn=document.createElement('div');bn.id='bn';bn.className='glass';$('#ph').appendChild(bn);
+function banner(t,b,app){bn.innerHTML=`<b style='font-size:13px'>${t}</b><div style='font-size:13px'>${b}</div>`;bn.dataset.a='open';bn.dataset.v=app;bn.classList.add('on');clearTimeout(bn.t);bn.t=setTimeout(()=>bn.classList.remove('on'),3800)}
+function notify(t,b,app){S.nots.unshift([t,b,app]);banner(t,b,app);di();if(['lock','home'].includes(S.app))draw()}
+function di(){const n=unread();$('#di').innerHTML=I('talk',14,'#fff')+(n?`<span>${n}</span>`:'')}
+/* draw: 스크롤·입력 유지 */
+let la='';
+function draw(){const o=scr.querySelector('.body'),st=o&&!o.classList.contains('bot')?o.scrollTop:0,iv=$('#inp'),val=iv?iv.value:'',f=iv&&document.activeElement===iv,key=S.app+S.room;
+scr.classList.toggle('nf',key==la);la=key;
+scr.innerHTML=A[S.app]()+(S.end==1?endHTML():'');
+const b=scr.querySelector('.body');if(b)b.scrollTop=b.classList.contains('bot')?1e9:st;
+const n=$('#inp');if(n){n.value=val;if(f)n.focus()}
+$('#sb span').textContent=clock()}
+function say(id,key,my){const C=chat(id),T=TK[id];if(my)C.log.push({m:1,t:my});
+if(key=='x'){S.blocked=(S.blocked||14)+1;C.blocked=1;C.log.push({s:1,t:'윤호가 상대를 차단했습니다'});return draw()}
+C.node=key;C.wait=1;draw();setTimeout(()=>{T.tree[key].o.forEach(t=>C.log.push({t}));C.wait=0;draw()},750)}
+function incoming(id,texts){const C=chat(id);if(C.blocked)return;const open=S.app=='talk'&&S.room==id;if(open){C.typing=1;draw()}
+setTimeout(()=>{C.typing=0;texts.forEach(t=>C.log.push({t}));C.node='in';S.read[id]=open?1:0;if(!open)notify('비밀톡',TK[id].n+' · '+texts[texts.length-1],'talk:'+id);else draw();di();if(S.app=='talk')draw()},open?1600:200)}
+const _o=ACT.open;ACT.open=v=>{bn.classList.remove('on');const[a,r]=v.split(':');S.room=r||null;if(r){S.read[r]=1}_o(a);di()};
+const _r=ACT.room;ACT.room=v=>{_r(v);di()};
+/* 틴더식 스와이프 */
+const BIO=['신사동에서 와인바 운영해요. 조용히 마시다 갈 사람.','191cm 모델. 키 큰 사람 좋아함.','펀드 굴리는 평범한 직장인. 비밀 유지 필수.','필라테스 강사. 몸 관리 열심.','디자이너. 새벽형 인간.','바리스타. 커피 향 좋아하는 사람.','대학원생. 말수 적음.','의사. 시간 없어서 빠르게.'],AGE=[34,26,33,29,31,27,25,36];
+const cardH=(i,top)=>{const u=U[i];return `<div ${top?"id='card'":''} class='card' style='${ph(i+2)};position:absolute;left:18px;right:18px;top:0;margin:0;${top?'z-index:2':'transform:scale(.94) translateY(12px);filter:brightness(.92)'}'><div class='shade'></div>${top?`<div class='stamp' id='sl' style='left:22px;color:#2bd9a0;border-color:#2bd9a0;transform:rotate(-14deg)'>LIKE</div><div class='stamp' id='sn' style='right:22px;color:#ff4458;border-color:#ff4458;transform:rotate(14deg)'>NOPE</div>`:''}<div style='position:relative'><div style='font-size:28px;font-weight:800'>${u[0]}, ${AGE[i]}</div><div style='font-size:13px'>${u[1]} · ${u[2]} · ${u[3]}</div><div style='font-size:14px;margin-top:6px'>${BIO[i]}</div>${S.likesMe.includes(i)?`<div style='margin-top:8px;display:inline-block;background:#ff3d6e;border-radius:12px;padding:2px 10px;font-size:12px'>나를 좋아함</div>`:''}</div></div>`};
+A.radar=()=>{const R=S.R,u=U[R.sel];let b='';
+if(R.tab=='s')b=R.i<U.length?`<div style='position:relative;height:440px;margin:14px 0'>${R.i+1<U.length?cardH(R.i+1,0):''}${cardH(R.i,1)}</div><div style='display:flex;justify-content:center;gap:34px'><span class='rb' data-a='pass' style='color:#ff4458'>${I('x',28)}</span><span class='rb' data-a='flame' style='color:#2bd9a0'>${I('heart',28)}</span></div><div style='text-align:center;font-size:11px;color:#999;margin-top:8px'>왼쪽으로 밀면 싫어요 · 오른쪽으로 밀면 좋아요</div>`:`<div style='text-align:center;padding:120px 20px;color:#888'>근처에 더 이상 없어요<div style='margin-top:16px'><span class='btn' data-a='rst' style='background:#ff3d6e;color:#fff'>다시 보기</span></div></div>`;
+if(R.tab=='g')b=`<div class='g3'>${U.map((x,i)=>`<div class='tile' data-a='sel' data-v='${i}' style='${ph(i+2)}'><b>${x[0]}</b><span>${x[2]} · ${x[3]}</span></div>`).join('')}</div>`;
+if(R.tab=='m')b=`<div style='padding:20px'><div style='height:230px;border-radius:24px;${ph(0)};display:flex;align-items:flex-end;padding:16px;color:#fff'><div><b style='font-size:22px'>Y</b><div style='font-size:13px'>얼굴 비공개 · 온라인</div></div></div><div style='margin-top:14px;font-size:14px;line-height:1.7'><b>188 · 슬림 · 바텀</b><br>연애 ✕ 애프터 ✕ 감정 ✕<br>호텔은 내가 잡음. 끝나면 각자 취침.<br>룰 지킬 사람만. 일반인 코스프레 중이라 얼굴은 나중에.</div></div>`;
+return `<div class='app'>${hd('<span style="color:#ff3d6e;font-weight:800;letter-spacing:1px">RADAR</span>','')}<div class='body'>${b}</div><div class='tabs'>${[['s','스와이프'],['g','근처'],['m','내 프로필']].map(t=>`<b class='${R.tab==t[0]?'on':''}' data-a='tab' data-v='${t[0]}'>${t[1]}</b>`).join('')}</div>
+${R.sel!=null?`<div class='sheet'><div style='height:150px;border-radius:18px;${ph(R.sel+2)}'></div><h3 style='margin:10px 0 2px'>${u[0]}, ${AGE[R.sel]}</h3><div style='font-size:14px;color:#555'>${BIO[R.sel]}</div><div style='margin-top:14px;display:flex;gap:8px'><span class='btn' data-a='pass' style='background:#eee;flex:1;text-align:center'>패스</span><span class='btn' data-a='flame' style='background:#ff3d6e;color:#fff;flex:1;text-align:center'>좋아요</span></div></div>`:''}
+${R.m!=null?`<div style='position:absolute;inset:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center'><div style='width:150px;height:150px;border-radius:50%;${ph(R.m+2)}'></div><div style='font-size:26px;font-weight:800;color:#ff3d6e'>매치!</div><div style='font-size:14px;color:#555'>${U[R.m][0]}님도 좋아요를 눌렀어요</div><span class='btn' data-a='mchat' style='background:#ff3d6e;color:#fff'>채팅하기</span><span class='btn' data-a='mx' style='background:#eee'>계속 보기</span></div>`:''}</div>`};
+function liked(i){if(S.likesMe.includes(i))S.R.m=i;else toast('좋아요를 보냈어요')}
+ACT.swipe=d=>{const c=$('#card');if(!c||S.R.m!=null)return;const l=$('#sl'),n=$('#sn');if(l){l.style.opacity=d>0?1:0;n.style.opacity=d<0?1:0}c.style.transition='transform .3s,opacity .3s';c.style.transform=`translateX(${d*480}px) rotate(${d*25}deg)`;c.style.opacity=0;const i=S.R.i;setTimeout(()=>{S.R.i++;if(d>0)liked(i);draw()},280)};
+ACT.flame=()=>{if(S.R.sel!=null){const i=S.R.sel;S.R.sel=null;liked(i);draw()}else ACT.swipe(1)};
+ACT.pass=()=>{if(S.R.sel!=null){S.R.sel=null;draw()}else ACT.swipe(-1)};
+ACT.rst=()=>{S.R.i=0;draw()};ACT.mx=()=>{S.R.m=null;draw()};
+ACT.mchat=()=>{const id=mk(S.R.m);S.R.m=null;S.read[id]=1;S.app='talk';S.room=id;chat(id);draw();di();setTimeout(()=>incoming(id,['매치됐네요 ㅎㅎ 오늘 시간 돼요?']),1500)};
+document.addEventListener('pointermove',e=>{if(P&&P.c){const d=e.clientX-P.x,l=$('#sl'),n=$('#sn');if(l){l.style.opacity=Math.max(0,Math.min(d/90,1));n.style.opacity=Math.max(0,Math.min(-d/90,1))}}});
+document.addEventListener('keydown',e=>{if(S.app=='radar'&&S.R.tab=='s'){if(e.key=='ArrowRight')ACT.swipe(1);if(e.key=='ArrowLeft')ACT.swipe(-1)}});
+/* 홈 · 잠금 */
+A.home=()=>`<div class='app wp' style='padding:58px 18px 30px'><div class='glass' style='padding:14px 16px;margin-bottom:12px'><span style='font-size:12px;color:#666'>오늘의 규칙</span><div style='font-size:19px;font-weight:700;margin-top:4px;line-height:1.35'>끝나면 각자 취침.<br>새벽엔 조용히 나온다.</div></div><div style='display:flex;gap:12px;margin-bottom:18px'><div class='glass' style='flex:1;padding:12px'><span style='font-size:12px;color:#666'>지금</span><div class='clk' style='font-size:24px;font-weight:700'>${clock()}</div></div><div class='glass' style='flex:1;padding:12px'><span style='font-size:12px;color:#666'>다음 일정</span><div style='font-size:14px;font-weight:700;margin-top:4px'>06:00 체크아웃</div></div></div><div style='display:grid;grid-template-columns:repeat(4,1fr);gap:16px 6px;justify-items:center'>${['radar','x','photos','ig','map','eat','cal','music'].map(k=>appIc(k)).join('')}</div><div class='glass' style='position:absolute;left:14px;right:14px;bottom:34px;padding:14px 10px;display:flex;justify-content:space-around'>${['phone','talk','safari','notes'].map(k=>appIc(k,0)).join('')}</div></div>`;
+A.lock=()=>`<div class='app wp' style='padding-top:78px'><div style='text-align:center'><div style='font-size:13px'>방해금지 모드</div><div style='font-size:15px;margin-top:6px'>10월 26일 월요일</div><div class='clk' style='font-size:92px;font-weight:200;line-height:1'>${clock()}</div></div><div class='body' style='padding-top:22px'>${S.nots.slice(0,5).map(n=>`<div class='nt glass' data-a='open' data-v='${n[2]}'><b style='font-size:13px'>${n[0]}</b><span style='float:right;font-size:11px;color:#666'>지금</span><div style='font-size:13px;margin-top:2px'>${n[1]}</div></div>`).join('')}</div><div style='text-align:center;font-size:12px;color:#555;padding:6px' data-a='home'>위로 밀어서 잠금 해제</div></div>`;
+/* 비밀톡 */
+const avt=(T,s=34)=>`<div class='av' style='width:${s}px;height:${s}px;font-weight:700;background:#ffe9a8;border-radius:${s/2.6}px'>${T.n[0]}</div>`;
+A.talk=()=>{if(S.room){const id=S.room,T=TK[id],C=chat(id),n=T.tree[C.node]||{c:[]},on=!C.blocked&&!C.wait&&!C.typing;
+return `<div class='app rm'><div class='hd' style='background:#b9d3e8;border:0'><span class='bk' data-a='room' data-v=''>${I('back',22)}</span><span>${T.n}</span><span style='width:40px'></span></div><div class='body bot'>${C.log.map((m,k)=>m.s?`<div class='sys'>${m.t}</div>`:`<div class='row ${m.m?'me':''}'>${m.m?'':avt(T)}<div class='bub'>${m.t}</div>${m.m&&k==C.log.length-1?`<small style='font-size:10px;color:#4a6a85'>읽음</small>`:''}</div>`).join('')}${C.typing?`<div class='row'>${avt(T)}<div class='bub' style='color:#888'>입력 중…</div></div>`:''}</div><div style='padding:6px 10px;min-height:20px'>${on?n.c.map((c,i)=>`<span class='chip' data-a='pick' data-v='${i}'>${c[0]}</span>`).join(''):''}</div><div style='display:flex;gap:6px;padding:6px 10px;background:#fff'><input id='inp' ${on?'':'disabled'} placeholder='${C.blocked?'차단된 상대예요':'메시지 입력'}' style='flex:1;border:1px solid #ddd;border-radius:18px;padding:8px 14px;font-size:14px;outline:0'><span class='btn' data-a='send' style='background:#fee500;padding:8px 14px'>전송</span></div></div>`}
+return `<div class='app'>${hd('채팅','')}<div class='body'>${Object.keys(TK).map(id=>{const T=TK[id],C=S.chat[id],l=(C&&C.log.filter(m=>!m.s).slice(-1)[0]||{t:T.last}).t;return `<div class='li' data-a='room' data-v='${id}' style='display:flex;gap:12px;align-items:center'>${avt(T,48)}<div style='flex:1'><b>${T.n}</b><div style='font-size:13px;color:#888'>${l}</div></div>${S.read[id]?'':`<span style='background:#ff4b4b;color:#fff;border-radius:10px;padding:1px 7px;font-size:12px'>1</span>`}</div>`}).join('')}</div></div>`};
+/* 사진 · 룩스타그램 · X-Talk */
+A.photos=()=>S.ph.lock?`<div class='app wp' style='align-items:center;justify-content:center;gap:16px;text-align:center' data-a='faceid'><div style='${S.ph.scan?'opacity:.5':''}'>${I('lock',60)}</div><b>시크릿 앨범</b><div style='font-size:13px;color:#555'>${S.ph.scan?'Face ID 인식 중…':'화면을 탭해서 Face ID로 열기'}</div></div>`:`<div class='app'>${hd('시크릿 앨범')}<div class='body'><div class='g3'>${PH.map((p,i)=>`<div class='tile' data-a='view' data-v='${i}' style='${ph(i+5)}'></div>`).join('')}</div></div>${S.ph.v!=null?`<div style='position:absolute;inset:0;background:#fff;z-index:20;display:flex;flex-direction:column;padding-top:54px'><div class='hd'><span class='bk' data-a='close'>‹</span><span>${S.ph.v+1} / ${PH.length}</span><span style='width:40px'></span></div><div style='flex:1;${ph(S.ph.v+5)}'></div><div style='padding:16px 16px 40px;font-size:15px'>${PH[S.ph.v][1]}</div></div>`:''}</div>`;
+A.ig=()=>`<div class='app'>${hd('<i style="font-family:Georgia,serif;font-size:22px">Luxtagram</i>',`<span data-a='dm' style='cursor:pointer'>${I('talk',22)}<sup style='color:#f33'>3</sup></span>`)}<div class='body'>${S.ig?[['yoon.s','형 오늘 사진 올렸네요?'],['night_ryan','착장 어디 거예요?'],['mina_','오빠 연락 좀…']].map(d=>`<div class='li'><b>${d[0]}</b><div style='font-size:13px;color:#777'>${d[1]}</div></div>`).join(''):`<div style='display:flex;gap:12px;padding:12px;overflow:auto'>${[0,1,2,3].map(i=>`<div style='flex:none;width:58px;height:58px;border-radius:50%;${ph(i+9)};outline:2px solid #d6249f;outline-offset:2px'></div>`).join('')}</div>`+IG.map((p,i)=>`<div style='margin-bottom:14px'><div style='height:340px;${ph(i+11)}'></div><div style='padding:8px 14px;font-size:14px'><span data-a='like' data-v='i${i}' style='cursor:pointer;font-size:22px;color:${S.likes['i'+i]?'#f33':'#222'}'>${S.likes['i'+i]?'♥':'♡'}</span><div><b>${+p[2]+(S.likes['i'+i]?1:0)}명이 좋아함</b></div><div><b>y_look</b> ${p[1]}</div><div style='color:#888;font-size:13px'>${p[3]}</div></div></div>`).join('')}</div></div>`;
+A.x=()=>`<div class='app'>${hd('X-Talk <small style="color:#999">비공개 계정</small>')}<div class='body'>${S.tw.map((t,i)=>`<div class='li' style='display:flex;gap:10px;cursor:default'><div class='av' style='background:#111;color:#fff;flex:none'>Y</div><div><b style='font-size:14px'>밤의 Y</b> <span style='color:#888;font-size:13px'>@n_ight_y</span><div style='font-size:14px;line-height:1.45;margin:3px 0 6px'>${t[0]}</div><span data-a='like' data-v='${t[2]}' style='cursor:pointer;font-size:13px;color:${S.likes[t[2]]?'#f91880':'#888'}'>${S.likes[t[2]]?'♥':'♡'} ${t[1]+Math.floor(S.t/(7+i*3))+(S.likes[t[2]]?1:0)}</span></div></div>`).join('')}</div></div>`;
+const _n=A.notes;A.notes=()=>_n().replace('✏️','+');
+A.safari=()=>`<div class='app' style='background:#eceef1'>${hd(`<span style='font-size:13px'>개인정보 보호 브라우징</span>`,'탭 1')}<div class='body' style='padding:14px'><div style='background:#fff;border-radius:14px;padding:10px 14px;font-size:14px;color:${S.q?'#111':'#999'}'>${S.q||'검색 또는 웹사이트 이름 입력'}</div><div style='margin:16px 4px 6px;font-size:12px;color:#888'>최근 검색</div><div style='background:#fff;border-radius:14px;overflow:hidden'>${SAF.map((q,i)=>`<div class='li' data-a='q' data-v='${i}' style='font-size:14px'>${q}</div>`).join('')}</div></div></div>`;
+A.map=()=>`<div class='app'>${hd('지도')}<div class='body'><div style='position:relative;height:250px;background:linear-gradient(90deg,#e4ebe0 1px,transparent 1px) 0 0/40px 40px,linear-gradient(#e4ebe0 1px,transparent 1px) 0 0/40px 40px,#f1f5ee'><div style='position:absolute;left:0;right:0;top:48%;height:16px;background:#cfe3f3;transform:rotate(-8deg)'></div>${HT.map((h,i)=>`<div data-a='pin' data-v='${i}' style='position:absolute;left:${h[2]}%;top:${h[3]}%;color:${S.map==i?'#ff3d6e':'#444'};transform:${S.map==i?'scale(1.4)':'none'};transition:.2s;cursor:pointer'>${I('map',30)}</div>`).join('')}<div style='position:absolute;left:78%;top:20%;color:#999'>${I('lock',24)}</div></div>${S.map!=null?`<div style='padding:12px 16px;background:#fff3f6;font-size:14px'><b>${HT[S.map][0]}</b> · ${HT[S.map][1]}</div>`:''}<div style='padding:10px 16px 4px;font-size:12px;color:#888'>단골 호텔</div>${HT.map((h,i)=>`<div class='li' data-a='pin' data-v='${i}'><b>${h[0]}</b><div style='font-size:13px;color:#888'>${h[1]}</div></div>`).join('')}<div class='li' data-a='home2'><b>윤호의 자취방</b><div style='font-size:13px;color:#888'>초대한 사람 0명 · 앞으로도</div></div></div></div>`;
+A.eat=()=>`<div class='app'>${hd('<span style="color:#2ac1bc;font-weight:800">배달24</span>')}<div class='body'><div style='padding:12px 16px 4px;font-size:12px;color:#888'>주문 내역</div>${S.orders.map(o=>`<div class='li' style='cursor:default'><b>${o[1]}</b><span style='float:right;font-size:13px'>${o[2]}</span><div style='font-size:13px;color:#888'>${o[0]} · ${o[3]}</div></div>`).join('')}</div></div>`;
+/* 신규 앱: 캘린더 · 전화 · 음악 */
+const CAL=[[360,'06:00','체크아웃 · L호텔','조용히, 혼자'],[570,'09:30','팀 주간회의','일반인 모드 ON'],[720,'12:00','점심 · 동료들','연애 질문 주의'],[1140,'19:00','부모님 안부 전화','평소처럼'],[1380,'23:00','신사 · 민석','RADAR 약속']];
+A.cal=()=>{const m=252+Math.floor(Math.min(S.t,200)*.58);return `<div class='app'>${hd('10월 26일 월요일')}<div class='body'>${CAL.map(e=>`<div class='li' style='display:flex;gap:14px;opacity:${e[0]<m?.45:1};cursor:default'><b style='width:48px'>${e[1]}</b><div><b>${e[2]}</b><div style='font-size:13px;color:#888'>${e[3]}</div></div></div>`).join('')}</div></div>`};
+A.phone=()=>`<div class='app'>${hd('최근 기록')}<div class='body'>${[['엄마','수신 · 3분','#34c759'],['팀장님','부재중','#ff3b30'],['모르는 번호','부재중 2건','#ff3b30'],['콜택시','발신 · 어제 05:41','#888']].map(r=>`<div class='li' style='cursor:default'><b style='color:${r[2]==='#ff3b30'?'#ff3b30':'#111'}'>${r[0]}</b><div style='font-size:13px;color:#888'>${r[1]}</div></div>`).join('')}<div class='li' style='background:#f7f7f7;cursor:default'><b>차단한 번호 ${S.blocked||14}건</b><div style='font-size:13px;color:#888'>애프터 요구는 즉시 차단</div></div></div></div>`;
+A.music=()=>`<div class='app' style='background:#f6f6f8'>${hd('음악')}<div class='body' style='padding:22px;text-align:center'><div style='height:300px;border-radius:22px;${ph(7)};box-shadow:0 14px 34px rgba(0,0,0,.25)'></div><div style='font-size:20px;font-weight:700;margin-top:18px'>Late Check-out</div><div style='color:#888'>Nocturne Room · 새벽 귀가길</div><div style='height:4px;background:#ddd;border-radius:2px;margin:18px 0'><div id='pb' style='height:4px;background:#111;border-radius:2px;width:${S.mt%180/1.8}%'></div></div><span class='rb' data-a='mp' style='margin:0 auto'>${I(S.mp?'pause':'play',28)}</span></div></div>`;
+ACT.mp=()=>{S.mp=!S.mp;draw()};
+/* 엔딩 */
+var endHTML=()=>`<div style='position:absolute;inset:0;z-index:50;background:rgba(10,10,14,.9);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:36px;gap:14px'><div style='font-size:13px;opacity:.6'>${clock()}</div><div style='font-size:24px;font-weight:700;line-height:1.4'>윤호는 호텔 문을 조용히 닫고 나온다.</div><div style='opacity:.8;line-height:1.6'>메시지는 읽음 처리됐고, 번호 하나가 더 차단됐다. 아무도 그의 밤을 모른다.</div><span class='btn' data-a='endx' style='background:#fff;color:#111;text-align:center'>더 엿보기</span><span class='btn' data-a='again' style='background:#333;text-align:center'>처음부터 다시</span></div>`;
+ACT.endx=()=>{S.end=2;draw()};ACT.again=()=>location.reload();
+/* 실시간 스토리 엔진 */
+const EV=[[12,()=>incoming('ryan',['형 도착했어요, 로비예요','저 지금 검은 후드 입고 있어요'])],
+[30,()=>{S.tw.unshift(['새벽 4시 반, 호텔 로비 소파에 앉은 사람이 나만은 아니다',3,'tn']);notify('X-Talk','새 글이 올라왔어요','x')}],
+[55,()=>incoming('kim',['자요?','아직 안 자죠?'])],
+[80,()=>{S.likesMe.push(3);notify('RADAR','Jay님이 윤호님을 좋아해요','radar')}],
+[105,()=>incoming('min',['아까 말한 와인 아직 남겨뒀어','체크아웃은 늦어도 괜찮고'])],
+[135,()=>{S.orders.unshift(['06:02','돼지국밥 · 해장국 1인','9,500원','주문 접수 · 배달 중']);notify('배달24','돼지국밥 주문이 접수됐어요','eat')}],
+[165,()=>notify('캘린더','06:00 · 체크아웃 알림','cal')],
+[190,()=>{S.end=1;draw()}]];
+let ei=0;
+setInterval(()=>{if(S.end==1)return;S.t++;$('#sb span').textContent=clock();document.querySelectorAll('.clk').forEach(e=>e.textContent=clock());
+while(ei<EV.length&&EV[ei][0]<=S.t){EV[ei][1]();ei++}
+if(S.mp){S.mt++;const p=$('#pb');if(p)p.style.width=S.mt%180/1.8+'%'}
+if(S.t%6==0&&S.app=='x')draw()},1000);
+di();draw();
+</script><style>
+/* ===== v3: 가독성 + 실제 앱 싱크로 ===== */
+#toast{white-space:normal;max-width:310px;text-align:center;line-height:1.45;font-size:13.5px;z-index:70}
+.app{padding-top:54px}
+.hd{font-size:17px;padding:8px 16px 12px}
+.li{padding:14px 16px;font-size:15px;line-height:1.4}
+.chip{font-size:14px;padding:9px 14px;border-color:#cfcfd4;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.bub{font-size:15px;line-height:1.5;max-width:74%;box-shadow:0 1px 1px rgba(0,0,0,.08);white-space:pre-line}
+.sys{font-size:12px;background:rgba(0,0,0,.28)}
+.lb{font-size:12px;font-weight:500;color:#1a1a1a}
+.tile{font-size:13px;text-shadow:none;font-weight:500}
+.tile::before{content:'';position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.7))}
+.tile>*{position:relative;z-index:1}
+.gc{background:#fff;border-radius:14px;margin:10px 14px;overflow:hidden}
+.gc .li{border-bottom:1px solid #f0f0f0}.gc .li:last-child{border:0}
+.sm{font-size:13px;color:#777;line-height:1.45;margin-top:2px}
+/* RADAR = Grindr 스킨 */
+.rd{background:linear-gradient(#ffce00 54px,#0b0b0e 54px);color:#fff}.rd .hd{background:#ffce00;color:#000;border:0}.rd .hd span{color:#000!important}.rd .bk{color:#000}
+.rd .tabs{background:#16161b;border-color:#2a2a30}.rd .tabs b{color:#8d8d96;font-size:13px}.rd .tabs b.on{color:#ffce00}
+.rd .sheet{background:#17171c;color:#fff}.rd .sheet div{color:#d0d0d6!important}.rd .sheet h3 small{color:#999}
+.rd .body,.rd .g3{background:#0b0b0e}.rd .g3{gap:1px}.rd .tile::after{content:'';position:absolute;top:8px;left:8px;width:10px;height:10px;border-radius:50%;background:#2bd96b;box-shadow:0 0 0 2px rgba(0,0,0,.45);z-index:2}
+.rd .card{box-shadow:none}.rd [style*="rgba(255,255,255,.94)"]{color:#222}
+.rd .btn[style*="#eee"]{background:#2b2b31!important;color:#fff}
+.pf{padding:14px 16px;border-bottom:1px solid #26262c}.pf small{color:#8d8d96;display:block;font-size:12px;margin-bottom:3px}
+.tg{display:inline-block;background:#26262c;border-radius:8px;padding:4px 10px;margin:3px 4px 0 0;font-size:13px;color:#ffce00}
+/* 비밀톡 = 카카오톡 */
+.kk .tabs{background:#fff}.kk .tabs b.on{color:#111}.kk .tabs b{font-size:13px}
+.kb{background:#ff4b4b;color:#fff;border-radius:10px;padding:1px 7px;font-size:12px;font-weight:700}
+/* X-Talk */
+.xt{display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid #eee}
+.xa{display:flex;gap:26px;margin-top:8px;color:#6b7280;font-size:13px;align-items:center}.xa span{display:flex;gap:5px;align-items:center}
+/* 에필로그 */
+.nt{padding:12px 14px}
+</style>
+<script>
+/* ---------- 데이터 보강 ---------- */
+ph=i=>`background:url(${sc(i).slice(5,-2).replace(/\(/g,'%28').replace(/\)/g,'%29')}) center/cover`;
+IC.gear='M12 9a3 3 0 100 6 3 3 0 100-6M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2';
+IC.home='M4 11l8-7 8 7v9h-5v-6H9v6H4z';IC.search='M11 4a7 7 0 100 14 7 7 0 100-14M16 16l5 5';IC.plus='M12 5v14M5 12h14';IC.bookmark='M7 4h10v16l-5-4-5 4z';IC.send='M3 11l18-8-8 18-2-8z';IC.rt='M5 9V7a3 3 0 013-3h9M14 1l3 3-3 3M19 15v2a3 3 0 01-3 3H7M10 23l-3-3 3-3';
+AP.me=['설정','#8e8e93','#fff'];IC.me=IC.gear;
+const BIOX=['188cm · 근육','191cm · 마름','176cm · 보통','170cm · 탄탄','178cm · 보통','173cm · 보통','180cm · 마름','182cm · 보통'];
+BIO.forEach((b,i)=>BIO[i]=b+'\n'+BIOX[i]+' · 지금 당장');
+PH[0][1]='2025.10.03 · 앱 계정을 만들던 날\n거울 속 얼굴을 컷하는 게 어느새 습관이 됐다.';
+PH[1][1]='2026.09.19 · L호텔 1402 창가\n비 오는 새벽. 도시가 이렇게 조용한 줄 처음 알았다.';
+PH[2][1]='2026.10.12 · 오버핏 코트\n낮의 회사원 정윤호는 이 코트로 출근한다. 아무도 모른다.';
+PH[3][1]='2026.08.30 · 두고 온 메모\n"잘 자. 체크아웃은 알아서." 쓰고 나서 한참 쳐다봤다. 내가 쓴 가장 다정한 문장이라서.';
+PH[4][1]='2026.07.04 · 신사 와인바 카운터\n민석이 말했다. "너 웃을 때 안 숨기는 게 제일 좋아." 그날 규칙 하나가 흔들렸다.';
+PH[5][1]='2026.10.01 · 출근 전 신발장\n흰 운동화 한 켤레. 도윤이 사준 것. 버리지 못했다.';
+PH[6][1]='2026.10.18 · 5시 41분 귀가길\n콜택시 창밖으로 하늘이 막 밝아졌다. 가끔 이 시간이 제일 솔직하다.';
+PH[7][1]='2025.09.10 · 화이트 린넨 룸\n이별한 날 혼자 갔던 첫 호텔. 모든 게 여기서 시작됐다.';
+PH[8][1]='2026.10.25 · 체크아웃 후 커피\n오늘도 아무도 모른다. 그게 편하고, 그게 제일 외롭다.';
+S.memos.length=0;S.memos.push(
+['원나잇 수칙','1. 호텔은 내가 잡는다\n2. 연애 얘기는 금지\n3. 끝나면 각자 취침\n4. 애프터 요구는 즉시 차단\n5. 본명·직장·사는 동네는 비공개\n6. 검사는 3개월마다. 예외 없음\n7. 같은 사람은 두 번 만나지 않는다  ← 예외 2명: 성화(고정 파트너), 민석(3번째)'],
+['커밍아웃','말하는 순간 다 끝날 것 같다. 회사에서는 끝까지 평범한 사람이어야 한다.\n\n순서를 정해봤다. 지수(완료) → 동생 → 엄마 → 아빠 → 팀장.\n정해놓고 다 지웠다.'],
+['몸만 섞는 이유','감정은 소모고 몸은 깔끔하다. 정 붙이면 내가 먼저 무너진다.\n\n솔직히는 이거다. 한 번 무너져본 사람은 무너질 자리를 안 만든다.'],
+['도윤에게 (보내지 않음)','도윤아. 그날 엄마 앞에서 널 룸메이트라고 소개한 거, 사과하려고 이 메모를 열 때마다 닫았어.\n너는 네 친구가 아니라고 했지. 맞아. 넌 내 전부였는데 나는 그걸 한 번도 입 밖에 못 냈다.\n\n번호는 지웠는데 외우고 있어서 소용없더라.'],
+['가면 목록','회사원 정윤호 (낮) — 일이 애인이에요. 농담으로 모든 질문을 넘긴다.\nY (밤) — 188 슬림. 규칙 7개. 얼굴 비공개.\n윤호 (그 사이) — 국밥, 엄마 전화, 흰 운동화. 가장 자주 피곤한 사람.'],
+['2026 목표','1. 체중 유지 ✔\n2. 엄마한테 주 2회 전화 (이번 주 1회)\n3. 도윤 번호 외운 거 잊기 (실패)\n4. 앱 하루 1시간 이하 (3시간 12분)\n5. 동생 결혼식 축사 쓰기 (한 줄 씀)'],
+['윤서 결혼식 축사','"형으로서 한 가지만 말할게. 사랑하는 사람 손은 꼭 놓지 마."\n— 여기까지 쓰고 3일째 멈춰 있다. 이 문장을 내가 말할 자격이 있나.'],
+['처음 알았던 날','고1 가을. 체육 끝나고 교실 창가에서 친구 웃는 얼굴을 보다 알았다. 이게 평생 갈 거라는 걸.\n그날 집에 가는 길에 일부러 크게 웃었다. 연습이었다.']);
+SAF.length=0;SAF.push('188 슬랙스 기장 추천','앱 원나잇 후 카톡 깔끔하게 차단하는 법','직장인 일코 질문 넘기는 법','호텔 새벽 체크아웃 가능?','커밍아웃 후 부모님 반응 후기','동생 결혼식 축사 쓰는 법','모르는 번호 3792 전화 받아야 할까','외로움 몸으로 푸는 이유');
+HT.length=0;HT.push(['L호텔 강남','방문 7회 · 1402호 선호',30,40],['H 부티크 신사','방문 5회 · 민석의 와인바 근처',62,28],['S호텔 역삼','방문 3회 · 새벽 체크아웃',46,66],['광주 본가 (엄마)','명절 외 방문 거의 없음',80,78]);
+CAL.length=0;CAL.push([60,'01:00','D+412','숫자 세지 않기로 했는데 캘린더가 알려준다'],[360,'06:00','체크아웃 · L호텔','조용히, 혼자'],[570,'09:30','팀 주간회의','일반인 모드 ON'],[720,'12:00','점심 · 동료들','"결혼 안 해?" 질문 주의'],[900,'15:00','동생 정장 가봉','윤서 결혼 D-34 · 신사'],[1140,'19:00','엄마 안부 전화','주 2회 목표 (이번 주 1회)'],[1260,'21:00','지수 · 국밥','대학 동기 · 같이 국밥'],[1380,'23:00','신사 · 민석','RADAR 약속 · 룰 예외?']);
+S.orders=[['어제 06:12','돼지국밥 · 해장국 1인','9,500원','체크아웃 후 혼자'],['10월 19일 22:40','수제 케이크 1호','38,000원','동생 생일 · 메모: 형이'],['10월 3일 18:20','반찬 세트 (광주 배송)','52,000원','받는 사람: 엄마 · 메모: 잘 챙겨 드세요'],['9월 20일 06:40','순두부찌개 1인','8,000원','새벽 귀가 후'],['9월 11일 07:10','흰죽 1인','8,500원','이별 다음 날. 속이 안 좋았다'],['09월 5일 13:05','샐러드볼 (사무실)','11,000원','평범한 점심']];
+S.tw=[['낮: 회의 3개, 일코 만렙. 밤: 후드 쓰고 호텔 로비.',24,'t0'],['팀장님이 "윤호 씨는 왜 결혼 안 해?" 하심. 3초 웃고 "일이 애인이라서요" 시전. 박수.',61,'t1'],['엄마: "앞집 이모가 참한 아가씨 있대." 나: "바빠서요." 7년째 같은 대본.',142,'t2'],['3개월마다 하는 검사. 결과 음성. 이 습관만큼은 내가 나한테 잘한 일.',98,'t3'],['애프터 요구하는 순간 차단 버튼이 손가락보다 빨라진다',131,'t4'],['도윤이랑 헤어진 지 412일. 숫자 세지 않기로 했는데 캘린더가 알려준다.',187,'t5'],['몸만 만나는 게 편한 이유: 아침에 서로 모르는 사람이라서. 근데 가끔은 그게 제일 외롭다.',304,'t6'],['새벽 5시 체크아웃 후 편의점 커피. 이 맛에 산다',77,'t7'],['동생 결혼식에서 "형은 언제?" 들을 생각에 벌써 위가 아프다.',66,'t8'],['지수가 말했다. "너 그만 도망가도 돼." 대답 못 하고 국밥만 먹었다.',215,'t9'],['고1 때 알았다. 교실에서 혼자만 숨 쉬는 법을 다르게 배웠다.',420,'t10'],['커밍아웃? 아직. 아마 영원히. 근데 평범한 척도 체력이 든다',203,'t11']];
+const TT=['3시간','어제','어제','10월 24일','10월 22일','10월 19일','10월 12일','10월 9일','10월 1일','9월 28일','9월 10일','8월 30일'];
+S.nots.unshift(['비밀톡','엄마 · 윤호야 밥은 먹었니?','talk:mom'],['비밀톡','지수 · 야 어제 어땠어','talk:jisu']);
+S.R.tab='g';S.kt='c';S.tl={};
+
+/* ---------- 새 대화: 엄마 · 지수 ---------- */
+TK.mom={n:'엄마',last:'윤호야 밥은 먹었니?',gen:'그래, 몸 챙기고. 엄마가 또 전화할게',tree:{
+s:{o:['윤호야 밥은 먹었니?','주말에 안 내려오니? 아빠가 말은 안 해도 기다리신다','앞집 이모 조카가 참하대. 사진만 한번 볼래?'],c:[['바빠서 못 가','이번 주도 바빠. 다음에 갈게','a'],['선 얘기 거절','엄마, 선 얘기는 이제 그만','b'],['말해볼까…','엄마, 나 할 말 있는데','d']]},
+in:{o:[],c:[['응 엄마','응 엄마. 나 괜찮아','a'],['바빠서','바빠서 나중에 전화할게','a']]},
+a:{o:['그래… 일이 우선이지. 근데 윤호야, 엄마는 네가 혼자인 게 걱정이다','밥 거르지 말고, 따뜻하게 입고 다녀'],c:[['알겠어','응, 엄마도 건강 챙겨','z']]},
+b:{o:['알았어, 알았어. 근데 너 스물일곱이야','엄마는 네가 외롭게 늙을까 봐 그래'],c:[['안 외로워','나 안 외로워. 괜찮아','a'],['말해볼까…','엄마, 나 할 말 있는데','d']]},
+d:{o:['무슨 일 있니? 요즘 목소리가 안 좋더니','회사에서 무슨 일 있는 거야? 아님 어디 아프니?'],c:[['아니야','아니야, 별일 아냐. 피곤해서','a'],['…사실은','엄마. 나 여자 안 만나. 못 만나','f']]},
+f:{o:['…','(입력 중… 이 한참 떴다 사라진다)'],c:[['취소','미안, 방금 건 잊어줘','g'],['그대로 둔다','…','h']]},
+g:{o:['…그래. 일단 밥은 먹고 다니거라','엄마는 윤호가 어떤 아들이든 윤호 엄마야'],c:[]},
+h:{o:['전화할게. 받아줘.'],c:[]},
+z:{o:['그래, 우리 아들. 사랑한다'],c:[]}}};
+TK.jisu={n:'지수',last:'야 어제 어땠어',gen:'ㅋㅋ 그래, 밥은 먹었어?',tree:{
+s:{o:['야 어제 어땠어','조심은 했지? 검사 날짜 알지, 다음 달 초'],c:[['걱정 마','했어. 검사도 다음 달에 갈게','a'],['좀 지친다','솔직히 요즘 좀 지친다','b'],['도윤 금지','도윤 얘기는 하지 마','c']]},
+in:{o:[],c:[['응','응 지수야','b'],['국밥?','국밥이나 먹자','e']]},
+a:{o:['그래 잘했다 ㅋㅋ','근데 너 앱 켜는 시간 점점 늘고 있는 거 알지?'],c:[['알아…','알아. 안 켜면 더 조용해서 그래','b'],['잔소리 금지','잔소리 노','c']]},
+b:{o:['말해봐 들어줄게','동생 결혼식 전에 한 번은 정리해야 해. 부모님이든 너 자신이든'],c:[['입이 안 떨어져','알아. 근데 입이 안 떨어져','d'],['오늘은 국밥','오늘은 그냥 국밥 먹자','e']]},
+c:{o:['알았어 안 할게','근데 걔 번호 아직 외우고 있지? 내가 다 알아'],c:[['…','…','b']]},
+d:{o:['안 떨어져도 돼. 천천히 해','내가 옆에 있잖아. 근데 너 그만 도망가도 돼'],c:[['고마워','고마워. 내일 국밥 먹자','e']]},
+e:{o:['콜. 내가 쏜다. 이번엔 체크아웃하고 오지 말고 잠은 자고 와 ㅋㅋ'],c:[]}}};
+[['min','민석 (와인바)'],['ryan','Ryan'],['kim','김 대리 (펀드)']].forEach(a=>TK[a[0]].n=a[1]);
+
+/* ---------- 홈 ---------- */
+const _h=A.home;A.home=()=>_h().replace("['radar','x','photos','ig','map','eat','cal','music'].map","['radar','x','photos','ig','map','eat','cal','music','me'].map");
+/* ---------- RADAR (Grindr) ---------- */
+const MYP=`<div style='height:260px;${ph(0)};position:relative'><div style='position:absolute;left:16px;bottom:14px;text-shadow:0 1px 4px #000'><b style='font-size:26px'>Y</b><div style='font-size:13px'>얼굴 비공개 · 온라인</div></div></div>
+<div class='pf'><small>소개</small>일반인 코스프레 중이라 얼굴은 나중에.<br>룰 지킬 사람만. 호텔은 내가 잡음. 끝나면 각자 취침.</div>
+<div class='pf'><small>기본 정보</small>27세 · 186cm · 72kg · 슬림 · 바텀 (프로필에는 188이라고 적음)</div>
+<div class='pf'><small>찾는 것</small><span class='tg'>지금 당장</span><span class='tg'>원나잇</span><span class='tg'>애프터 ✕</span><span class='tg'>연애 ✕</span></div>
+<div class='pf'><small>안전</small>마지막 검사 2026.08.14 · 음성 · 3개월마다 갱신<br><span style='color:#8d8d96;font-size:13px'>(이것만큼은 윤호가 윤호에게 해주는 일)</span></div>
+<div class='pf'><small>지금까지</small>차단 ${S.blocked||14}명 · 같은 사람 두 번 금지 규칙 예외 2명 (성화·민석)</div>`;
+const _R=A.radar;A.radar=()=>{let h=_R();if(S.R.tab=='m')h=h.replace(/<div class='body'>[\s\S]*?<\/div><div class='tabs'>/,()=>`<div class='body'>${MYP}</div><div class='tabs'>`);return h.replace("class='app'","class='app rd'").replace('>스와이프<','>매칭<').replace('>근처<','>탐색<')};
+/* ---------- 비밀톡 (카카오톡) ---------- */
+const ORD=['jisu','minki','mom','dad','yunseo','seonghwa','min','seohyun','ryan','kim'],KTM={minki:'오전 2:40',seonghwa:'오전 1:12',jisu:'오전 3:12',mom:'오전 7:40',dad:'일요일',yunseo:'오전 8:20',min:'오후 11:02',seohyun:'오후 6:41',ryan:'오전 12:10',kim:'어제'};
+const kbar=t=>`<div class='tabs'>${[['f','친구'],['c','채팅'],['m','더보기']].map(x=>`<b class='${t==x[0]?'on':''}' data-a='kt' data-v='${x[0]}'>${x[1]}</b>`).join('')}</div>`;
+const _t=A.talk;A.talk=()=>{if(S.room)return _t().replace("<div class='body bot'>","<div class='body bot'><div class='sys'>2026년 10월 26일 월요일</div>");
+const ks=Object.keys(TK),lst=ORD.filter(k=>TK[k]).concat(ks.filter(k=>!ORD.includes(k)));
+if(S.kt=='f')return `<div class='app kk' style='background:#fff'><div class='hd' style='border:0'><b style='font-size:22px'>친구</b><span></span></div><div class='body'><div class='li' style='display:flex;gap:12px;align-items:center'>${avt({n:'윤'},52)}<div><b>윤호</b><div class='sm'>상태메시지 · 평범한 하루, 오늘도 무사히</div></div></div><div style='padding:8px 16px;font-size:12px;color:#888'>친구 ${lst.length}</div>${lst.map(id=>`<div class='li' data-a='room' data-v='${id}' style='display:flex;gap:12px;align-items:center;border:0;padding:9px 16px'>${avt(TK[id],44)}<div><b>${TK[id].n}</b>${id=='mom'?`<div class='sm'>상태메시지 · 우리 아들 밥 잘 챙겨 먹기</div>`:id=='jisu'?`<div class='sm'>상태메시지 · 국밥은 사랑입니다</div>`:''}</div></div>`).join('')}<div style='padding:14px 16px;font-size:12px;color:#888'>생일 · 윤서(동생) 결혼 D-34 · 엄마 생신 12월 3일</div></div>${kbar('f')}</div>`;
+return `<div class='app kk' style='background:#fff'><div class='hd' style='border:0'><b style='font-size:22px'>채팅</b><span style='color:#666;letter-spacing:8px'>${I('search',20)}</span></div><div class='body'>${lst.map(id=>{const T=TK[id],C=S.chat[id],l=(C&&C.log.filter(m=>!m.s).slice(-1)[0]||{t:T.last}).t;return `<div class='li' data-a='room' data-v='${id}' style='display:flex;gap:12px;align-items:center;border:0'>${avt(T,50)}<div style='flex:1;min-width:0'><b>${T.n}</b><div style='font-size:13.5px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis'>${l}</div></div><div style='text-align:right;font-size:11px;color:#aaa;display:flex;flex-direction:column;gap:4px;align-items:flex-end'>${KTM[id]||'방금'}${S.read[id]?'':`<span class='kb'>1</span>`}</div></div>`}).join('')}</div>${kbar('c')}</div>`};
+ACT.kt=v=>{if(v=='m')return toast('더보기 · 화면 잠금 ON · 알림에 메시지 내용 표시 OFF');S.kt=v;draw()};
+/* ---------- X-Talk (X) ---------- */
+A.x=()=>`<div class='app' style='background:#fff'><div style='padding:2px 16px 0;text-align:center'>${I('x',22)}</div><div style='display:flex;border-bottom:1px solid #eee;font-size:14px;text-align:center'><b style='flex:1;padding:10px;border-bottom:3px solid #1d9bf0'>@n_ight_y</b><span style='flex:1;padding:10px;color:#888'>팔로잉 0</span></div><div class='body'>${S.tw.map((t,i)=>{const L=!!S.likes[t[2]];return `<div class='xt'><div class='av' style='background:#111;color:#fff;flex:none;width:40px;height:40px;border-radius:50%;font-weight:700'>Y</div><div style='min-width:0'><b style='font-size:15px'>밤의 Y</b> <span style='color:#888;font-size:13px'>@n_ight_y · ${TT[i]||'지난달'}</span><div style='font-size:15px;line-height:1.5;margin:4px 0 0'>${t[0]}</div><div class='xa'><span>${I('talk',16)}${Math.floor(t[1]/9)}</span><span>${I('rt',16)}${Math.floor(t[1]/14)}</span><span data-a='like' data-v='${t[2]}' style='cursor:pointer;color:${L?'#f91880':'#6b7280'}'>${I('heart',16)}${t[1]+Math.floor(S.t/(7+i*3))+(L?1:0)}</span><span>${I('send',16)}</span></div></div></div>`}).join('')}</div><span data-a='tw' style='position:absolute;right:18px;bottom:44px;width:54px;height:54px;border-radius:50%;background:#1d9bf0;color:#fff;display:grid;place-items:center;box-shadow:0 6px 16px rgba(29,155,240,.4);cursor:pointer'>${I('plus',26)}</span></div>`;
+ACT.tw=()=>toast('초안 저장됨 · "도윤아 나는" 에서 멈춤. 3일째.');
+/* ---------- 룩스타그램 (Instagram) ---------- */
+const IGP=[['오늘의 착장, 얼굴은 비밀. 이 코트는 4년째. 사람들은 옷은 기억해도 얼굴은 기억 못 하니까.','#OOTD #188','128',['핏 미쳤다','슬랙스 어디 거예요?','mina_  오빠 오늘도 멋지네요']],['신발만 봐도 아는 사람은 안다. 흰 운동화는 누가 사준 건데 아직 신어요.','#신발스타그램','94',['기장 완벽','yoon.s  형 이거 아직 신어?']],['야간 모드. 낮의 나와 밤의 나, 어느 쪽이 진짜냐고 물으면 둘 다라고 할 것 같다.','#야간모드 #성수','210',['누구세요 ㅋㅋ','분위기 장난 아님']],['동생 결혼식 D-34. 형이 축사를 맡았다. 근데 나는 무슨 얼굴로 서 있어야 할까.','#윤서결혼','77',['yoon.s  형 와줘서 고마워','jisu_  너 잘할 거야']]];
+const STO=[['내 스토리',9,'24시간 뒤에 사라지는 건 사진만이 아니다.'],['yoon.s',10,'동생 · "형, 청첩장 나왔어!"'],['mina_',11,'엄마가 소개해준 사람. 읽씹 3주째.'],['jisu_',12,'대학 동기 · 윤호를 아는 사람']];
+A.ig=()=>`<div class='app'>${hd('<i style="font-family:Georgia,serif;font-size:24px">Luxtagram</i>',`<span data-a='dm' style='cursor:pointer'>${I(S.ig?'back':'send',22)}${S.ig?'':`<sup style='color:#f33;font-size:12px'>3</sup>`}</span>`)}<div class='body'>${S.ig?[['yoon.s','형 오늘 사진 올렸네요? 결혼식 때 입을 정장 같이 보러 가자','2시간'],['night_ryan','착장 어디 거예요? 저 191인데 맞는 게 없어서','5시간'],['mina_','오빠 연락 좀… 어머님이 자꾸 물어보세요','3주'],['jisu_','야 오늘 국밥 콜?','어제']].map((d,i)=>`<div class='li' style='display:flex;gap:12px;align-items:center'><div style='width:48px;height:48px;border-radius:50%;flex:none;${ph(i+9)}'></div><div><b>${d[0]}</b> <span style='color:#aaa;font-size:12px'>${d[2]}</span><div class='sm'>${d[1]}</div></div></div>`).join(''):`<div style='display:flex;gap:14px;padding:12px 14px;overflow:auto'>${STO.map((s,i)=>`<div data-a='stor' data-v='${i}' style='flex:none;text-align:center;cursor:pointer'><div style='padding:3px;border-radius:50%;background:linear-gradient(45deg,#f9a03f,#d6249f,#5851db)'><div style='width:60px;height:60px;border-radius:50%;border:3px solid #fff;${ph(s[1])}'></div></div><div style='font-size:11px;margin-top:4px'>${s[0]}</div></div>`).join('')}</div>`+IGP.map((p,i)=>`<div style='margin-bottom:18px'><div style='display:flex;gap:10px;align-items:center;padding:6px 14px'><div style='width:34px;height:34px;border-radius:50%;${ph(i+9)}'></div><div style='font-size:14px;line-height:1.2'><b>y_look</b><div style='font-size:11px;color:#888'>서울 성수동</div></div></div><div style='height:360px;${ph(i+11)}'></div><div style='padding:10px 14px;font-size:14.5px;line-height:1.5'><div style='display:flex;gap:16px;align-items:center'><span data-a='like' data-v='i${i}' style='cursor:pointer;color:${S.likes['i'+i]?'#f33':'#222'}'>${I('heart',26,S.likes['i'+i]?'#f33':'currentColor')}</span>${I('talk',24)}${I('send',24)}<span style='margin-left:auto'>${I('bookmark',24)}</span></div><div style='margin-top:8px'><b>${+p[2]+(S.likes['i'+i]?1:0)}명이 좋아합니다</b></div><div><b>y_look</b> ${p[0]} <span style='color:#00376b'>${p[1]}</span></div>${p[3].map(c=>`<div style='color:#555;font-size:13.5px;margin-top:2px'>${c}</div>`).join('')}</div></div>`).join('')}</div></div>`;
+ACT.stor=v=>toast(STO[+v][0]+' · '+STO[+v][2]);
+/* ---------- 전화 · 설정(나) ---------- */
+A.phone=()=>`<div class='app'>${hd('최근 기록')}<div class='body'>${[['엄마','수신 · 3분','#111'],['팀장님','부재중','#ff3b30'],['모르는 번호 (3)','부재중 · 새벽 3:51','#ff3b30'],['윤서 (동생)','수신 · 일요일','#111'],['지수','발신 · 어제 22:10','#111'],['콜택시','발신 · 어제 05:41','#111']].map(r=>`<div class='li' style='cursor:default'><b style='color:${r[2]}'>${r[0]}</b><div class='sm'>${r[1]}</div></div>`).join('')}<div class='li' data-a='vm' style='background:#f7f7f7'><b>음성사서함 1건 · 0:07</b><div class='sm'>모르는 번호 · 탭해서 재생</div></div><div class='li' style='background:#f7f7f7;cursor:default'><b>차단한 번호 ${S.blocked||14}건</b><div class='sm'>애프터 요구는 즉시 차단</div></div></div></div>`;
+ACT.vm=()=>toast('"…윤호야. 나야. 그냥, 잘 지내나 해서." (숨소리 3초)');
+const TL=[['2010 · 고1','처음 알았다','교실에서 혼자만 숨 쉬는 법을 다르게 배운 날. 이후 웃음을 한 박자 늦게 짓는 습관이 생겼다.'],['2011 · 아빠의 한마디','"저런 건 병이야"','뉴스를 보던 아빠가 무심코 한 말. 아빠는 기억 못 할 문장이 15년째 윤호의 문 앞을 지킨다.'],['2013 · 서울','상경, 그리고 지수','대학에서 만난 지수에게만 2016년에 털어놨다. "그래서?"라고 답해준 첫 사람.'],['2022 · 도윤','3년 4개월의 연애','독서모임에서 만난 도윤. 처음으로 같이 장 보고 같이 늙는 상상을 했다. 가족 앞에서는 끝까지 "룸메이트".'],['2025.09.10 · 이별','"나는 네 친구가 아니야"','광주 본가에서 도윤을 룸메이트라고 소개한 다음 날 도윤이 짐을 뺐다. 윤호는 붙잡지 못했고, 그날 혼자 호텔에 갔다.'],['2025.10 · RADAR','Y의 탄생','감정은 소모, 몸은 깔끔. 규칙을 만들고 계정을 만들었다. 얼굴은 비공개.'],['2026.10 · 지금','D-34, 그리고 모르는 번호','동생의 결혼식 한 달 전. 새벽마다 같은 번호가 부재중에 찍힌다. 윤호는 아직 받지 못한다.']];
+const PP=[['회사원 (낮)','일이 애인이에요. 농담으로 모든 질문을 넘긴다. 후배들에게는 인기 많은 선배.'],['Y (밤)','188 슬림. 규칙 7개. 호텔은 직접 예약. 얼굴은 비공개.'],['윤호 (그 사이)','국밥, 엄마 전화, 흰 운동화. 가장 자주 피곤한 사람. 그 번호를 아직 외운다.']];
+const FP=[['엄마','광주 · 매일 안부 · 선 자리 담당. 다정하고 걱정 많음'],['아빠','퇴직 공무원. 말수 적음. 그 한마디 이후 대화가 줄었다'],['윤서 (동생)','25세 · 11/29 결혼. 형이 축사 담당'],['지수','대학 동기 · 윤호의 비밀을 아는 사람'],['송민기','광주 소꿉친구 · 음악 프로듀서 · 게이인 건 알지만 밤 생활은 모름'],['박성화','앱에서 만난 한 살 위 파트너 · 래퍼라고 함 · 사귀는 사이는 아님'],['도윤','전 연인 · D+412 · 모르는 번호의 주인?'],['민석','와인바 대표 · 규칙의 첫 번째 예외 (3번째 만남)']];
+A.me=()=>`<div class='app' style='background:#f2f2f7'>${hd('설정')}<div class='body'><div class='gc'><div class='li' style='display:flex;gap:14px;align-items:center;cursor:default'><div style='width:64px;height:64px;border-radius:50%;background:#111;color:#fff;display:grid;place-items:center;font-size:26px;font-weight:700'>정</div><div><b style='font-size:19px'>정윤호</b><div class='sm'>1999.03.23생 · 27세 · 186cm · 광주 출신, 서울 성수동 원룸 거주<br>회사원 (사무직)</div></div></div></div>
+<div style='margin:14px 20px 0;font-size:12px;color:#888'>세 개의 얼굴</div><div class='gc'>${PP.map(p=>`<div class='li' style='cursor:default'><b>${p[0]}</b><div class='sm'>${p[1]}</div></div>`).join('')}</div>
+<div style='margin:14px 20px 0;font-size:12px;color:#888'>그를 둘러싼 사람들</div><div class='gc'>${FP.map(p=>`<div class='li' style='cursor:default'><b>${p[0]}</b><div class='sm'>${p[1]}</div></div>`).join('')}</div>
+<div style='margin:14px 20px 0;font-size:12px;color:#888'>타임라인 · 눌러서 펼치기</div><div class='gc'>${TL.map((t,i)=>`<div class='li' data-a='tl' data-v='${i}'><span style='font-size:12px;color:#ff3d6e'>${t[0]}</span><div><b>${t[1]}</b></div>${S.tl[i]?`<div class='sm' style='color:#333;font-size:14px'>${t[2]}</div>`:''}</div>`).join('')}</div>
+<div style='margin:14px 20px 0;font-size:12px;color:#888'>숫자로 보는 윤호</div><div class='gc'>${[['앱 사용 하루 평균','3시간 12분'],['차단한 사람',(S.blocked||14)+'명'],['정기검사','3개월마다 · 마지막 8/14 음성'],['엄마와 통화','주 1.2회 (목표 2회)'],['새벽 체크아웃','15회'],['윤호를 아는 사람','2명 (지수·민기)'],['룰 예외','2명 · 성화(고정), 민석']].map(r=>`<div class='li' style='cursor:default;display:flex;justify-content:space-between'><span>${r[0]}</span><b style='font-size:14px;text-align:right'>${r[1]}</b></div>`).join('')}</div><div style='height:24px'></div></div></div>`;
+ACT.tl=v=>{S.tl[v]=!S.tl[v];draw()};
+/* ---------- 이벤트 · 엔딩 ---------- */
+EV.push([18,()=>incoming('mom',['윤호야, 주말에 안 오면 아빠가 서운해하셔'])],[45,()=>incoming('jisu',['자냐? 아님 호텔이냐 ㅋㅋ','일어나면 연락해. 할 말 있어'])],[70,()=>notify('룩스타그램','윤서님이 회원님에게 메시지를 보냈어요','ig')],[150,()=>notify('전화','모르는 번호 · 새벽 3:51 부재중','phone')]);
+EV.splice(0,EV.length,...EV.sort((a,b)=>a[0]-b[0]));
+EV.push([252,()=>{S.end=1;S.epi=1;draw()}]);
+endHTML=()=>`<div style='position:absolute;inset:0;z-index:50;background:rgba(10,10,14,.92);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:34px;gap:16px'><div style='font-size:13px;opacity:.6'>${S.epi?'에필로그 · 06:40':clock()}</div>${S.epi?`<div style='font-size:22px;font-weight:700;line-height:1.5'>국밥집 창가. 지수가 먼저 와 있다.</div><div style='opacity:.85;line-height:1.7'>윤호는 휴대폰을 뒤집어 놓는다. 화면이 켜진다. 모르는 번호, 3792.<br><br>받지도 차단하지도 않고, 윤호는 처음으로 지수에게 말한다.<br>"나, 동생 결혼식에 사람 하나 데려가도 될까."</div><div style='font-size:13px;opacity:.55'>— 다음 장은 윤호가 쓴다.</div>`:`<div style='font-size:24px;font-weight:700;line-height:1.4'>윤호는 호텔 문을 조용히 닫고 나온다.</div><div style='opacity:.85;line-height:1.7'>메시지는 읽음 처리됐고, 번호 하나가 더 차단됐다. 엘리베이터 거울 속 얼굴은 낮의 회사원도, 밤의 Y도 아니었다.<br><br>그는 지수에게 짧게 보낸다. "나 좀 지쳤어. 국밥 먹자."</div>`}<span class='btn' data-a='endx' style='background:#fff;color:#111;text-align:center'>${S.epi?'닫기':'더 엿보기'}</span><span class='btn' data-a='again' style='background:#333;text-align:center'>처음부터 다시</span></div>`;
+draw();
+/* ---------- v3.1: 가족·동료 대화, 메모, X 글 추가 ---------- */
+TK.yunseo={n:'윤서 (동생)',last:'형 축사 좀 봐줄 수 있어?',gen:'ㅋㅋ 알았어 형 편한 대로',tree:{
+s:{o:['형 축사 초안 나왔는데 좀 봐줄 수 있어?','근데 엄마가 자꾸 형 결혼 얘기 꺼내셔 ㅋㅋ'],c:[['봐줄게','보내봐. 읽어볼게','a'],['이번 주 바빠','이번 주는 좀 바쁘다','b'],['결혼은 무슨','나는 그런 거 없어 ㅋ','c']]},
+in:{o:[],c:[['응 보내','보내봐','a'],['바빠','이따 저녁에 볼게','b']]},
+a:{o:['고마워 형… 세 번째 문단에서 울컥했어','형 얘기도 좀 넣었는데 괜찮아?'],c:[['좋아','잘 넣었다. 그대로 해','d'],['빼','그 문단은 빼자','e']]},
+b:{o:['알았어 ㅠ 그래도 이번 주 안엔 봐줘','형 없이 식 하면 나 못 울어'],c:[['알겠어','이번 주 안에 볼게','d']]},
+c:{o:['아 진짜 ㅋㅋ 아빠 앞에서 그 말 하지 마','아빠가 그거 듣고 3일 말 안 하셨어'],c:[['미안','미안 ㅋㅋ 안 할게','d']]},
+d:{o:['고마워 형. 형 있어서 다행이다'],c:[]},
+e:{o:['그럼 그 문단 빼고, 대신 형이랑 나 어릴 때 사진 넣을게'],c:[['그래','좋아. 그러자','d']]}}};
+TK.dad={n:'아빠',last:'밥은 먹었냐',gen:'그래. 몸 조심하고',tree:{
+s:{o:['밥은 먹었냐','주말에 내려와라. 엄마가 반찬 많이 했다'],c:[['네 갈게','주말에 내려갈게요','a'],['요즘 바빠요','이번 달은 힘들 것 같아요','b']]},
+in:{o:[],c:[['네','네 아빠','a'],['죄송','죄송해요 아빠','b']]},
+a:{o:['그래. 운전 조심하고'],c:[['감사합니다','네 아빠','c']]},
+b:{o:['그래. 몸이나 챙겨라','할 말 있으면 언제든 해라'],c:[['감사합니다','네 아빠 감사해요','c']]},
+c:{o:['그래.'],c:[]}}};
+TK.seohyun={n:'서현 (후배)',last:'선배 오늘 회식 빠지시면 안 돼요?',gen:'ㅋㅋ 알겠습니다 그럼 내일 커피 콜',tree:{
+s:{o:['선배 오늘 회식 빠지시면 안 돼요?','팀장님이 선배 꼭 오셔야 한대요 ㅠ'],c:[['빠질게','오늘은 집에 가볼게. 내일 커피 살게','a'],['30분만','30분만 있다 갈게','b'],['칼퇴','미안, 나 칼퇴함 ㅋ','c']]},
+in:{o:[],c:[['30분만','30분만 있다 갈게','b'],['빠질게','오늘은 집에 가볼게','a']]},
+a:{o:['감사해요 ㅠㅠ 선배 최고'],c:[]},
+b:{o:['오 감사해요! 소주 한 잔만 받아주세요'],c:[]},
+c:{o:['ㅋㅋㅋ 선배 칼퇴 장인 인정'],c:[]}}};
+[['yunseo',1],['dad',1],['seohyun',1]].forEach(a=>S.read[a[0]]=a[1]);
+S.memos.push(['아빠에게 할 말 (초안)','아빠, 저 사실은…\n\n세 번째 다시 쓴다. "저런 건 병이야"라고 하셨던 날, 나는 방문을 닫고 한참 앉아 있었다.\n\n아직 마침표를 못 찍었다.'],['반찬 통 목록','엄마 반찬 통 8개. 뚜껑 맞추기 실패 3번.\n돌려보내기 전에 세척. 잊지 말 것: 지난번 김치통은 엄마가 직접 골랐다.']);
+S.orders.unshift(['10월 20일 19:30','광주 떡갈비 정식 (택배)','34,000원','엄마가 보내줌 · 메모: 밥 잘 먹어라']);
+S.tw.unshift(['회사에서 "정 씨 요즘 얼굴 좋다"를 듣는 날이 좋다. 그 말이 제일 조용하게 들려서.',45,'t12'],['광주행 KTX 안에서 혼자 울었다. 누구 때문인지는 묻지 말아줘.',188,'t13']);
+TT.unshift('10월 25일','10월 23일');
+EV.push([60,()=>incoming('yunseo',['형! 축사 초안 나왔어','읽고 솔직하게 말해줘'])],[100,()=>incoming('dad',['윤호야, 엄마가 또 전화했다'])],[125,()=>incoming('seohyun',['선배 내일 점심 뭐 드세요?'])]);
+EV.sort((a,b)=>a[0]-b[0]);
+TK.seonghwa={n:'박성화',last:'야 오늘 비어? 스튜디오 끝나고 갈게',gen:'ㅋㅋ 알았어',tree:{
+s:{o:['야 오늘 비어?','스튜디오 끝나고 갈게. 배고픔'],c:[['와','문 열어둘게','a'],['오늘은 쉬자','오늘은 혼자 있을래','b'],['우리 뭐냐','근데 우리 뭐냐 진짜','c'],['파트너','우린 그냥 파트너잖아','d']]},
+in:{o:[],c:[['와','문 열어둘게','a'],['쉬자','오늘은 혼자 있을래','b']]},
+a:{o:['ㅇㅋ 라면 사갈까? ㅋㅋ'],c:[]},
+b:{o:['ㅇㅇ 알았어. 근데 너 요즘 좀 이상하다? 무슨 일 있어?'],c:[['아무것도','아무것도 아냐','z'],['동생 결혼','동생 결혼식 때문에 좀','y']]},
+c:{o:['…갑자기? ㅋㅋ','난 지금이 편한데. 너도 그랬잖아'],c:[['그랬지','그랬지. 미안 잊어','z'],['그냥 궁금','그냥 궁금했어','y']]},
+d:{o:['ㅇㅇ 파트너 ㅋㅋ 근데 파트너한테 라면 끓여주는 건 괜찮지?'],c:[]},
+y:{o:['진심으로 얘기하면 나 랩 가사 빼고는 말 잘 못 해 ㅋㅋ','근데 들어줄게. 옆에 있을게'],c:[]},
+z:{o:['ㅇㅋ. 필요하면 말해'],c:[]}}};
+TK.minki={n:'송민기',last:'야 오늘 작업실 와. 비트 하나 뽑았다',gen:'ㅋㅋ 알았다',tree:{
+s:{o:['야 오늘 작업실 와. 비트 하나 뽑았다','너 요즘 연락 뜸하다? 밤마다 뭐하냐'],c:[['작업실 갈게','작업실 갈게','a'],['일이 많아','요즘 일이 많아서','b'],['나 좀 막 살아','야 나 요즘 좀 막 살아','c']]},
+in:{o:[],c:[['응','응 민기야','a'],['바빠','나중에 연락할게','b']]},
+a:{o:['좋아. 치킨 시켜놓을게','근데 너 얼굴 상했다. 잠 좀 자라'],c:[]},
+b:{o:['일 핑계 대지 마. 너 광주 때부터 거짓말하면 말 길어져 ㅋ'],c:[['들켰네','ㅋㅋ 들켰다','c'],['아냐','아냐 진짜 바빠','z']]},
+c:{o:['막 사는 건 어느 정도인데?','…말해봐. 안 놀랄게'],c:[['얼버무림','그냥 좀… 사람 많이 만나','y'],['사실대로','일주일에 두세 번. 앱으로','x']]},
+x:{o:['…','솔직히 놀랐다. 근데 화보다 걱정이 더 크다','판단 안 해. 대신 도윤이 얘기 아직도 못 해?'],c:[['아직','아직 못 해','y2']]},
+y:{o:['…알았어. 근데 조심은 하고 다니지?','네가 네 몸 챙기는 거 하난 믿는다'],c:[]},
+y2:{o:['언젠간 해. 그때까지 내 작업실 불은 켜놓을게'],c:[]},
+z:{o:['ㅋㅋ 알았어. 근데 바쁘면 쉬어'],c:[]}}};
+S.read.seonghwa=S.read.minki=1;
+S.memos.push(['박성화','앱에서 만난 한 살 위. 래퍼라는데 음원은 못 찾았다. 본인 말로는 "아직 공개 전".\n사귀는 사이 아님. 규칙 7번을 어긴 정기 만남.\n근데 라면은 진짜 맛있게 끓인다.'],['민기 (광주 소꿉친구)','중2 때부터 알던 놈. 내가 게이인 거 아는 몇 안 되는 사람인데, 요즘 내 밤 생활까지 알면 어떤 얼굴을 할지 모르겠다.']);
+S.tw.unshift(['파트너한테 라면 끓여달라고 하고 싶은 날이 있다. 그게 연애인지 아닌지는 모르겠고.',152,'t14'],['소꿉친구는 내가 뭘 숨기는지 안다. 그래서 더 못 말한다.',97,'t15']);
+TT.unshift('10월 26일','10월 26일');
+CAL.push([1260,'21:00','성화 · 스튜디오','연애 아님. 아마도']);CAL.sort((a,b)=>a[0]-b[0]);
+EV.push([38,()=>incoming('seonghwa',['야 오늘 비어?','스튜디오 끝나고 갈게'])],[90,()=>incoming('minki',['야 오늘 작업실 와','비트 하나 뽑았다'])]);EV.sort((a,b)=>a[0]-b[0]);
+draw();
+
+</script>
+
+</body></html>
